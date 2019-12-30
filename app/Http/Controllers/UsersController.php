@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Mail\WelcomeMail;
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -28,66 +32,116 @@ class UsersController extends Controller
     {
         $you = auth()->user();
         $users = User::all();
+
         return view('dashboard.admin.usersList', compact('users', 'you'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $user = User::find($id);
-        return view('dashboard.admin.userShow', compact( 'user' ));
+
+        return view('dashboard.admin.userShow', compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $user = User::find($id);
+
         return view('dashboard.admin.userEditForm', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'name'       => 'required|min:1|max:256',
-            'email'      => 'required|email|max:256'
+            'name' => 'required|min:1|max:256',
+            'email' => 'required|email|max:256'
         ]);
         $user = User::find($id);
-        $user->name       = $request->input('name');
-        $user->email      = $request->input('email');
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
         $user->save();
         $request->session()->flash('message', 'Successfully updated user');
-        return redirect()->route('users.index');
+
+        return redirect()->route('users.index')->with('info','Successfully edited user');;
     }
+
+    /**
+     * Create a user.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function create()
+    {
+        $you = auth()->user();
+
+        return view('dashboard.admin.userAdd', compact('you'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'organisation' => ['required', 'string', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+        $you = auth()->user();
+        $user = new User();
+        $user->name     = $request->input('name');
+        $user->email   = $request->input('email');
+        $user->organisation = $request->input('organisation');
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+        $user->password = $request->input('password');
+        Mail::to($user->email)->send(new WelcomeMail($user));
+        return redirect()->route('users.index')->with('success','Successfully created user');
+    }
+
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
         $user = User::find($id);
-        if($user){
+        if ($user)
+        {
             $user->delete();
         }
-        return redirect()->route('users.index');
+
+        return redirect()->route('users.index')->with('error','User deleted Successfully!');;;
     }
 }

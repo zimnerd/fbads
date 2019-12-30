@@ -42,11 +42,12 @@
                     <div class="col-6">
                         <button class="btn btn-primary px-4" type="submit">{{ __('Login') }}</button>
                     </div>
-                    </form>
                     <div class="col-6 text-right">
                         <a href="{{ route('password.request') }}" class="btn btn-link px-0" type="button">{{ __('Forgot Your Password?') }}</a>
                     </div>
                     </div>
+
+                </form>
               </div>
             </div>
             <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">

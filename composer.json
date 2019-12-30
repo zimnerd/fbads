@@ -10,11 +10,14 @@
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
+        "jeremykenedy/laravel-logger": "^3.2",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
-        "spatie/laravel-permission": "^3.3"
+        "spatie/laravel-permission": "^3.3",
+      "ext-json": "*"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.2",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
         "laravel/ui": "^1.0",

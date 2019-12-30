@@ -187,15 +187,6 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item mt-auto">
-              <a class="nav-link nav-link-success" href="https://coreui.io" target="_top">
-                <i class="nav-icon icon-cloud-download"></i> Download CoreUI</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link nav-link-danger" href="https://coreui.io/pro/" target="_top">
-                <i class="nav-icon icon-layers"></i> Try CoreUI
-                <strong>PRO</strong>
-              </a>
             </li>
           </ul>
         </nav>

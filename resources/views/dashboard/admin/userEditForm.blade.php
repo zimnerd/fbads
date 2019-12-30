@@ -5,7 +5,7 @@
         <div class="container-fluid">
           <div class="animated fadeIn">
             <div class="row">
-              <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+              <div class="col-sm-6 col-md-6">
                 <div class="card">
                     <div class="card-header">
                       <i class="fa fa-align-justify"></i> {{ __('Edit') }} {{ $user->name }}</div>
@@ -31,7 +31,7 @@
                                 <input class="form-control" type="text" placeholder="{{ __('E-Mail Address') }}" name="email" value="{{ $user->email }}" required>
                             </div>
                             <button class="btn btn-block btn-success" type="submit">{{ __('Save') }}</button>
-                            <a href="{{ route('users.index') }}" class="btn btn-block btn-primary">{{ __('Return') }}</a> 
+                            <a href="{{ route('users.index') }}" class="btn btn-block btn-primary">{{ __('Return') }}</a>
                         </form>
                     </div>
                 </div>

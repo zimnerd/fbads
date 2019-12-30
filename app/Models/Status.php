@@ -3,16 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 class Status extends Model
 {
-    protected $table = 'status';
-    public $timestamps = false; 
+    protected $table = 'statuses';
+    public $timestamps = FALSE;
+
     /**
      * Get the notes for the status.
      */
     public function notes()
     {
         return $this->hasMany('App\Models\Notes');
+    }
+
+    /**
+     * Get the notes for the status.
+     */
+    public function campaigns()
+    {
+        return $this->hasMany(Campaign::class);
     }
 }

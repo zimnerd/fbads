@@ -23,3 +23,14 @@
             </div>
           </li>
         </ol>
+
+        @if(Session::has('success'))
+            <div class="alert alert-success float-right">
+                {{Session::get('success')}}
+            </div>
+        @endif
+        @if(Session::has('fail'))
+            <div class="alert alert-danger float-right">
+                {{Session::get('fail')}}
+            </div>
+        @endif

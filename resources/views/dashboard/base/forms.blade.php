@@ -12,7 +12,7 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <div class="form-group">
-                            <label for="name">Name</label>
+                            <labRadiosel for="name">Name</labRadiosel>
                             <input class="form-control" id="name" type="text" placeholder="Enter your name">
                           </div>
                         </div>

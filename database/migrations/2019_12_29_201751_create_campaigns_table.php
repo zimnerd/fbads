@@ -24,8 +24,8 @@ class CreateCampaignsTable extends Migration
             $table->string('devices');
             $table->unsignedBigInteger('ad_format_id');
             $table->enum('traffic_source', ['applications', 'mobile websites']);
-            $table->unsignedBigInteger('campaign_type_id');
             $table->unsignedBigInteger('status_id');
+            $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('user_id');
             $table->string('daily_budget')->nullable();
             $table->integer('impressions')->nullable();
@@ -40,10 +40,10 @@ class CreateCampaignsTable extends Migration
         });
 
         Schema::table('campaigns', function($table) {
+            $table->foreign('category_id')
+                ->references('id')->on('categories');
             $table->foreign('status_id')
                 ->references('id')->on('statuses');
-            $table->foreign('campaign_type_id')
-                ->references('id')->on('campaign_types');
             $table->foreign('ad_format_id')
                 ->references('id')->on('ad_formats');
             $table->foreign('user_id')

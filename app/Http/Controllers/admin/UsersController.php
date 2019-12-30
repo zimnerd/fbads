@@ -31,9 +31,20 @@ class UsersController extends Controller
     }
 
     /**
+     * Create a user.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function create()
+    {
+        $you = auth()->user();
+        return view('dashboard.admin.userAdd', compact( 'you'));
+    }
+
+    /**
      *  Remove user
-     * 
-     *  @param int $id 
+     *
+     *  @param int $id
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function remove( $id )
@@ -47,7 +58,7 @@ class UsersController extends Controller
 
     /**
      *  Show the form for editing the user.
-     * 
+     *
      *  @param int $id
      *  @return \Illuminate\Contracts\Support\Renderable
      */
