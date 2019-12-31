@@ -16,7 +16,7 @@ class CreateStatusesTable extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->unique();
-            $table->string('class')->nullable();;
+            $table->string('class')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

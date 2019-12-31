@@ -13,6 +13,7 @@ class CreateCampaignsTable extends Migration
      */
     public function up()
     {
+        Schema::enableForeignKeyConstraints();
         Schema::create('campaigns', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
@@ -23,20 +24,12 @@ class CreateCampaignsTable extends Migration
             $table->string('day_parting');
             $table->string('devices');
             $table->unsignedBigInteger('ad_format_id');
-            $table->enum('traffic_source', ['applications', 'mobile websites']);
+            $table->string('traffic_source');
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('user_id');
             $table->string('daily_budget')->nullable();
-            $table->integer('impressions')->nullable();
-            $table->integer('clicks')->nullable();
-            $table->string('ctr')->nullable();
             $table->string('current_bid')->nullable();
-            $table->string('cpc_bid')->nullable();
-            $table->string('average_bid')->nullable();
-            $table->string('spend')->nullable();
-            $table->string('conversion')->nullable();
-            $table->string('conversion_rate')->nullable();
         });
 
         Schema::table('campaigns', function($table) {

@@ -16,9 +16,11 @@ class CreateAdFormatsTable extends Migration
         Schema::create('ad_formats', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->unique();
-            $table->text('description');
-            $table->string('thumb_path');
-            $table->string('image_path');
+            $table->text('description')->nullable();
+            $table->text('parameters')->nullable();
+            $table->string('thumb_path')->nullable();
+            $table->string('image_path')->nullable();
+            $table->string('min_bid')->nullable();
             $table->timestamps();
         });
     }

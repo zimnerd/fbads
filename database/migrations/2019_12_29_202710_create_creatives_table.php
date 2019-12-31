@@ -12,31 +12,35 @@ class CreateCreativesTable extends Migration
      * @return void
      */
     public function up()
-    {
+    {   Schema::enableForeignKeyConstraints();
         Schema::create('creatives', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('title');
             $table->text('description')->nullable();
             $table->string('advertiser')->nullable();
-            $table->enum('type',['Video upload','URL'])->nullable();
-            $table->enum('delivery_type',['streaming','progressive'])->nullable();
-            $table->string('title')->nullable();
-            $table->string('placeholder_path')->nullable();
-            $table->string('layout_name');
+            $table->string('link')->nullable();
+            $table->string('ad_image_size')->nullable(); // resolutions
+            $table->string('type')->nullable(); // image only . image with buttons . image text and buttoons
             $table->string('image_path')->nullable();
             $table->string('video_path')->nullable();
-            $table->string('video_url')->nullable();
-            $table->string('click_url')->nullable();
             $table->unsignedBigInteger('status_id');
-            $table->unsignedBigInteger('ad_format_id')->nullable();
             $table->unsignedBigInteger('campaign_id')->nullable();
+            $table->integer('impressions')->nullable();
+            $table->integer('clicks')->nullable();
+            $table->integer('devices')->nullable(); //mobile ipad
+            $table->integer('supports')->nullable(); // call sms event
+            $table->string('ctr')->nullable();
+            $table->string('average_bid')->nullable();
+            $table->string('spend')->nullable();
+            $table->string('conversion')->nullable();
+            $table->string('conversion_rate')->nullable();
+            $table->string('CPA')->nullable();
         });
         Schema::table('creatives', function($table) {
             $table->foreign('status_id')
                 ->references('id')->on('statuses');
-            $table->foreign('ad_format_id')
-                ->references('id')->on('ad_formats');
             $table->foreign('campaign_id')
                 ->references('id')->on('campaigns');
         });

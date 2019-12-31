@@ -54,6 +54,11 @@ class UsersAndNotesSeeder extends Seeder
             'class' => 'badge badge-pill badge-warning',
         ]);
         array_push($statusIds, DB::getPdo()->lastInsertId());
+        DB::table('status')->insert([
+            'name' => 'pending',
+            'class' => 'badge badge-pill badge-danger',
+        ]);
+        array_push($statusIds, DB::getPdo()->lastInsertId());
 
         /*  Statuses   */
 
@@ -77,6 +82,11 @@ class UsersAndNotesSeeder extends Seeder
         DB::table('statuses')->insert([
             'name' => 'expired',
             'class' => 'badge badge-pill badge-warning',
+        ]);
+        array_push($statusIds, DB::getPdo()->lastInsertId());
+        DB::table('statuses')->insert([
+            'name' => 'pending',
+            'class' => 'badge badge-pill badge-danger',
         ]);
         array_push($statusIds, DB::getPdo()->lastInsertId());
 

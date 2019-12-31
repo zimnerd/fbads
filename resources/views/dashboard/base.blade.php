@@ -40,25 +40,10 @@
     <!-- Main styles for this application-->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/pace.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
 
-@yield('css')
 
-<!-- Global site tag (gtag.js) - Google Analytics-->
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag()
-        {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-        // Shared ID
-        gtag('config', 'UA-118965717-3');
-        // Bootstrap ID
-        gtag('config', 'UA-118965717-5');
-    </script>
+    @yield('css')
 
     <link href="{{ asset('css/coreui-chartjs.css') }}" rel="stylesheet">
 </head>
@@ -81,11 +66,10 @@
     </div>
     @include('dashboard.shared.footer')
 </div>
-
-
 <!-- CoreUI and necessary plugins-->
 <script src="{{ asset('js/pace.min.js') }}"></script>
 <script src="{{ asset('js/coreui.bundle.min.js') }}"></script>
+<script src="{{ asset('js/scripts.js') }}"></script>
 
 @yield('javascript')
 

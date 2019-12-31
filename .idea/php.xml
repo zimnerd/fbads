@@ -95,6 +95,7 @@
       <path value="$PROJECT_DIR$/vendor/jeremykenedy/laravel-logger" />
       <path value="$PROJECT_DIR$/vendor/maximebf/debugbar" />
       <path value="$PROJECT_DIR$/vendor/barryvdh/laravel-debugbar" />
+      <path value="$PROJECT_DIR$/vendor/orangehill/iseed" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
