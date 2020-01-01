@@ -51,11 +51,10 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <div class="card">
                         <div class="card-header">
-                            <i class="fa fa-align-justify"></i> <h4>Creatives</h4></div>
+                            <i class="fa fa-align-justify"></i> <h4>Creatives<span><a href="{{ route('campaigns.create') }}" class="btn btn-primary m-2 float-right">{{ __('Add Creative') }}</a></span> </h4> </div>
                         <div class="card-body">
                             @foreach($campaign->creative as $creative)
                                 <p>{{$creative}}</p>
@@ -63,6 +62,56 @@
                         </div>
                     </div>
                 </div>
+
+
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fa fa-align-justify"></i> <h4>Creatives<span><a href="{{ route('campaigns.create') }}" class="btn btn-primary m-2 float-right">{{ __('Add Creative') }}</a></span> </h4> </div>
+                        <div class="card-body">
+                            <table class="table table-responsive-sm table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Creative Ad	</th>
+                                    <th>Creative ID	</th>
+                                    <th>Status	</th>
+                                    <th>Creative URL	</th>
+                                    <th>Impressions	</th>
+                                    <th>Clicks	</th>
+                                    <th>CTR	Avg. </th>
+                                    <th>Bid	</th>
+                                    <th>Spent	</th>
+                                    <th>Conv.	</th>
+                                    <th>Conv. Rate	</th>
+                                    <th>CPA</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                            @foreach($campaign->creative as $creative)
+                                <tr>
+                                    <td>{{$creative->image_path}}</td>
+                                    <td>{{$creative->id}}</td>
+                                    <td>
+                                  <span class="{{ $campaign->status->class }}">
+                                      {{ $campaign->status->name }}
+                                  </span>
+                                    </td>
+                                    <td>{{$creative->link}}</td>
+                                    <td>{{$creative->impressions}}</td>
+                                    <td>{{$creative->clicks}}</td>
+                                    <td>{{$creative->ctr}}</td>
+                                    <td>{{$creative->bid}}</td>
+                                    <td>{{$creative->spend}}</td>
+                                    <td>{{$creative->conversion}}</td>
+                                    <td>{{$creative->cpa}}</td>
+                                </tr>
+                            @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
             <a href="{{ route('campaigns.index') }}" class="btn btn-block btn-primary">{{ __('Return') }}</a>
