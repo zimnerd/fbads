@@ -36,12 +36,13 @@ class AdFormatsTableSeeder extends Seeder
                 'description' => 'Extend your video reach to the other 98% of mobile. Airpush’s HD Video format replaces boring static banners with high quality video, resulting in huge user engagement and leading campaign ROI.',
                 'parameters' => '{
 "name": "1",
-"type": "1",
+"vid_type": "1",
 "title": "1",
 "description": "1",
 "advertiser": "1",
 "url": "1",
-"video_path": "1"
+"video_path": "1",
+"video_link": "1"
 }',
                 'thumb_path' => 'hd_video_icon.png',
                 'image_path' => 'hd_video_icon.png',
@@ -90,7 +91,16 @@ class AdFormatsTableSeeder extends Seeder
                 'id' => 6,
                 'name' => 'Video Ads',
                 'description' => 'Airpush’s Video Ads optimized for device type and connection speed, enabling dramatically higher conversions and an improved consumer experience.',
-                'parameters' => '{"name":"1","type":"1","title":"1","description":"1","advertiser":"1","video_path":"1"}',
+                'parameters' => '{
+"name": "1",
+"vid_type": "1",
+"title": "1",
+"description": "1",
+"advertiser": "1",
+"url": "1",
+"video_path": "1",
+"video_link": "1"
+}',
                 'thumb_path' => 'video-ads-icon.png',
                 'image_path' => 'video-ads-icon.png',
                 'min_bid' => '4',

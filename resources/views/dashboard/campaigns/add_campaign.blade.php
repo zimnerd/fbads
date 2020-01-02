@@ -1,7 +1,6 @@
 @extends('dashboard.base')
 
 @section('content')
-<?php $adformats = json_encode($ad_formats); ?>
 <div class="container-fluid">
     <div class="animated fadeIn">
         <div class="row">
@@ -152,7 +151,6 @@
 @section('javascript')
 <script>
     $(document).ready(function () {
-        const adformats = <?= $adformats ?>;
         $('.ad_format').click(function () {
             if ($(this).is(':checked'))
             {

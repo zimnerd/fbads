@@ -51,23 +51,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fa fa-align-justify"></i> <h4>Creatives<span><a href="{{ route('campaigns.create') }}" class="btn btn-primary m-2 float-right">{{ __('Add Creative') }}</a></span> </h4> </div>
-                        <div class="card-body">
-                            @foreach($campaign->creative as $creative)
-                                <p>{{$creative}}</p>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
 
 
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <div class="card">
                         <div class="card-header">
-                            <i class="fa fa-align-justify"></i> <h4>Creatives<span><a href="{{ route('campaigns.create') }}" class="btn btn-primary m-2 float-right">{{ __('Add Creative') }}</a></span> </h4> </div>
+                            <i class="fa fa-align-justify"></i> <h4>Creatives<span><a href="{{ route('creatives.create',['id'=>$campaign->id] ) }}" class="btn btn-primary m-2 float-right">{{ __('Add Creative') }}</a></span> </h4> </div>
                         <div class="card-body">
                             <table class="table table-responsive-sm table-bordered table-striped">
                                 <thead>
@@ -89,7 +78,7 @@
                                 <tbody>
                             @foreach($campaign->creative as $creative)
                                 <tr>
-                                    <td>{{$creative->image_path}}</td>
+                                    <td>{{$creative->name}}</td>
                                     <td>{{$creative->id}}</td>
                                     <td>
                                   <span class="{{ $campaign->status->class }}">
@@ -103,6 +92,7 @@
                                     <td>{{$creative->bid}}</td>
                                     <td>{{$creative->spend}}</td>
                                     <td>{{$creative->conversion}}</td>
+                                    <td>{{$creative->conversion_rate}}</td>
                                     <td>{{$creative->cpa}}</td>
                                 </tr>
                             @endforeach

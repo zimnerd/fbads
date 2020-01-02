@@ -25,6 +25,7 @@ class CreateCreativesTable extends Migration
             $table->string('type')->nullable(); // image only . image with buttons . image text and buttoons
             $table->string('image_path')->nullable();
             $table->string('video_path')->nullable();
+            $table->string('video_link')->nullable();
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('campaign_id')->nullable();
             $table->integer('impressions')->nullable();
@@ -33,10 +34,12 @@ class CreateCreativesTable extends Migration
             $table->integer('supports')->nullable(); // call sms event
             $table->string('ctr')->nullable();
             $table->string('average_bid')->nullable();
+            $table->string('vid_type')->nullable();
             $table->string('spend')->nullable();
             $table->string('conversion')->nullable();
             $table->string('conversion_rate')->nullable();
             $table->string('CPA')->nullable();
+            $table->timestamps();
         });
         Schema::table('creatives', function($table) {
             $table->foreign('status_id')
