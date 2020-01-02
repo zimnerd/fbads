@@ -7,7 +7,7 @@
                 <div class="col-sm-12 col-md-12 col-lg-8 col-xl-6">
                     <div class="card">
                         <div class="card-header">
-                            <i class="fa fa-align-justify"></i> {{ __('Create Creative') }} for {{$campaign->name}}
+                            <i class="fa fa-align-justify"></i><strong>{{ __('Create Creative') }} for {{$campaign->name}} </strong>  <h6 class="float-right">{{$campaign->adformat->name}}</h6>
                         </div>
                         <div class="card-body mx-2">
                             <form method="POST" action="{{ route('creatives.store') }}" id="creatives_form" enctype="multipart/form-data">

@@ -97,7 +97,8 @@ class CampaignController extends Controller
         $campaign->user_id = $user->id;
         $campaign->save();
 
-        return redirect()->route('campaigns.index')->with('success', 'Successfully created campaign');
+        return redirect('/creatives/create?id=' . $campaign->id)->with('success', 'Successfully created a campaign, add creative now');
+        //return redirect()->route('campaigns.index')->with('success', 'Successfully created campaign');
     }
 
     /**
@@ -135,7 +136,7 @@ class CampaignController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int                      $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {

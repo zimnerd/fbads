@@ -30,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/notes';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
@@ -45,7 +45,8 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -61,19 +62,21 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return \App\User
      */
     protected function create(array $data)
     {
-        $user =  User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'email_verified_at' => now(),
             'organisation' => $data['organisation'],
             'password' => Hash::make($data['password']),
         ]);
-        $user->assignRole('user');
         Mail::to($data['email'])->send(new WelcomeMail($data));
+
         return $user;
     }
 }

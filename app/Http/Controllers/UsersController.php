@@ -7,7 +7,6 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -84,7 +83,7 @@ class UsersController extends Controller
         $user->save();
         $request->session()->flash('message', 'Successfully updated user');
 
-        return redirect()->route('users.index')->with('info','Successfully edited user');;
+        return redirect()->route('users.index')->with('info', 'Successfully edited user');;
     }
 
     /**
@@ -102,7 +101,7 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -116,14 +115,17 @@ class UsersController extends Controller
         ]);
         $you = auth()->user();
         $user = new User();
-        $user->name     = $request->input('name');
-        $user->email   = $request->input('email');
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
         $user->organisation = $request->input('organisation');
         $user->password = Hash::make($request->input('password'));
+        $user->email_verified_at = now();
+        $user->assignRole('user');
         $user->save();
         $user->password = $request->input('password');
         Mail::to($user->email)->send(new WelcomeMail($user));
-        return redirect()->route('users.index')->with('success','Successfully created user');
+
+        return redirect()->route('users.index')->with('success', 'Successfully created user');
     }
 
 
@@ -142,6 +144,6 @@ class UsersController extends Controller
             $user->delete();
         }
 
-        return redirect()->route('users.index')->with('error','User deleted Successfully!');;;
+        return redirect()->route('users.index')->with('error', 'User deleted Successfully!');;;
     }
 }

@@ -48,4 +48,6 @@ class User extends Authenticatable
     protected $attributes = [
         'menuroles' => 'user',
     ];
+
+
 }
