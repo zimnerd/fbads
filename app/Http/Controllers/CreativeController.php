@@ -131,14 +131,14 @@ class CreativeController extends Controller
         $creative->name = $request->input('name');
         $creative->title = $request->input('title');
         $creative->description = $request->input('description');
-        $creative->advertiser = ($file_type === 'videos') ? $request->input('advertiser') : null;
+        $creative->advertiser = ($file_type === 'videos') ? $request->input('advertiser') : NULL;
         $creative->link = $request->input('link');
-        $creative->ad_image_size = ($file_type === 'images') ? $request->input('ad_image_size') : null;
-        $creative->type = ($file_type = 'images') ? $request->input('type') : null;
-        $creative->image_path = ($file_type === 'images') ? $path : null;
-        $creative->video_path = ($file_type === 'videos') ? $path : null;
-        $creative->vid_type =  $request->input('vid_type') ;
-        $creative->video_link =  $request->input('video_link');
+        $creative->ad_image_size = ($file_type === 'images') ? $request->input('ad_image_size') : NULL;
+        $creative->type = ($file_type = 'images') ? $request->input('type') : NULL;
+        $creative->image_path = ($file_type === 'images') ? $path : NULL;
+        $creative->video_path = ($file_type === 'videos') ? $path : NULL;
+        $creative->vid_type = $request->input('vid_type');
+        $creative->video_link = $request->input('video_link');
         $creative->status_id = $request->input('status_id');
         $creative->campaign_id = $request->input('campaign_id');
         $creative->impressions = $request->input('impressions');
@@ -152,7 +152,6 @@ class CreativeController extends Controller
         $creative->conversion_rate = $request->input('conversion_rate');
         $creative->CPA = $request->input('CPA');
         $creative->save();
-        dd($creative);
 
         return redirect('/campaigns/' . $request->input('campaign_id'))->with('success', 'Successfully created a creative');
     }
