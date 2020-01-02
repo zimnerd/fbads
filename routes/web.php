@@ -17,12 +17,12 @@ Route::group(['middleware' => ['get.menu']], function () {
 
     Route::group(['middleware' => ['role:user']], function () {
         Route::resource('campaigns', 'CampaignController');
+        Route::get('/dashboard', function () { return view('dashboard.homepage'); });
         Route::resource('creatives', 'CreativeController');
     });
     Auth::routes();
 
     Route::group(['middleware' => ['role:admin']], function () {
-        Route::get('/dashboard', function () { return view('dashboard.homepage'); });
         Route::resource('users', 'UsersController');
         Route::resource('roles', 'RolesController');
         Route::get('/roles/move/move-up', 'RolesController@moveUp')->name('roles.up');

@@ -169,7 +169,7 @@
                     <div class="row">
                         <div class="col-md-6 offset-md-3">
                             <h1 class="text-center">Welcome to Air Push</h1>
-                            <h2>You are logged in as {{Auth::user()->name}}</h2>
+                            <h2  class="text-center">You are logged in as {{Auth::user()->name}}</h2>
                         </div>
                     </div>
                 </div>

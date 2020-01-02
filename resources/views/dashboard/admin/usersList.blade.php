@@ -8,14 +8,15 @@
               <div class="col-sm-12 col-md-12">
                 <div class="card">
                     <div class="card-header">
-                      <i class="fa fa-align-justify"></i>{{ __('Users') }} <a href="{{ url('/users/create') }}"  class="float-right btn btn-success">Add New</a></div>
+                      <i class="fa fa-align-justify"></i><strong>{{ __('Users List') }} </strong><a href="{{ url('/users/create') }}"  class="float-right btn btn-success">Add New</a></div>
                     <div class="card-body">
-                        <table class="table table-responsive-sm table-striped">
+                        <table class="table table-sm table-bordered table-responsive-sm table-striped">
                         <thead>
                           <tr>
                             <th>Username</th>
                             <th>E-mail</th>
                             <th>Roles</th>
+                            <th>Organisation</th>
                             <th>Email verified at</th>
                             <th></th>
                             <th></th>
@@ -28,19 +29,20 @@
                               <td>{{ $user->name }}</td>
                               <td>{{ $user->email }}</td>
                               <td>{{ $user->menuroles }}</td>
+                              <td>{{ $user->organisation }}</td>
                               <td>{{ $user->email_verified_at }}</td>
                               <td>
-                                <a href="{{ url('/users/' . $user->id) }}" class="btn btn-block btn-primary">View</a>
+                                <a href="{{ url('/users/' . $user->id) }}" class="btn btn-sm btn-block btn-primary">View</a>
                               </td>
                               <td>
-                                <a href="{{ url('/users/' . $user->id . '/edit') }}" class="btn btn-block btn-primary">Edit</a>
+                                <a href="{{ url('/users/' . $user->id . '/edit') }}" class="btn btn-sm btn-block btn-primary">Edit</a>
                               </td>
                               <td>
                                 @if( $you->id !== $user->id )
                                 <form action="{{ route('users.destroy', $user->id ) }}" method="POST">
                                     @method('DELETE')
                                     @csrf
-                                    <button class="btn btn-block btn-danger">Delete User</button>
+                                    <button class="btn btn-sm btn-block btn-danger">Delete User</button>
                                 </form>
                                 @endif
                               </td>
@@ -48,7 +50,9 @@
                           @endforeach
                         </tbody>
                       </table>
-                    </div>
+                            {!! $users->links() !!}</div>
+
+
                 </div>
               </div>
             </div>

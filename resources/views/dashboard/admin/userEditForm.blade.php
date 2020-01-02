@@ -30,6 +30,16 @@
                                 </div>
                                 <input class="form-control" type="text" placeholder="{{ __('E-Mail Address') }}" name="email" value="{{ $user->email }}" required>
                             </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <svg class="c-icon c-icon-sm">
+                                          <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-people"></use>
+                                      </svg>
+                                    </span>
+                                </div>
+                                <input class="form-control" type="text" placeholder="{{ __('Organisation Name') }}" name="organisation" value="{{ $user->organisation }}" required autofocus>
+                            </div>
                             <button class="btn btn-block btn-success" type="submit">{{ __('Save') }}</button>
                             <a href="{{ route('users.index') }}" class="btn btn-block btn-primary">{{ __('Return') }}</a>
                         </form>

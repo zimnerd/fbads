@@ -25,12 +25,12 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
         $you = auth()->user();
-        $users = User::all();
+        $users = User::paginate(10);
 
         return view('dashboard.admin.usersList', compact('users', 'you'));
     }
@@ -40,7 +40,7 @@ class UsersController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
@@ -54,7 +54,7 @@ class UsersController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
@@ -80,7 +80,9 @@ class UsersController extends Controller
         $user = User::find($id);
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+        $user->organisation = $request->input('organisation');
         $user->save();
+        $user->assignRole('user');
         $request->session()->flash('message', 'Successfully updated user');
 
         return redirect()->route('users.index')->with('info', 'Successfully edited user');;
