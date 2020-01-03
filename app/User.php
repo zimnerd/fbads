@@ -49,5 +49,13 @@ class User extends Authenticatable
         'menuroles' => 'user',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function($user) {
+            $user->assignRole('user');
+        });
+    }
 
 }
