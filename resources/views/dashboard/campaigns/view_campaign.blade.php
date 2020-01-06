@@ -10,7 +10,7 @@
                         <div class="card-header">
                             <i class="fa fa-align-justify"></i> <h4>Campaign Name: {{ $campaign->name }}</h4></div>
                         <div class="card-body">
-                            <table class="table table-responsive-sm table-bordered table-striped">
+                            <table class="table table-responsive-sm table-sm table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>Type</th>
@@ -81,7 +81,7 @@
                         <div class="card-body">
                             <div id="message"></div>
 
-                            <table class="table table-responsive-sm table-bordered table-striped">
+                            <table class="table table-responsive-sm table-sm table-striped">
                                 <thead>
                                 <tr>
                                     <th>Creative Ad</th>

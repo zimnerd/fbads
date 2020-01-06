@@ -47,13 +47,18 @@
                                   </span>
                                         </td>
                                         <td>{{ $campaign->daily_budget }}</td>
-                                        <td><strong>{{ $campaign->creative->sum("impressions") }}</strong></td>
+                                        @if (count($campaign->creative)> 0)
+
+                                            <td><strong>{{ $campaign->creative->sum("impressions") }}</strong></td>
+                                        @else
+                                            <td><strong>Creatives missing</strong></td>
+                                        @endif
                                         <td><strong>{{  $campaign->creative->sum("clicks")}}</strong></td>
                                         @if (count($campaign->creative)> 0 && $campaign->creative->sum("impressions") > 0)
                                             <td><strong>{{  round($campaign->creative->sum("clicks") / $campaign->creative->sum("impressions") * 100,2) }}%</strong></td>
                                         @else
 
-                                            <td><strong>No Creatives</strong></td>
+                                            <td><strong>N/A</strong></td>
                                         @endif
                                         <td><strong>{{ $campaign->current_bid }}</strong></td>
                                         <td><strong>{{ $campaign->average_bid }}</strong></td>
