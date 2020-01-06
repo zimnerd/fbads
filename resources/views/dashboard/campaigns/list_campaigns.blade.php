@@ -63,17 +63,17 @@
 
                                             <td><strong>No Creatives</strong></td>
                                         @endif
-                                        @if (count($campaign->creative)> 0 && $campaign->creative->sum("conversion") > 0)
+                                        @if (count($campaign->creative)> 0 && $campaign->creative->sum("clicks") > 0)
                                             <td><strong>{{ round($campaign->creative->sum("conversion") /$campaign->creative->sum("clicks")*100,2)}} %</strong></td>
                                         @else
 
-                                            <td><strong>No Creatives</strong></td>
+                                            <td><strong>N/A</strong></td>
                                         @endif
-                                        @if (count($campaign->creative)> 0)
+                                        @if (count($campaign->creative)> 0 &&  $campaign->creative->sum("clicks") > 0)
                                             <td><strong>R{{ round(($campaign->creative->sum("spend") / $campaign->creative->sum("clicks")) *100, 2)}} </strong></td>
                                         @else
 
-                                            <td><strong>No Creatives</strong></td>
+                                            <td><strong>N/A</strong></td>
                                         @endif
                                         <td><small>{{ $campaign->updated_at }}</small></td>
                                         <td>
