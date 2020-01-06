@@ -96,7 +96,7 @@
 
                                             <td>N/A</td>
                                         @endif
-                                        <td contenteditable class="column_name" data-column_name="average_bid" data-id="{{$creative->id}}">{{$creative->average_bid}}</td>
+                                        <td>{{$campaign->current_bid}}</td>
                                         <td contenteditable class="column_name" data-column_name="spend" data-id="{{$creative->id}}">{{$creative->spend}}</td>
                                         <td contenteditable class="column_name" data-column_name="conversion" data-id="{{$creative->id}}">{{$creative->conversion}}</td>
                                         @if ($creative->conversion >= 0 && $creative->clicks > 0)
@@ -134,6 +134,11 @@
 
         $(document).ready(function () {
             const _token = $('input[name="_token"]').val();
+            $(".column_name").on('keypress',function(e) {
+                if(e.which === 13) {
+                    $(this).trigger("blur");
+                }
+            });
             $(document).on('blur', '.column_name', function () {
                 const column_name = $(this).data('column_name');
                 const column_value = $(this).text();

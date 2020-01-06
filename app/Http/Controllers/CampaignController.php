@@ -29,8 +29,8 @@ class CampaignController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $campaigns = Campaign::with('user')->with('status')->where('user_id', '=', $user->getAuthIdentifier())->paginate(10);
 
+        $campaigns = Campaign::with('user')->with('status')->where('user_id', '=', $user->getAuthIdentifier())->paginate(10);
         return view('dashboard.campaigns.list_campaigns', ['campaigns' => $campaigns]);
     }
 
@@ -111,6 +111,8 @@ class CampaignController extends Controller
     public function show($id)
     {
         $campaign = Campaign::with('user')->with('status')->find($id);
+
+
 
         return view('dashboard.campaigns.view_campaign', ['campaign' => $campaign]);
     }
