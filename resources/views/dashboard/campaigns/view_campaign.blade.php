@@ -36,22 +36,23 @@
                                   </span>
                                     </td>
                                     <td>{{ $campaign->daily_budget }}</td>
-                                    <td><strong>{{ $campaign->creative->sum("impressions") }}</strong></td>
+                                    @if (count($campaign->creative)> 0)
+
+                                        <td><strong>{{ $campaign->creative->sum("impressions") }}</strong></td>
+                                    @else
+                                        <td><strong>Creatives missing</strong></td>
+                                    @endif
                                     <td><strong>{{  $campaign->creative->sum("clicks")}}</strong></td>
                                     @if (count($campaign->creative)> 0 && $campaign->creative->sum("impressions") > 0)
                                         <td><strong>{{  round($campaign->creative->sum("clicks") / $campaign->creative->sum("impressions") * 100,2) }}%</strong></td>
                                     @else
 
-                                        <td><strong>No Creatives</strong></td>
+                                        <td><strong>N/A</strong></td>
                                     @endif
                                     <td><strong>{{ $campaign->current_bid }}</strong></td>
                                     <td><strong>{{ $campaign->average_bid }}</strong></td>
-                                    @if (count($campaign->creative)> 0)
                                         <td><strong>{{ $campaign->creative->sum("conversion") }}</strong></td>
-                                    @else
 
-                                        <td><strong>No Creatives</strong></td>
-                                    @endif
                                     @if (count($campaign->creative)> 0 && $campaign->creative->sum("clicks") > 0)
                                         <td><strong>{{ round($campaign->creative->sum("conversion") /$campaign->creative->sum("clicks")*100,2)}} %</strong></td>
                                     @else
@@ -103,9 +104,9 @@
                                         <td>{{$creative->name}}</td>
                                         <td>{{$creative->id}}</td>
                                         <td>
-                                  <span class="{{ $campaign->status->class }}">
-                                      {{ $campaign->status->name }}
-                                  </span>
+ <span class="{{ $campaign->status->class }}">
+     {{ $campaign->status->name }}
+ </span>
                                         </td>
                                         <td contenteditable class="column_name" data-column_name="link" data-id="{{$creative->id}}">{{$creative->link}}</td>
                                         <td contenteditable class="column_name" data-column_name="impressions" data-id="{{$creative->id}}">{{$creative->impressions}}</td>
@@ -154,9 +155,10 @@
 
         $(document).ready(function () {
             const _token = $('input[name="_token"]').val();
-            $(".column_name").on('keypress',function(e) {
-                if(e.which === 13) {
-                    $(this).trigger("blur");
+            $('.column_name').on('keypress', function (e) {
+                if (e.which === 13)
+                {
+                    $(this).trigger('blur');
                 }
             });
             $(document).on('blur', '.column_name', function () {
@@ -172,7 +174,7 @@
                         data: {column_name: column_name, column_value: column_value, id: id, _token: _token},
                         success: function (data) {
                             console.log(data);
-                            $('#message').html(data).delay(3000).slideUp(200, function() {
+                            $('#message').html(data).delay(3000).slideUp(200, function () {
                                 $(this).alert('close');
                                 location.reload();
                             });
@@ -181,7 +183,7 @@
                 }
                 else
                 {
-                    $('#message').html("<div class='alert alert-danger'>Enter some value</div>").delay(8000).slideUp(200, function() {
+                    $('#message').html('<div class=\'alert alert-danger\'>Enter some value</div>').delay(8000).slideUp(200, function () {
                         $(this).alert('close');
                         location.reload();
                     });
