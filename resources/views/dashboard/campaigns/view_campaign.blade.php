@@ -36,14 +36,34 @@
                                   </span>
                                     </td>
                                     <td>{{ $campaign->daily_budget }}</td>
-                                    <td><strong>{{ $campaign->impressions }}</strong></td>
-                                    <td><strong>{{ $campaign->clicks }}</strong></td>
-                                    <td><strong>{{ $campaign->ctr }}</strong></td>
+                                    <td><strong>{{ $campaign->creative->sum("impressions") }}</strong></td>
+                                    <td><strong>{{  $campaign->creative->sum("clicks")}}</strong></td>
+                                    @if (count($campaign->creative)> 0 && $campaign->creative->sum("impressions") > 0)
+                                        <td><strong>{{  round($campaign->creative->sum("clicks") / $campaign->creative->sum("impressions") * 100,2) }}%</strong></td>
+                                    @else
+
+                                        <td><strong>No Creatives</strong></td>
+                                    @endif
                                     <td><strong>{{ $campaign->current_bid }}</strong></td>
                                     <td><strong>{{ $campaign->average_bid }}</strong></td>
-                                    <td><strong>{{ $campaign->conversion }}</strong></td>
-                                    <td><strong>{{ $campaign->conversion_rate }}</strong></td>
-                                    <td><strong>{{ $campaign->cpa }}</strong></td>
+                                    @if (count($campaign->creative)> 0)
+                                        <td><strong>{{ $campaign->creative->sum("conversion") }}</strong></td>
+                                    @else
+
+                                        <td><strong>No Creatives</strong></td>
+                                    @endif
+                                    @if (count($campaign->creative)> 0 && $campaign->creative->sum("clicks") > 0)
+                                        <td><strong>{{ round($campaign->creative->sum("conversion") /$campaign->creative->sum("clicks")*100,2)}} %</strong></td>
+                                    @else
+
+                                        <td><strong>N/A</strong></td>
+                                    @endif
+                                    @if (count($campaign->creative)> 0 &&  $campaign->creative->sum("clicks") > 0)
+                                        <td><strong>R{{ round(($campaign->creative->sum("spend") / $campaign->creative->sum("clicks")) *100, 2)}} </strong></td>
+                                    @else
+
+                                        <td><strong>N/A</strong></td>
+                                    @endif
                                     <td><small>{{ $campaign->updated_at }}</small></td>
                                 </tr>
                                 </tbody>
