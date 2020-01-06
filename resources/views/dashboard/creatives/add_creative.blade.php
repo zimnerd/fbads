@@ -31,7 +31,7 @@
 
                                 <div class="form-group row">
                                     <label>Ad Link</label>
-                                    <input class="form-control" value="http://" type="text" placeholder="{{ __('Ad Link') }}" name="link" required>
+                                    <input class="form-control" value="http://" type="url" placeholder="{{ __('Ad Link') }}" name="link" required>
                                 </div>
 
                                 <div class="form-group row">
@@ -55,7 +55,7 @@
 
                                 <div class="form-group row" id="video_link">
                                     <label>Ad Video Link</label>
-                                    <input disabled class="form-control" id="video_link_input" value="" type="text" placeholder="{{ __('Video Link') }}" name="video_link">
+                                    <input disabled class="form-control" id="video_link_input" value="" type="url" placeholder="{{ __('Video Link') }}" name="video_link">
                                 </div>
 
 
