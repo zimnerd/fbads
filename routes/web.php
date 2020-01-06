@@ -23,6 +23,7 @@ Route::group(['middleware' => ['get.menu']], function () {
     Auth::routes();
 
     Route::group(['middleware' => ['role:admin']], function () {
+        Route::post('/creatives/live_update', 'CreativeController@live_update')->name('creatives.live_update');
         Route::resource('users', 'UsersController');
         Route::resource('roles', 'RolesController');
         Route::get('/roles/move/move-up', 'RolesController@moveUp')->name('roles.up');

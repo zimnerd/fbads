@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Creative;
 use App\Models\Status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CreativeController extends Controller
 {
@@ -190,7 +191,29 @@ class CreativeController extends Controller
      */
     public function update(Request $request, Creative $creative)
     {
-        //
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Creative     $creative
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function live_update(Request $request, Creative $creative)
+    {
+        if ($request->ajax())
+        {
+            $data = [
+                $request->column_name => $request->column_value
+            ];
+            DB::table('creatives')
+                ->where('id', $request->id)
+                ->update($data);
+            echo '<div class="alert alert-success">' . $request->column_name . ' Data Updated to ' . $request->column_value .'</div > ';
+        }
     }
 
     /**
