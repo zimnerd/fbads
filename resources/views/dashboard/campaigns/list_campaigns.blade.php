@@ -62,12 +62,7 @@
                                         @endif
                                         <td><strong>{{ $campaign->current_bid }}</strong></td>
                                         <td><strong>{{ $campaign->average_bid }}</strong></td>
-                                        @if (count($campaign->creative)> 0)
                                             <td><strong>{{ $campaign->creative->sum("conversion") }}</strong></td>
-                                        @else
-
-                                            <td><strong>No Creatives</strong></td>
-                                        @endif
                                         @if (count($campaign->creative)> 0 && $campaign->creative->sum("clicks") > 0)
                                             <td><strong>{{ round($campaign->creative->sum("conversion") /$campaign->creative->sum("clicks")*100,2)}} %</strong></td>
                                         @else
