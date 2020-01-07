@@ -126,10 +126,12 @@ class CampaignController extends Controller
      */
     public function edit($id)
     {
-        $campaign = Notes::find($id);
+        $campaign = Campaign::find($id);
         $statuses = Status::all();
+        $formats = AdFormat::all();
+        $categories = Category::all();
 
-        return view('dashboard.notes.edit', ['statuses' => $statuses, 'campaign' => $campaign]);
+        return view('dashboard.campaigns.edit_campaign', ['statuses' => $statuses, 'categories' => $categories, 'formats' => $formats, 'campaign' => $campaign]);
     }
 
     /**
@@ -145,22 +147,34 @@ class CampaignController extends Controller
         //var_dump('bazinga');
         //die();
         $validatedData = $request->validate([
-            'title' => 'required|min:1|max:64',
-            'content' => 'required',
-            'status_id' => 'required',
-            'applies_to_date' => 'required|date_format:Y-m-d',
-            'campaign_type' => 'required'
+            'start' => 'required|date_format:Y-m-d',
+            'end' => 'required|date_format:Y-m-d',
+            'name' => 'required|min:1|max:64',
+            'geo_targeting' => 'required',
+            'day_parting' => 'required',
+            'devices' => 'required',
+            'ad_format_id' => 'required',
+            'traffic_source' => 'required',
+            'daily_budget' => 'required',
+            'current_bid' => 'required',
         ]);
         $campaign = Campaign::find($id);
-        $campaign->title = $request->input('title');
-        $campaign->content = $request->input('content');
+        $campaign->start = $request->input('start');
+        $campaign->end = $request->input('end');
+        $campaign->name = $request->input('name');
+        $campaign->geo_targeting = $request->input('geo_targeting');
+        $campaign->day_parting = $request->input('day_parting');
+        $campaign->devices = $request->input('devices');
+        $campaign->ad_format_id = $request->input('ad_format_id');
         $campaign->status_id = $request->input('status_id');
-        $campaign->note_type = $request->input('campaign_type');
-        $campaign->applies_to_date = $request->input('applies_to_date');
+        $campaign->category_id = $request->input('category_id');
+        $campaign->traffic_source = $request->input('traffic_source');
+        $campaign->daily_budget = $request->input('daily_budget');
+        $campaign->current_bid = $request->input('current_bid');
         $campaign->save();
-        $request->session()->flash('message', 'Successfully edited note');
+        $request->session()->flash('message', 'Successfully edited campaign');
 
-        return redirect()->route('campaigns.index');
+        return redirect()->route('campaigns.index')->with('success', 'Successfully edited campaign');;
     }
 
     /**
