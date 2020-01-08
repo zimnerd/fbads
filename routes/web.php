@@ -24,6 +24,7 @@ Route::group(['middleware' => ['get.menu']], function () {
 
     Route::group(['middleware' => ['role:admin']], function () {
         Route::post('/creatives/live_update', 'CreativeController@live_update')->name('creatives.live_update');
+        Route::put('/campaigns/edit_status/{id}/{status}', 'CampaignController@edit_status')->name('campaigns.edit_status');
         Route::resource('users', 'UsersController');
         Route::resource('roles', 'RolesController');
         Route::get('/roles/move/move-up', 'RolesController@moveUp')->name('roles.up');

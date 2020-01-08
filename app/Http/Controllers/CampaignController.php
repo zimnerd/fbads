@@ -6,7 +6,10 @@ use App\Models\AdFormat;
 use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Status;
+use App\Models\Users;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CampaignController extends Controller
 {
@@ -29,8 +32,18 @@ class CampaignController extends Controller
     public function index()
     {
         $user = auth()->user();
+        if (strpos($user->menuroles, 'admin'))
+        {
+            $campaigns = Campaign::withTrashed()->with('user')->with('status')->paginate(10);
 
-        $campaigns = Campaign::with('user')->with('status')->where('user_id', '=', $user->getAuthIdentifier())->paginate(10);
+            return view('dashboard.campaigns.admin_list', ['campaigns' => $campaigns]);
+        }
+        else
+        {
+            $campaigns = Campaign::with('user')->with('status')->where('user_id', '=', $user->getAuthIdentifier())->paginate(10);
+
+        }
+
         return view('dashboard.campaigns.list_campaigns', ['campaigns' => $campaigns]);
     }
 
@@ -41,10 +54,13 @@ class CampaignController extends Controller
      */
     public function create()
     {
+
+        $users = Users::all();
         $statuses = Status::all();
         $formats = AdFormat::all();
         $categories = Category::all();
         $user = auth()->user();
+        $isadmin = strpos($user->menuroles, 'admin');
         $selected = Status::where('name', 'pending')
             ->first()->id;
 
@@ -54,6 +70,8 @@ class CampaignController extends Controller
                 'statuses' => $statuses,
                 'ad_formats' => $formats,
                 'user' => $user,
+                'isadmin' => $isadmin,
+                'users' => $users,
                 'selected' => $selected,
             ]);
     }
@@ -110,11 +128,16 @@ class CampaignController extends Controller
      */
     public function show($id)
     {
+        $users = Users::all();
+        $user = auth()->user();
+        $isadmin = strpos($user->menuroles, 'admin');
         $campaign = Campaign::with('user')->with('status')->find($id);
 
-
-
-        return view('dashboard.campaigns.view_campaign', ['campaign' => $campaign]);
+        return view('dashboard.campaigns.view_campaign', [
+            'campaign' => $campaign,
+            'isadmin' => $isadmin,
+            'users' => $users
+        ]);
     }
 
     /**
@@ -174,7 +197,7 @@ class CampaignController extends Controller
         $campaign->save();
         $request->session()->flash('message', 'Successfully edited campaign');
 
-        return redirect()->route('campaigns.index')->with('success', 'Successfully edited campaign');;
+        return redirect()->route('campaigns.index')->with('success', 'Successfully edited campaign');
     }
 
     /**
@@ -182,13 +205,44 @@ class CampaignController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function edit_status($id, $status)
+    {
+        $campaign = Campaign::find($id);
+        if ($campaign)
+        {
+            $data = [
+                'status_id' => Status::where('name', $status)->first()->id,
+                'updated_at' => Carbon::now()
+            ];
+            DB::table('campaigns')
+                ->where('id', $id)
+                ->update($data);
+        }
+        return redirect()->route('campaigns.index')->with('success', 'Successfully edited campaign');
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        $campaign = Notes::find($id);
+        $campaign = Campaign::find($id);
         if ($campaign)
         {
+            $data = [
+                'status_id' => Status::where('name', 'deleted')->first()->id,
+                'updated_at' => Carbon::now()
+            ];
+            DB::table('campaigns')
+                ->where('id', $id)
+                ->update($data);
             $campaign->delete();
         }
 

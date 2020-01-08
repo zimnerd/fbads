@@ -6,7 +6,9 @@ use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Creative;
 use App\Models\Status;
+use Faker\Provider\tr_TR\DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class CreativeController extends Controller
@@ -212,7 +214,15 @@ class CreativeController extends Controller
             DB::table('creatives')
                 ->where('id', $request->id)
                 ->update($data);
-            echo '<div class="alert alert-success">' . $request->column_name . ' Data Updated to ' . $request->column_value .'</div > ';
+
+            $creative = Creative::find($request->id);
+            $data = [
+                'updated_at' =>  Carbon::now()
+            ];
+            DB::table('campaigns')
+                ->where('id', $creative->campaign_id)
+                ->update($data);
+            echo '<div class="alert alert-success">' . $request->column_name . ' Data Updated to ' . $request->column_value . '</div > ';
         }
     }
 

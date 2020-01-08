@@ -33,6 +33,7 @@
                                     <th>Last Update</th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -67,8 +68,8 @@
                                             <td><strong>N/A</strong></td>
                                         @endif
                                         <td><strong>{{ $campaign->current_bid }}</strong></td> @if (count($campaign->creative)> 0)
-                                            <td><strong>{{ $campaign->creative->sum('spend')/ count($campaign->creative) }}</strong></td>@else
-                                            <td><strong>N/A</strong></td>
+                                            <td><strong>{{  $campaign->creative->sum('spend')/ count($campaign->creative) }}</strong></td>  @else
+                                            <td><strong>Creatives missing</strong></td>
                                         @endif
                                         {{--                                            <td><strong>{{ $campaign->creative->sum("conversion") }}</strong></td>--}}
                                         {{--                                        @if (count($campaign->creative)> 0 && $campaign->creative->sum("clicks") > 0)--}}
@@ -83,7 +84,49 @@
 
                                         {{--                                            <td><strong>N/A</strong></td>--}}
                                         {{--                                        @endif--}}
-                                        <td><small>{{ date('Y-m-d', strtotime($campaign->updated_at))   }}</small></td>
+                                        <td><small>{{ $campaign->updated_at }}</small></td>
+                                        <td>
+                                            @if ($campaign->trashed())
+                                                Trashed
+                                            @else
+                                                <div class="row no-gutters">
+                                                    <div class="col-md-4 no-gutters">
+                                                        <form action="{{ route('campaigns.edit_status', [$campaign->id,'stopped']) }}" method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button class="btn-sm btn-light">
+                                                                <svg class="c-icon">
+                                                                    <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-media-stop"></use>
+                                                                </svg>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-md-4 no-gutters">
+                                                        <form action="{{ route('campaigns.edit_status', [$campaign->id,'ongoing']) }}" method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button class="btn-sm btn-light">
+                                                                <svg class="c-icon">
+                                                                    <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-media-play"></use>
+                                                                </svg>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-md-4 no-gutters">
+                                                        <form action="{{ route('campaigns.edit_status', [$campaign->id,'paused']) }}" method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button class="btn-sm btn-light">
+                                                                <svg class="c-icon">
+                                                                    <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-media-pause"></use>
+                                                                </svg>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+                                            @endif
+                                        </td>
                                         <td>
                                             <a href="{{ url('/campaigns/' . $campaign->id . '/edit') }}" class="btn btn-block btn-primary btn-sm">Edit</a>
                                         </td>

@@ -40,6 +40,7 @@ class CreateCreativesTable extends Migration
             $table->string('conversion_rate')->nullable();
             $table->string('CPA')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('creatives', function($table) {
             $table->foreign('status_id')
