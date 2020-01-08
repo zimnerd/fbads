@@ -44,7 +44,7 @@
                                         <td>
                                             @if ($campaign->status->name !== 'deleted' && $campaign->end < Carbon\Carbon::now())
                                                 <span class="badge badge-pill badge-primary">
-                                      Completed
+                                      Expired
                                             @else
                                                         <span class="{{ $campaign->status->class }}">
                                       {{ $campaign->status->name }}

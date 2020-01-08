@@ -21,9 +21,9 @@
                                     <th>CTR</th>
                                     <th>Current Bid</th>
                                     <th>Avg. Bid Spent</th>
-{{--                                    <th>Conv.</th>--}}
-{{--                                    <th>Conv. Rate</th>--}}
-{{--                                    <th>CPA</th>--}}
+                                    {{--                                    <th>Conv.</th>--}}
+                                    {{--                                    <th>Conv. Rate</th>--}}
+                                    {{--                                    <th>CPA</th>--}}
                                     <th>Last Update</th>
                                 </tr>
                                 </thead>
@@ -31,9 +31,15 @@
                                 <tr>
                                     <td>{{ $campaign->adformat->name }}</td>
                                     <td>
-                                  <span class="{{ $campaign->status->class }}">
+                                        @if ($campaign->status->name !== 'deleted' && $campaign->end < Carbon\Carbon::now())
+                                            <span class="badge badge-pill badge-primary">
+                                      Expired
+                                            @else
+                                                    <span class="{{ $campaign->status->class }}">
                                       {{ $campaign->status->name }}
                                   </span>
+                                        @endif
+
                                     </td>
                                     <td>{{ $campaign->daily_budget }}</td>
                                     @if (count($campaign->creative)> 0)
@@ -51,23 +57,23 @@
                                     @endif
                                     <td><strong>{{ $campaign->current_bid }}</strong></td>
                                     @if (count($campaign->creative)> 0)
-                                    <td><strong>{{ $campaign->creative->sum('spend')/ count($campaign->creative)}}</strong></td> @else
+                                        <td><strong>{{ $campaign->creative->sum('spend')/ count($campaign->creative)}}</strong></td> @else
                                         <td><strong>Creatives missing</strong></td>
                                     @endif
-{{--                                    <td><strong>{{ $campaign->creative->sum("conversion") }}</strong></td>--}}
+                                    {{--                                    <td><strong>{{ $campaign->creative->sum("conversion") }}</strong></td>--}}
 
-{{--                                    @if (count($campaign->creative)> 0 && $campaign->creative->sum("clicks") > 0)--}}
-{{--                                        <td><strong>{{ round($campaign->creative->sum("conversion") /$campaign->creative->sum("clicks")*100,2)}} %</strong></td>--}}
-{{--                                    @else--}}
+                                    {{--                                    @if (count($campaign->creative)> 0 && $campaign->creative->sum("clicks") > 0)--}}
+                                    {{--                                        <td><strong>{{ round($campaign->creative->sum("conversion") /$campaign->creative->sum("clicks")*100,2)}} %</strong></td>--}}
+                                    {{--                                    @else--}}
 
-{{--                                        <td><strong>N/A</strong></td>--}}
-{{--                                    @endif--}}
-{{--                                    @if (count($campaign->creative)> 0 &&  $campaign->creative->sum("clicks") > 0)--}}
-{{--                                        <td><strong>R{{ round(($campaign->creative->sum("spend") / $campaign->creative->sum("clicks")) *100, 2)}} </strong></td>--}}
-{{--                                    @else--}}
+                                    {{--                                        <td><strong>N/A</strong></td>--}}
+                                    {{--                                    @endif--}}
+                                    {{--                                    @if (count($campaign->creative)> 0 &&  $campaign->creative->sum("clicks") > 0)--}}
+                                    {{--                                        <td><strong>R{{ round(($campaign->creative->sum("spend") / $campaign->creative->sum("clicks")) *100, 2)}} </strong></td>--}}
+                                    {{--                                    @else--}}
 
-{{--                                        <td><strong>N/A</strong></td>--}}
-{{--                                    @endif--}}
+                                    {{--                                        <td><strong>N/A</strong></td>--}}
+                                    {{--                                    @endif--}}
                                     <td><small>{{ date('Y-m-d', strtotime($campaign->updated_at))   }}</small></td>
                                 </tr>
                                 </tbody>
@@ -107,14 +113,20 @@
                                         <td>{{$creative->name}}</td>
                                         <td>{{$creative->id}}</td>
                                         <td>
- <span class="{{ $campaign->status->class }}">
-     {{ $campaign->status->name }}
- </span>
+                                            @if ($campaign->status->name !== 'deleted' && $campaign->end < Carbon\Carbon::now())
+                                                <span class="badge badge-pill badge-primary">
+                                      Completed
+                                            @else
+                                                        <span class="{{ $campaign->status->class }}">
+                                      {{ $campaign->status->name }}
+                                  </span>
+                                            @endif
+
                                         </td>
                                         <td @if ($isadmin)
-                                        contenteditable class="column_name" data-column_name="link" data-id="{{$creative->id}}" @endif >{{$creative->link}}</td>
+                                            contenteditable class="column_name" data-column_name="link" data-id="{{$creative->id}}" @endif >{{$creative->link}}</td>
                                         <td @if ($isadmin) contenteditable class="column_name" data-column_name="impressions" data-id="{{$creative->id}}" @endif>{{$creative->impressions}}</td>
-                                        <td  @if ($isadmin) contenteditable class="column_name" data-column_name="clicks" data-id="{{$creative->id}}" @endif>{{$creative->clicks}}</td>
+                                        <td @if ($isadmin) contenteditable class="column_name" data-column_name="clicks" data-id="{{$creative->id}}" @endif>{{$creative->clicks}}</td>
                                         @if ($creative->impressions > 0 && $creative->clicks >= 0)
                                             <td><?= round(($creative->clicks / $creative->impressions) * 100, 2) ?> %</td>
                                         @else
@@ -123,7 +135,7 @@
                                         @endif
                                         <td>{{$campaign->current_bid}}</td>
                                         <td @if ($isadmin) contenteditable class="column_name" data-column_name="spend" data-id="{{$creative->id}}" @endif>{{$creative->spend}}</td>
-                                        <td  @if ($isadmin) contenteditable class="column_name" data-column_name="conversion" data-id="{{$creative->id}}" @endif>{{$creative->conversion}}</td>
+                                        <td @if ($isadmin) contenteditable class="column_name" data-column_name="conversion" data-id="{{$creative->id}}" @endif>{{$creative->conversion}}</td>
                                         @if ($creative->conversion >= 0 && $creative->clicks > 0)
                                             <td><?= round(($creative->conversion / $creative->clicks) * 100, 2) ?> %</td>
                                         @else
