@@ -67,7 +67,13 @@ class AdFormatsTableSeeder extends Seeder
                 'id' => 4,
                 'name' => 'Overlay Ads',
             'description' => ' (supported sizes: 300x250, 320x480 and 550x480) Overlay Ads enable advertisers to drive unique engagement by presenting highly relevant offers directly inside the app via unique overlays on top of app content.',
-                'parameters' => '{"name":"1","link":"1","ad_image_size":"1","image_path":"1"}',
+                'parameters' => '{
+"name": "1",
+"link": "1",
+"ad_image_size": "1",
+"description": "1",
+"image_path": "1"
+}',
                 'thumb_path' => 'overlay-icon.png',
                 'image_path' => 'overlay-icon.png',
                 'min_bid' => '10',
@@ -116,15 +122,18 @@ class AdFormatsTableSeeder extends Seeder
 "name": "1",
 "url": "1",
 "device": "1",
+"description": "1",
 "full_page": "1",
-"supports": [{
+"supports": [
+{
 "1": "Call",
 "2": "SMS",
 "3": "Store Picture",
 "4": "Event",
 "5": "Inline video",
 "6": "Full video"
-}]
+}
+]
 }',
                 'thumb_path' => 'rich-media-icon.png',
                 'image_path' => 'rich-media-icon.png',
@@ -137,7 +146,11 @@ class AdFormatsTableSeeder extends Seeder
                 'id' => 8,
                 'name' => 'Landing Page Ads',
                 'description' => 'Landing Page Ads are displayed to users at natural break points in an app, displaying a full landing page within the app.',
-                'parameters' => '{"name":"1","url":"1"}',
+                'parameters' => '{
+"name": "1",
+"description": "1",
+"url": "1"
+}',
                 'thumb_path' => 'landingpage-ads-icon.png',
                 'image_path' => 'landingpage-ads-icon.png',
                 'min_bid' => '1',
