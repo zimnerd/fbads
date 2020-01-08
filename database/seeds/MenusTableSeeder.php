@@ -1,181 +1,222 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class MenusTableSeeder extends Seeder
 {
-    private $menuId = NULL;
-    private $dropdownId = [];
-    private $dropdown = FALSE;
-    private $sequence = 1;
-    private $joinData = [];
-    private $adminRole = NULL;
-    private $userRole = NULL;
-
-    public function join($roles, $menusId)
-    {
-        $roles = explode(',', $roles);
-        foreach ($roles as $role)
-        {
-            array_push($this->joinData, ['role_name' => $role, 'menus_id' => $menusId]);
-        }
-    }
-
-    /*
-        Function assigns menu elements to roles
-        Must by use on end of this seeder
-    */
-    public function joinAllByTransaction()
-    {
-        DB::beginTransaction();
-        foreach ($this->joinData as $data)
-        {
-            DB::table('menu_role')->insert([
-                'role_name' => $data['role_name'],
-                'menus_id' => $data['menus_id'],
-            ]);
-        }
-        DB::commit();
-    }
-
-    public function insertLink($roles, $name, $href, $icon = NULL)
-    {
-        if ($this->dropdown === FALSE)
-        {
-            DB::table('menus')->insert([
-                'slug' => 'link',
-                'name' => $name,
-                'icon' => $icon,
-                'href' => $href,
-                'menu_id' => $this->menuId,
-                'sequence' => $this->sequence
-            ]);
-        }
-        else
-        {
-            DB::table('menus')->insert([
-                'slug' => 'link',
-                'name' => $name,
-                'icon' => $icon,
-                'href' => $href,
-                'menu_id' => $this->menuId,
-                'parent_id' => $this->dropdownId[count($this->dropdownId) - 1],
-                'sequence' => $this->sequence
-            ]);
-        }
-        $this->sequence++;
-        $lastId = DB::getPdo()->lastInsertId();
-        $this->join($roles, $lastId);
-        $permission = Permission::where('name', '=', $name)->get();
-        if (empty($permission))
-        {
-            $permission = Permission::create(['name' => 'visit ' . $name]);
-        }
-        $roles = explode(',', $roles);
-        if (in_array('user', $roles))
-        {
-            $this->userRole->givePermissionTo($permission);
-        }
-        if (in_array('admin', $roles))
-        {
-            $this->adminRole->givePermissionTo($permission);
-        }
-
-        return $lastId;
-    }
-
-    public function insertTitle($roles, $name)
-    {
-        DB::table('menus')->insert([
-            'slug' => 'title',
-            'name' => $name,
-            'menu_id' => $this->menuId,
-            'sequence' => $this->sequence
-        ]);
-        $this->sequence++;
-        $lastId = DB::getPdo()->lastInsertId();
-        $this->join($roles, $lastId);
-
-        return $lastId;
-    }
-
-    public function beginDropdown($roles, $name, $icon = '')
-    {
-        if (count($this->dropdownId))
-        {
-            $parentId = $this->dropdownId[count($this->dropdownId) - 1];
-        }
-        else
-        {
-            $parentId = NULL;
-        }
-        DB::table('menus')->insert([
-            'slug' => 'dropdown',
-            'name' => $name,
-            'icon' => $icon,
-            'menu_id' => $this->menuId,
-            'sequence' => $this->sequence,
-            'parent_id' => $parentId
-        ]);
-        $lastId = DB::getPdo()->lastInsertId();
-        array_push($this->dropdownId, $lastId);
-        $this->dropdown = TRUE;
-        $this->sequence++;
-        $this->join($roles, $lastId);
-
-        return $lastId;
-    }
-
-    public function endDropdown()
-    {
-        $this->dropdown = FALSE;
-        array_pop($this->dropdownId);
-    }
 
     /**
-     * Run the database seeds.
+     * Auto generated seed file
      *
      * @return void
      */
     public function run()
     {
-        /* Get roles */
-        $this->adminRole = Role::where('name', '=', 'admin')->first();
-        $this->userRole = Role::where('name', '=', 'user')->first();
-        /* Create Sidebar menu */
-        DB::table('menulist')->insert([
-            'name' => 'sidebar menu'
-        ]);
-        $this->menuId = DB::getPdo()->lastInsertId();  //set menuId
-        $this->insertLink('user,admin', 'Dashboard', '/dashboard', 'cil-speedometer');
-        $this->insertLink('guest', 'Login', '/login', 'cil-account-logout');
-        $this->insertLink('guest', 'Register', '/register', 'cil-account-logout');
-        $this->insertLink('user,admin', 'Campaigns', '/campaigns');
-        $this->insertLink('admin', 'Users', '/users');
-        $this->beginDropdown('admin', 'Settings');
-        $this->insertLink('admin', 'Edit menu', '/menu/menu');
-        $this->insertLink('admin', 'Edit menu elements', '/menu/element');
-        $this->insertLink('admin', 'Edit roles', '/roles');
-        $this->endDropdown();
+        
 
-
-        /* Create top menu */
-        DB::table('menulist')->insert([
-            'name' => 'top menu'
-        ]);
-        $this->menuId = DB::getPdo()->lastInsertId();  //set menuId
-        $id = $this->insertLink('guest,user,admin', 'Dashboard', '/');
-        $id = $this->insertLink('user,admin', 'Campaigns', '/campaigns');
-        $id = $this->insertLink('admin', 'Users', '/users');
-        $id = $this->beginDropdown('admin', 'Settings');
-        $id = $this->insertLink('admin', 'Edit menu', '/menu/menu');
-        $id = $this->insertLink('admin', 'Edit menu elements', '/menu/element');
-        $id = $this->insertLink('admin', 'Edit roles', '/roles');
-        $this->endDropdown();
-        $id = $this->insertLink('guest', 'Login', '/login');
-        $id = $this->insertLink('guest', 'Register', '/register');
-        $this->joinAllByTransaction(); ///   <===== Must by use on end of this seeder
+        \DB::table('menus')->delete();
+        
+        \DB::table('menus')->insert(array (
+            0 => 
+            array (
+                'id' => 1,
+                'name' => 'Dashboard',
+                'href' => '/dashboard',
+                'icon' => 'cil-speedometer',
+                'slug' => 'link',
+                'parent_id' => NULL,
+                'menu_id' => 1,
+                'sequence' => 1,
+            ),
+            1 => 
+            array (
+                'id' => 2,
+                'name' => 'Login',
+                'href' => '/login',
+                'icon' => 'cil-account-logout',
+                'slug' => 'link',
+                'parent_id' => NULL,
+                'menu_id' => 1,
+                'sequence' => 2,
+            ),
+            2 => 
+            array (
+                'id' => 3,
+                'name' => 'Register',
+                'href' => '/register',
+                'icon' => 'cil-account-logout',
+                'slug' => 'link',
+                'parent_id' => NULL,
+                'menu_id' => 1,
+                'sequence' => 3,
+            ),
+            3 => 
+            array (
+                'id' => 4,
+                'name' => 'Campaigns',
+                'href' => '/campaigns',
+                'icon' => 'cil-applications-settings',
+                'slug' => 'link',
+                'parent_id' => NULL,
+                'menu_id' => 1,
+                'sequence' => 4,
+            ),
+            4 => 
+            array (
+                'id' => 5,
+                'name' => 'Users',
+                'href' => '/users',
+                'icon' => 'cil-people',
+                'slug' => 'link',
+                'parent_id' => NULL,
+                'menu_id' => 1,
+                'sequence' => 5,
+            ),
+            5 => 
+            array (
+                'id' => 6,
+                'name' => 'Settings',
+                'href' => NULL,
+                'icon' => 'cil-touch-app',
+                'slug' => 'dropdown',
+                'parent_id' => NULL,
+                'menu_id' => 1,
+                'sequence' => 6,
+            ),
+            6 => 
+            array (
+                'id' => 7,
+                'name' => 'Edit menu',
+                'href' => '/menu/menu',
+                'icon' => NULL,
+                'slug' => 'link',
+                'parent_id' => 6,
+                'menu_id' => 1,
+                'sequence' => 7,
+            ),
+            7 => 
+            array (
+                'id' => 8,
+                'name' => 'Edit menu elements',
+                'href' => '/menu/element',
+                'icon' => NULL,
+                'slug' => 'link',
+                'parent_id' => 6,
+                'menu_id' => 1,
+                'sequence' => 8,
+            ),
+            8 => 
+            array (
+                'id' => 9,
+                'name' => 'Edit roles',
+                'href' => '/roles',
+                'icon' => NULL,
+                'slug' => 'link',
+                'parent_id' => 6,
+                'menu_id' => 1,
+                'sequence' => 9,
+            ),
+            9 => 
+            array (
+                'id' => 10,
+                'name' => 'Dashboard',
+                'href' => '/',
+                'icon' => NULL,
+                'slug' => 'link',
+                'parent_id' => NULL,
+                'menu_id' => 2,
+                'sequence' => 10,
+            ),
+            10 => 
+            array (
+                'id' => 11,
+                'name' => 'Campaigns',
+                'href' => '/campaigns',
+                'icon' => NULL,
+                'slug' => 'link',
+                'parent_id' => NULL,
+                'menu_id' => 2,
+                'sequence' => 11,
+            ),
+            11 => 
+            array (
+                'id' => 12,
+                'name' => 'Users',
+                'href' => '/users',
+                'icon' => NULL,
+                'slug' => 'link',
+                'parent_id' => NULL,
+                'menu_id' => 2,
+                'sequence' => 12,
+            ),
+            12 => 
+            array (
+                'id' => 13,
+                'name' => 'Settings',
+                'href' => NULL,
+                'icon' => NULL,
+                'slug' => 'dropdown',
+                'parent_id' => NULL,
+                'menu_id' => 2,
+                'sequence' => 13,
+            ),
+            13 => 
+            array (
+                'id' => 14,
+                'name' => 'Edit menu',
+                'href' => '/menu/menu',
+                'icon' => NULL,
+                'slug' => 'link',
+                'parent_id' => 13,
+                'menu_id' => 2,
+                'sequence' => 14,
+            ),
+            14 => 
+            array (
+                'id' => 15,
+                'name' => 'Edit menu elements',
+                'href' => '/menu/element',
+                'icon' => NULL,
+                'slug' => 'link',
+                'parent_id' => 13,
+                'menu_id' => 2,
+                'sequence' => 15,
+            ),
+            15 => 
+            array (
+                'id' => 16,
+                'name' => 'Edit roles',
+                'href' => '/roles',
+                'icon' => NULL,
+                'slug' => 'link',
+                'parent_id' => 13,
+                'menu_id' => 2,
+                'sequence' => 16,
+            ),
+            16 => 
+            array (
+                'id' => 17,
+                'name' => 'Login',
+                'href' => '/login',
+                'icon' => NULL,
+                'slug' => 'link',
+                'parent_id' => NULL,
+                'menu_id' => 2,
+                'sequence' => 17,
+            ),
+            17 => 
+            array (
+                'id' => 18,
+                'name' => 'Register',
+                'href' => '/register',
+                'icon' => NULL,
+                'slug' => 'link',
+                'parent_id' => NULL,
+                'menu_id' => 2,
+                'sequence' => 18,
+            ),
+        ));
+        
+        
     }
 }

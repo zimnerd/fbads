@@ -17,8 +17,8 @@ Route::group(['middleware' => ['get.menu']], function () {
 
     Route::group(['middleware' => ['role:user']], function () {
         Route::resource('campaigns', 'CampaignController');
-        Route::get('/dashboard', function () { return view('dashboard.homepage'); });
         Route::resource('creatives', 'CreativeController');
+        Route::resource('dashboard', 'HomeController');
     });
     Auth::routes();
 

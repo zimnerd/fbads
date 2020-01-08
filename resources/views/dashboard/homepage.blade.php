@@ -17,10 +17,10 @@
                                                 <use xlink:href="assets/icons/coreui/free-symbol-defs.svg#cui-settings"></use>
                                             </svg>
                                         </button>
-                                        <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a></div>
+                                        <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="/campaigns">Show campaigns</a><a class="dropdown-item" href="/campaigns/create">Add new campaign</a></div>
                                     </div>
-                                    <div class="text-value-lg">9.823</div>
-                                    <div>Members online</div>
+                                    <div class="text-value-lg">{{count($campaigns)}}</div>
+                                    <div>Total Campaigns</div>
                                 </div>
                                 <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
                                     <canvas class="chart" id="card-chart1" height="70"></canvas>
@@ -36,8 +36,8 @@
                                             <use xlink:href="assets/icons/coreui/free-symbol-defs.svg#cui-location-pin"></use>
                                         </svg>
                                     </button>
-                                    <div class="text-value-lg">9.823</div>
-                                    <div>Members online</div>
+                                    <div class="text-value-lg">{{count($active_campaigns)}}</div>
+                                    <div>Total Active Campaigns</div>
                                 </div>
                                 <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
                                     <canvas class="chart" id="card-chart2" height="70"></canvas>
@@ -54,10 +54,10 @@
                                                 <use xlink:href="assets/icons/coreui/free-symbol-defs.svg#cui-settings"></use>
                                             </svg>
                                         </button>
-                                        <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a></div>
+                                        <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="/campaigns">View campaigns</a><a class="dropdown-item" href="campains/create">Add new campaign</a></div>
                                     </div>
-                                    <div class="text-value-lg">9.823</div>
-                                    <div>Members online</div>
+                                    <div class="text-value-lg">{{count($creatives)}}</div>
+                                    <div>Creatives</div>
                                 </div>
                                 <div class="c-chart-wrapper mt-3" style="height:70px;">
                                     <canvas class="chart" id="card-chart3" height="70"></canvas>
@@ -74,10 +74,10 @@
                                                 <use xlink:href="assets/icons/coreui/free-symbol-defs.svg#cui-settings"></use>
                                             </svg>
                                         </button>
-                                        <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a></div>
+                                        <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="/users">List users</a><a class="dropdown-item" href="users/create">Add new user</a></div>
                                     </div>
-                                    <div class="text-value-lg">9.823</div>
-                                    <div>Members online</div>
+                                    <div class="text-value-lg">{{count($users)}}</div>
+                                    <div>Members</div>
                                 </div>
                                 <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
                                     <canvas class="chart" id="card-chart4" height="70"></canvas>
