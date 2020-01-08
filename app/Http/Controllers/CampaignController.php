@@ -149,7 +149,7 @@ class CampaignController extends Controller
      */
     public function edit($id)
     {
-        $campaign = Campaign::find($id);
+        $campaign = Campaign::withTrashed()->find($id);
         $statuses = Status::all();
         $formats = AdFormat::all();
         $categories = Category::all();
@@ -180,7 +180,7 @@ class CampaignController extends Controller
             'daily_budget' => 'required',
             'current_bid' => 'required',
         ]);
-        $campaign = Campaign::find($id);
+        $campaign = Campaign::withTrashed()->find($id);
         $campaign->start = $request->input('start');
         $campaign->end = $request->input('end');
         $campaign->name = $request->input('name');
@@ -207,7 +207,7 @@ class CampaignController extends Controller
      */
     public function edit_status($id, $status)
     {
-        $campaign = Campaign::find($id);
+        $campaign = Campaign::withTrashed()->find($id);
         if ($campaign)
         {
             $data = [
@@ -231,7 +231,7 @@ class CampaignController extends Controller
      */
     public function destroy($id)
     {
-        $campaign = Campaign::find($id);
+        $campaign = Campaign::withTrashed()->find($id);
         if ($campaign)
         {
             $data = [
