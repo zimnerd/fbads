@@ -188,6 +188,7 @@ class CampaignController extends Controller
         $campaign->day_parting = $request->input('day_parting');
         $campaign->devices = $request->input('devices');
         $campaign->status_id = $request->input('status_id');
+        $campaign->deleted_at = NULL;
         $campaign->category_id = $request->input('category_id');
         $campaign->traffic_source = $request->input('traffic_source');
         $campaign->daily_budget = $request->input('daily_budget');
@@ -212,12 +213,14 @@ class CampaignController extends Controller
         {
             $data = [
                 'status_id' => Status::where('name', $status)->first()->id,
-                'updated_at' => Carbon::now()
+                'updated_at' => Carbon::now(),
+                'deleted_at' => NULL
             ];
             DB::table('campaigns')
                 ->where('id', $id)
                 ->update($data);
         }
+
         return redirect()->route('campaigns.index')->with('success', 'Successfully edited campaign');
     }
 
