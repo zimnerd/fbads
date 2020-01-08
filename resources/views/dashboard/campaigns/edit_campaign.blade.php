@@ -104,21 +104,25 @@
                                     <div class="col-md-12">
 
                                         @foreach($formats as $ad_format)
-                                            <div class="row mb-2" style="border-bottom: 1px solid #dedede;">
-                                                <div class="col-md-6 my-2">
-                                                    <input class="form-check-input ad_format" id="{{$ad_format->id }}" data-bid="{{$ad_format->min_bid }}" type="radio" value="{{ $ad_format->id }}" name="ad_format_id" @if ($campaign->ad_format_id == $ad_format->id)
-                                                    checked
-                                                    @endif disabled>
-                                                    <label class="form-check-label" for="{{$ad_format->id }}">{{$ad_format->name }} <br><small>{{$ad_format->description}}</small></label>
-                                                </div>
-                                                @if ($ad_format->thumb_path)
+                                            @if ($campaign->ad_format_id == $ad_format->id)
 
-                                                    <div class="col-md-3 my-2">
-                                                        <img src="/assets/img/adformats/thumbs/{{$ad_format->thumb_path}}" width="64px">
+
+                                                <div class="row mb-2" style="border-bottom: 1px solid #dedede;">
+                                                    <div class="col-md-6 my-2">
+                                                        <input class="form-check-input ad_format" id="{{$ad_format->id }}" data-bid="{{$ad_format->min_bid }}" type="radio" value="{{ $ad_format->id }}" name="ad_format_id" @if ($campaign->ad_format_id == $ad_format->id)
+                                                        checked
+                                                               @endif disabled>
+                                                        <label class="form-check-label" for="{{$ad_format->id }}">{{$ad_format->name }} <br><small>{{$ad_format->description}}</small></label>
                                                     </div>
+                                                    @if ($ad_format->thumb_path)
 
-                                                @endif
-                                            </div>
+                                                        <div class="col-md-3 my-2">
+                                                            <img src="/assets/img/adformats/thumbs/{{$ad_format->thumb_path}}" width="64px">
+                                                        </div>
+
+                                                    @endif
+                                                </div>
+                                            @endif
                                         @endforeach
                                     </div>
 
@@ -131,7 +135,7 @@
 
                                 <div class="form-group row">
                                     <label>CPC Bid</label>
-                                    <input class="form-control current_bid" value="{{$campaign->current_bid}}"   type="number" placeholder="{{ __('CPC Bid') }}" name="current_bid" required>
+                                    <input class="form-control current_bid" value="{{$campaign->current_bid}}" type="number" placeholder="{{ __('CPC Bid') }}" name="current_bid" required>
                                 </div>
                                 <div class="row mb-5">
                                     Min Bid: R <span id="min_bid">{{$campaign->adformat->min_bid}}</span>
