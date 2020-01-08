@@ -131,7 +131,7 @@ class CampaignController extends Controller
         $users = Users::all();
         $user = auth()->user();
         $isadmin = strpos($user->menuroles, 'admin');
-        $campaign = Campaign::with('user')->with('status')->find($id);
+        $campaign = Campaign::withTrashed()->with('user')->with('status')->find($id);
 
         return view('dashboard.campaigns.view_campaign', [
             'campaign' => $campaign,
