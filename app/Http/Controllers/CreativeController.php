@@ -63,7 +63,6 @@ class CreativeController extends Controller
             $file_type = 'videos';
             $validatedData = $request->validate([
                 'name' => 'required|min:1|max:64',
-                'description' => 'required',
                 'title' => 'required',
                 'link' => 'required',
                 'campaign_id' => 'required',
@@ -87,7 +86,6 @@ class CreativeController extends Controller
             $path = 'files/images';
             $validatedData = $request->validate([
                 'name' => 'required|min:1|max:64',
-                'description' => 'required',
                 'title' => 'required',
                 'link' => 'required',
                 'campaign_id' => 'required',
@@ -106,7 +104,6 @@ class CreativeController extends Controller
             $file_type = 'videos';
             $validatedData = $request->validate([
                 'name' => 'required|min:1|max:64',
-                'description' => 'required',
                 'title' => 'required',
                 'link' => 'required',
                 'campaign_id' => 'required',
