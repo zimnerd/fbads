@@ -176,7 +176,6 @@ class CampaignController extends Controller
             'geo_targeting' => 'required',
             'day_parting' => 'required',
             'devices' => 'required',
-            'ad_format_id' => 'required',
             'traffic_source' => 'required',
             'daily_budget' => 'required',
             'current_bid' => 'required',
@@ -188,7 +187,6 @@ class CampaignController extends Controller
         $campaign->geo_targeting = $request->input('geo_targeting');
         $campaign->day_parting = $request->input('day_parting');
         $campaign->devices = $request->input('devices');
-        $campaign->ad_format_id = $request->input('ad_format_id');
         $campaign->status_id = $request->input('status_id');
         $campaign->category_id = $request->input('category_id');
         $campaign->traffic_source = $request->input('traffic_source');

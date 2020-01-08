@@ -108,7 +108,7 @@
                                                 <div class="col-md-6 my-2">
                                                     <input class="form-check-input ad_format" id="{{$ad_format->id }}" data-bid="{{$ad_format->min_bid }}" type="radio" value="{{ $ad_format->id }}" name="ad_format_id" @if ($campaign->ad_format_id == $ad_format->id)
                                                     checked
-                                                    @endif readonly>
+                                                    @endif disabled>
                                                     <label class="form-check-label" for="{{$ad_format->id }}">{{$ad_format->name }} <br><small>{{$ad_format->description}}</small></label>
                                                 </div>
                                                 @if ($ad_format->thumb_path)
