@@ -87,7 +87,7 @@
                         <!-- /.col-->
                     </div>
                     <!-- /.row-->
-                    <div class="card">
+                    {{-- <div class="card">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-5">
@@ -159,7 +159,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- /.card-->
 
                     <!-- /.row-->

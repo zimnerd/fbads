@@ -249,4 +249,9 @@ class CampaignController extends Controller
 
         return redirect()->route('campaigns.index');
     }
+
+    public function download($path)
+    {
+        return Storage::download($path);
+    }
 }

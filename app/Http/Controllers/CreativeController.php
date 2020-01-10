@@ -33,7 +33,7 @@ class CreativeController extends Controller
         $id = $request->input('id');;
         $statuses = Status::all();
         $categories = Category::all();
-        $campaign = Campaign::find($id);
+        $campaign = Campaign::withTrashed()->find($id);
         $selected = Status::where('name', 'pending')
             ->first()->id;
 

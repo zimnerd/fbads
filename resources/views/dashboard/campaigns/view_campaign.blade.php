@@ -93,6 +93,7 @@
                             <table class="table table-responsive-sm table-sm table-striped">
                                 <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Creative Ad</th>
                                     <th>Creative ID</th>
                                     <th>Status</th>
@@ -110,6 +111,25 @@
                                 <tbody>
                                 @foreach($campaign->creative as $creative)
                                     <tr>
+                                        @if($creative->image_path !== null)
+                                        <td>
+                                        <a href="{{url('storage/'.$creative->image_path)}}"><button class="btn-sm btn-success">
+                                            <svg class="c-icon">
+                                            <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-cloud-download">{{$creative->image_path}}</use>
+                                            </svg>
+                                        </button></a>
+                                        </td>
+                                        @elseif($creative->video_path !== null)
+                                        <td>
+                                            <a href="{{url('storage/'.$creative->video_path)}}"><button class="btn-sm btn-success">
+                                                <svg class="c-icon">
+                                                <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-cloud-download">{{$creative->image_path}}</use>
+                                                </svg>
+                                            </button></a>
+                                        </td>
+                                        @else
+                                        <td></td>
+                                        @endif
                                         <td>{{$creative->name}}</td>
                                         <td>{{$creative->id}}</td>
                                         <td>
