@@ -30,7 +30,7 @@ class WelcomeMail extends Mailable
     {
         $subject = 'Welcome';
 
-        return $this->from('eddy@enyagano.co.za')
+        return $this->from('portal@appsmarketeers.com')
             ->view('emails.welcome')->subject($subject);
 
     }

@@ -48,7 +48,6 @@
                                         <option value="day" @if($campaign->day_parting == "day") selected="selected" @endif>During the day</option>
                                         <option value="morning" @if($campaign->day_parting == "morning") selected="selected" @endif>Morning</option>
                                         <option value="afternoon" @if($campaign->day_parting == "afternoon") selected="selected" @endif>Afternoon</option>
-
                                     </select>
                                 </div>
 
@@ -57,15 +56,9 @@
                                     <select class="form-control" name="geo_targeting" required>
                                         <option value="" @if($campaign->geo_targeting == "") selected="selected" @endif>Select Region</option>
                                         <option value="all" @if($campaign->geo_targeting == "all") selected="selected" @endif>All Regions</option>
-                                        <option value='Northern Cape' @if($campaign->geo_targeting == "Northern Cape") selected="selected" @endif>Northern Cape</option>
-                                        <option value='Eastern Cape' @if($campaign->geo_targeting == "Eastern Cape") selected="selected" @endif>Eastern Cape</option>
-                                        <option value='Free State' @if($campaign->geo_targeting == "Free State") selected="selected" @endif>Free State</option>
-                                        <option value='Western Cape' @if($campaign->geo_targeting == "Western Cape") selected="selected" @endif>Western Cape</option>
-                                        <option value='Limpopo'>  @if($campaign->geo_targeting == "Limpopo") selected="selected" @endif'Limpopo</option>
-                                        <option value='North West' @if($campaign->geo_targeting == "North West") selected="selected" @endif>North West</option>
-                                        <option value='KwaZulu-Natal' @if($campaign->geo_targeting == "KwaZulu-Natal") selected="selected" @endif>KwaZulu-Natal</option>
-                                        <option value='Mpumalanga' @if($campaign->geo_targeting == "Mpumalanga") selected="selected" @endif> 'Mpumalanga</option>
-                                        <option value='Gauteng' @if($campaign->geo_targeting == "Gauteng") selected="selected" @endif> 'Gauteng</option>
+                                        <option value='Northern Cape' @if($campaign->geo_targeting == "USA") selected="selected" @endif>USA</option>
+                                        <option value='Northern Cape' @if($campaign->geo_targeting == "UK") selected="selected" @endif>UK</option>
+                                         <option value='Northern Cape' @if($campaign->geo_targeting == "South Africa") selected="selected" @endif>South Africa</option>                                   <option value='USA'>USA</option>
                                     </select>
                                 </div>
 
