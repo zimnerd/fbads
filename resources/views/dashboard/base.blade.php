@@ -40,8 +40,10 @@
     <!-- Main styles for this application-->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/pace.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/basic.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{url('css/dropzone.css')}}">
     <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
-
+    <script src="{{ asset('js/dropzone.js') }}"></script>
 
     @yield('css')
 

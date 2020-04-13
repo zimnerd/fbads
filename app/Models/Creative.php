@@ -16,4 +16,8 @@ class Creative extends Model
     {
         return $this->hasOne(Status::class);
     }
+    public function media()
+    {
+        return $this->hasMany(Media::class);
+    }
 }

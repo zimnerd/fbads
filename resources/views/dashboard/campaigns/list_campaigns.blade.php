@@ -53,7 +53,7 @@
 
                                         </td>
                                         <td>{{ $campaign->daily_budget }}</td>
-                                        @if (count($campaign->creative)> 0)
+                                        @if (count($campaign->creative->media)> 0)
 
                                             <td><strong>{{ $campaign->creative->sum("impressions") }}</strong></td>
                                         @else

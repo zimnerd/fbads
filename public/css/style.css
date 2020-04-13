@@ -18860,3 +18860,7 @@ body {
   top: 0px;
 }
 
+.active_card {
+  border: 5px solid #1b9e3e;
+}
+

@@ -30,12 +30,27 @@ class Campaign extends Model
 
     public function creative()
     {
-        return $this->hasMany(Creative::class);
+        return $this->hasOne(Creative::class);
     }
 
-    public function adformat()
+    public function goal()
     {
-        return $this->belongsTo(AdFormat::class, 'ad_format_id');
+        return $this->belongsTo(Goal::class);
+    }
+
+    public function objective()
+    {
+        return $this->belongsTo(Objective::class);
+    }
+
+    public function interest()
+    {
+        return $this->belongsTo(Interest::class);
+    }
+
+    public function media_type()
+    {
+        return $this->belongsTo(MediaType::class, 'media_type_id');
     }
 
     public function category()

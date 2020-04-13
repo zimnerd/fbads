@@ -20,7 +20,10 @@ class DatabaseSeeder extends Seeder
         $this->call(AdFormatsTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(StatusesTableSeeder::class);
-        $this->call(CampaignsTableSeeder::class);
-        $this->call(CreativesTableSeeder::class);
+        $this->call(MediaTypesTableSeeder::class);
+        $this->call(InterestsTableSeeder::class);
+        $this->call(ObjectivesTableSeeder::class);
+        $this->call(GoalsTableSeeder::class);
+        $this->call(StatusTableSeeder::class);
     }
 }

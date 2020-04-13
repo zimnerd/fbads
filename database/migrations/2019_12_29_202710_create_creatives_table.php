@@ -16,29 +16,24 @@ class CreateCreativesTable extends Migration
         Schema::create('creatives', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->string('advertiser')->nullable();
             $table->string('link')->nullable();
-            $table->string('ad_image_size')->nullable(); // resolutions
-            $table->string('type')->nullable(); // image only . image with buttons . image text and buttoons
-            $table->string('image_path')->nullable();
-            $table->string('video_path')->nullable();
-            $table->string('video_link')->nullable();
+            $table->string('title');
+            $table->text('description');
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('campaign_id')->nullable();
-            $table->integer('impressions')->nullable();
+            $table->integer('reach')->nullable();
             $table->integer('clicks')->nullable();
-            $table->integer('devices')->nullable(); //mobile ipad
-            $table->integer('supports')->nullable(); // call sms event
-            $table->string('ctr')->nullable();
-            $table->string('average_bid')->nullable();
-            $table->string('vid_type')->nullable();
-            $table->string('spend')->nullable();
-            $table->string('conversion')->nullable();
-            $table->string('conversion_rate')->nullable();
-            $table->string('CPA')->nullable();
+            $table->integer('landing_clicks')->nullable();
+            $table->integer('other_clicks')->nullable();
+            $table->string('facebook_email')->nullable();
+            $table->string('facebook_page')->nullable();
+            $table->integer('setup')->nullable();
+            $table->integer('ready')->nullable();
+            $table->integer('active')->nullable();
+            $table->integer('finished')->nullable();
+            $table->string('frequency')->nullable();
+            $table->string('video_views')->nullable();
+            $table->string('engagement_rate')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

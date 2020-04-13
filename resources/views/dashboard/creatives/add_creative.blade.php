@@ -1,22 +1,57 @@
+<!--suppress ALL -->
+
 @extends('dashboard.base')
 
 @section('content')
-    <div class="container-fluid">
+    <!--suppress ALL -->
+<div class="container-fluid">
+
         <div class="animated fadeIn">
             <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-6">
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                    <div class="card bg-primary  text-white">
+                        <div class="card-body">
+                            <h2 class="card-title"><strong>Campaign title: </strong>  {{$campaign->name}}</h2>
+                            <p class="card-text"><strong>Campaign Type: </strong>  {{$campaign->media_type->name}}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Creator: </strong>  {{$campaign->user->name}} </li>
+                            <li class="list-group-item"><strong>Company: </strong>  {{$campaign->user->organisation}} </li>
+                            <li class="list-group-item"><strong>Budget: </strong>  {{$campaign->budget}} </li>
+                            <li class="list-group-item"><strong>Goal type: </strong>  {{$campaign->goal->name}} </li>
+                            <li class="list-group-item"><strong>Mode : </strong>  {{$campaign->ad_period}} Months </li>
+                            <li class="list-group-item"><strong>Locations: </strong>  {{$campaign->location}} </li>
+                            <li class="list-group-item"><strong>Radius: </strong>  {{$campaign->radius}} </li>
+                            <li class="list-group-item"><strong>Gender: </strong>  {{$campaign->gender}} </li>
+                            <li class="list-group-item"><strong>Age: </strong>  {{$campaign->age_range}} </li>
+                            <li class="list-group-item"><strong>Interest: </strong>  {{$campaign->interest->description}} </li>
+                            <li class="list-group-item"><strong>Ad Format: </strong>  {{$campaign->media_type->name}} </li>
+                            <li class="list-group-item"><strong>Facebook Page: </strong>  {{$campaign->facebook_page}} </li>
+                            <li class="list-group-item"><strong>Landing Page: </strong>  {{$campaign->link}} </li>
+                            <li class="list-group-item"><strong>Start date : </strong>  {{$campaign->start}} </li>
+                            <li class="list-group-item"><strong>Businesss category: </strong>  {{$campaign->category->name}} </li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
                     <div class="card">
                         <div class="card-header">
-                            <i class="fa fa-align-justify"></i><strong>{{ __('Create Creative') }} for {{$campaign->name}} </strong>  <h6 class="float-right">{{$campaign->adformat->name}}</h6>
+                            <i class="fa fa-align-justify"></i><strong>{{ __('Ad Settings') }} </strong>  <h6 class="float-right">Type: </strong>  {{$campaign->media_type->name}}</h6>
                         </div>
                         <div class="card-body mx-2">
+                            <label>Ad Files</label>
+                            <form method="post" action="{{route('creatives.storeMedia')}}" enctype="multipart/form-data"
+                                  class="dropzone mb-3" id="dropzone">
+                                @csrf
+                            </form>
+
                             <form method="POST" action="{{ route('creatives.store') }}" id="creatives_form" enctype="multipart/form-data">
                                 @csrf
-                                <div class="form-group row">
-                                    <label>Ad Name</label>
-                                    <input class="form-control" type="text" placeholder="{{ __('Name') }}" name="name" required autofocus>
-                                </div>
-
 
                                 <div class="form-group row">
                                     <label>Ad Title</label>
@@ -26,92 +61,28 @@
 
                                 <div class="form-group row">
                                     <label>Ad Descriptive Text</label>
-                                    <input class="form-control" type="text" placeholder="{{ __('Descriptive Text') }}" name="description" required>
+                                    <textarea class="form-control" type="text" placeholder="{{ __('Descriptive Text') }}" name="description" required></textarea>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label>Ad Link</label>
+                                    <label>Landing page</label>
                                     <input class="form-control" value="http://" type="url" placeholder="{{ __('Ad Link') }}" name="link" required>
                                 </div>
-
                                 <div class="form-group row">
-                                    <label>Video Advertiser</label>
-                                    <input class="form-control" type="text" placeholder="{{ __('Advertiser') }}" name="advertiser" required>
+                                    <label>Facebook page</label>
+                                    <input class="form-control" value="https://facebook.com/" type="url" placeholder="{{ __('Facebook page') }}" name="facebook_page" required>
                                 </div>
-
                                 <div class="form-group row">
-                                    <label>Video Ad Type</label>
-                                    <select class="form-control" name="vid_type" required id="vid_type">
-                                        <option value="">Select Ad Types</option>
-                                        <option value="video_upload">Upload</option>
-                                        <option value="video_link">Video Url</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group row" id="video_upload">
-                                    <label>Ad Video</label>
-                                    <input disabled type="file" name="video_path"  id="video_upload_input" class="form-control">
-                                </div>
-
-                                <div class="form-group row" id="video_link">
-                                    <label>Ad Video Link</label>
-                                    <input disabled class="form-control" id="video_link_input" value="" type="url" placeholder="{{ __('Video Link') }}" name="video_link">
-                                </div>
-
-
-                                <div class="form-group row">
-                                    <label>Ad Image Size</label>
-                                    <select class="form-control" id="ad_image_size" name="ad_image_size" required>
-                                        <option value="">Select Image Size</option>
-                                        <option value="Mobile (300x250)" data-width="300" data-height="250" id="300_250">Mobile (300x250)</option>
-                                        <option value="Mobile (300x250)" data-width="300" data-height="250" id="300_250">Mobile (300x250)</option>
-                                        <option value="Tablet (550x480)" data-width="550" data-height="480" id="550_480">Tablet (550x480)</option>
-                                        <option value="Mobile (320x480)" data-width="320" data-height="480" id="320_480">Mobile (320x480)</option>
-                                        <option value="Full Page Ads (320x480)" data-width="320" data-height="480" id="320_480">Full Page Ads (320x480)</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label>Ad Type</label>
-                                    <select class="form-control" name="type" required>
-                                        <option value="">Select Ad Types</option>
-                                        <option value="image">Image</option>
-                                        <option value="image_button">Image with button</option>
-                                        <option value="image_text">Image with text</option>
-                                        <option value="image_text_button">Image with text and button</option>
-                                    </select>
-                                </div>
-
-
-                                <div class="form-group row">
-                                    <label>Ad Devices</label>
-                                    <select class="form-control" name="devices" required>
-                                        <option value="">Select Device Types</option>
-                                        <option value="all">All Devices</option>
-                                        <option value="ios">iOS devices</option>
-                                        <option value="android">Android Devices</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label>Ad Image</label>
-                                    <input type="file" name="image_path" required id="image_path" class="form-control">
-                                </div>
-
-
-                                <div class="form-group row">
-                                    <label>Status</label>
-                                    <select class="form-control" name="status_id" readonly>
-                                        @foreach($statuses as $status)
-                                            <option value="{{ $status->id }}" @if ($status->id == $selected) selected="selected"
-                                                @endif>{{ $status->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <label>Facebook email</label>
+                                    <input class="form-control" value="" type="email" placeholder="{{ __('Facebook email') }}" name="facebook_email" required>
                                 </div>
                                 <input class="form-control" value="{{$campaign->id}}" type="hidden" name="campaign_id">
-                                <button class="btn btn-block btn-success" type="submit">{{ __('Save creative') }}</button>
-                                <a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-block btn-primary">{{ __('Return') }}</a>
+                                <div class="form-group row">
+                                    <div class="col-md-6">           <a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-lg btn-primary float-left">{{ __('Return') }}</a></div>
+                                    <div class="col-md-6"> <button class="btn btn-lg btn-success float-right" type="submit">{{ __('Save creative') }}</button></div>
+
+
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -124,37 +95,85 @@
 
 @section('javascript')
     <script>
+        const parameters = <?=$campaign->media_type->metadata?>;
+        console.log(parameters);
+
+//        Dropzone.autoDiscover = false;
+var uploadedDocumentMap = {}
+        Dropzone.options.dropzone = {
+            url: '{{ route('creatives.storeMedia') }}',
+            maxFiles: parameters.max,
+            maxFilesize: 30, // MB
+            addRemoveLinks: true,
+            headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        addRemoveLinks: true,
+            acceptedFiles: ".jpeg,.jpg,.png,.gif,.mp4,.avi,.mkv",
+        success: function (file, response) {
+
+            console.log("RES: ",response);
+            $('#creatives_form').append('<input type="hidden" name="ad_media[]" value="' + response.name + '">')
+            uploadedDocumentMap[file.name] = response.name
+        },
+        error: function(file, response)
+        {
+            console.log(file)
+            console.log(response)
+            file.previewElement.remove();
+
+        },
+        removedfile: function (file) {
+            console.log("FILE DEL: ",file);
+            var request_data = {file_data:file.xhr.response}
+            file.previewElement.remove()
+            var name = ''
+            if (typeof file.file_name !== 'undefined') {
+                name = file.file_name
+            } else {
+                name = uploadedDocumentMap[file.name]
+            }
+            $('#creatives_form').find('input[name="ad_media[]"][value="' + name + '"]').remove();
+            var name = file.upload.filename;
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                type: 'POST',
+                url: '{{ url("creatives/delete_media") }}',
+                data: request_data,
+                success: function (data){
+                    console.log("File has been successfully removed!!");
+                },
+                error: function(e) {
+                    console.log(e);
+                }});
+        },
+        init: function () {
+            this.on('addedfile', function(file) {
+                if (this.files.length > parameters.max) {
+                    this.removeFile(this.files[0]);
+                }
+            });
+            console.log("INIT")
+            @if(isset($creative) && $creative->ad_media)
+                var files =
+                    {!! json_encode($creative->ad_media) !!}
+                for (var i in files) {
+                    var file = files[i]
+                    this.options.addedfile.call(this, file)
+                    file.previewElement.classList.add('dz-complete')
+                    $('form').append('<input type="hidden" name="ad_media[]" value="' + file.file_name + '">')
+                }
+            @endif
+            }
+        }
+
         $(document).ready(function () {
-            const parameters = <?=$campaign->adformat->parameters?>;
-            console.log(parameters);
-            $('#vid_type').on('change', function () {
-                $('#video_upload_input').attr('disabled', true);
-                $('#video_link_input').attr('disabled', true);
-                const vid_type = $(this).children('option:selected').val();
-                console.log(vid_type);
-                if (vid_type.length > 3)
-                {
-                    $('#' + vid_type + '_input').attr('disabled', false);
-                }
-
-            });
-            $('#ad_image_size').on('change', function () {
-                const imageSize = $(this).children('option:selected').data();
 
 
-            });
-            $($('#creatives_form').prop('elements')).each(function () {
-                if (!Object.keys(parameters).includes($(this).attr('name')))
-                {
-                    const default_values = ['status_id', 'title', 'campaign_id', 'link', '_token'];
-                    if (!default_values.includes($(this).attr('name')))
-                    {
-                        $(this).closest('.form-group').remove();
-                    }
-
-                }
-            });
         });
     </script>
+
 
 @endsection

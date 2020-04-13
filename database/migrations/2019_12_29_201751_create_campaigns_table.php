@@ -19,27 +19,36 @@ class CreateCampaignsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->dateTime('start');
-            $table->dateTime('end');
             $table->string('name');
-            $table->string('geo_targeting');
-            $table->string('day_parting');
-            $table->string('devices');
-            $table->unsignedBigInteger('ad_format_id');
-            $table->string('traffic_source');
+            $table->string('location');
+            $table->text('location_metadata');
+            $table->string('gender');
+            $table->string('age_range');
+            $table->string('ad_period');
+            $table->unsignedBigInteger('goal_id');
+            $table->unsignedBigInteger('interest_id');
+            $table->unsignedBigInteger('objective_id');
+            $table->unsignedBigInteger('media_type_id');
+            $table->integer('radius');
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('daily_budget')->nullable();
-            $table->string('current_bid')->nullable();
+            $table->string('budget')->nullable();
         });
 
         Schema::table('campaigns', function($table) {
             $table->foreign('category_id')
                 ->references('id')->on('categories');
+            $table->foreign('interest_id')
+                ->references('id')->on('interests');
+            $table->foreign('objective_id')
+                ->references('id')->on('objectives');
+            $table->foreign('goal_id')
+                ->references('id')->on('goals');
             $table->foreign('status_id')
                 ->references('id')->on('statuses');
-            $table->foreign('ad_format_id')
-                ->references('id')->on('ad_formats');
+            $table->foreign('media_type_id')
+                ->references('id')->on('media_types');
             $table->foreign('user_id')
                 ->references('id')->on('users');
         });

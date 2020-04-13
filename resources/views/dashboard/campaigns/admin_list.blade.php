@@ -15,111 +15,88 @@
                             </div>
                             <br>
                             <table class="table table-responsive-sm table-sm table-bordered table-striped">
-                                <thead>
+                                <thead class="bg-dark white-text">
                                 <tr>
                                     <th>Name</th>
-                                    <th>ID</th>
                                     <th>Type</th>
                                     <th>Status</th>
-                                    <th>Daily Budget</th>
-                                    <th>Impressions</th>
+                                    <th>Budget</th>
+                                    <th>Reach</th>
                                     <th>Clicks</th>
-                                    <th>CTR</th>
-                                    <th>Current Bid</th>
-                                    <th>Avg. Bid Spent</th>
-                                    {{--                                    <th>Conv.</th>--}}
-                                    {{--                                    <th>Conv. Rate</th>--}}
-                                    {{--                                    <th>CPA</th>--}}
+                                    <th>Location</th>
+                                    <th>Radius</th>
+                                    <th>Gender</th>
+                                    <th>Age</th>
                                     <th>Last Update</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+                                    <th>Action</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($campaigns as $campaign)
                                     <tr>
                                         <td><strong><a href="{{ url('/campaigns/' . $campaign->id) }}" class="">{{ $campaign->name }}</a></strong></td>
-                                        <td><strong>{{ $campaign->id }}</strong></td>
-                                        <td>{{ $campaign->adformat->name }}</td>
+                                        <td>{{ $campaign->media_type->name }}</td>
                                         <td>
-                                            @if ($campaign->status->name !== 'deleted' && $campaign->end < Carbon\Carbon::now())
-                                                <span class="badge badge-pill badge-primary">
-                                      Expired
-                                            @else
-                                                        <span class="{{ $campaign->status->class }}">
+                                       <span class="{{ $campaign->status->class }}">
                                       {{ $campaign->status->name }}
                                   </span>
-                                            @endif
+
 
                                         </td>
-                                        <td>{{ $campaign->daily_budget }}</td>
-                                        @if (count($campaign->creative)> 0)
+                                        <td>{{ $campaign->budget }}</td>
+                                        @if (count($campaign->creative->media)> 0)
 
-                                            <td><strong>{{ $campaign->creative->sum("impressions") }}</strong></td>
+                                            <td><strong>{{ $campaign->creative->reach }}</strong></td>
                                         @else
                                             <td><strong>Creatives missing</strong></td>
                                         @endif
-                                        <td><strong>{{  $campaign->creative->sum("clicks")}}</strong></td>
-                                        @if (count($campaign->creative)> 0 && $campaign->creative->sum("impressions") > 0)
-                                            <td><strong>{{  round($campaign->creative->sum("clicks") / $campaign->creative->sum("impressions") * 100,2) }}%</strong></td>
-                                        @else
+                                        <td><strong>{{  $campaign->creative->clicks}}</strong></td>
+                                        <td><strong>{{ $campaign->location }}</strong></td>
+                                        <td><strong>{{ $campaign->radius }}</strong></td>
+                                        <td><strong>{{ $campaign->gender }}</strong></td>
+                                        <td><strong>{{ $campaign->age_range }}</strong></td>
 
-                                            <td><strong>N/A</strong></td>
-                                        @endif
-                                        <td><strong>{{ $campaign->current_bid }}</strong></td> @if (count($campaign->creative)> 0)
-                                            <td><strong>{{  $campaign->creative->sum('spend')/ count($campaign->creative) }}</strong></td>  @else
-                                            <td><strong>Creatives missing</strong></td>
-                                        @endif
-                                        {{--                                            <td><strong>{{ $campaign->creative->sum("conversion") }}</strong></td>--}}
-                                        {{--                                        @if (count($campaign->creative)> 0 && $campaign->creative->sum("clicks") > 0)--}}
-                                        {{--                                            <td><strong>{{ round($campaign->creative->sum("conversion") /$campaign->creative->sum("clicks")*100,2)}} %</strong></td>--}}
-                                        {{--                                        @else--}}
-
-                                        {{--                                            <td><strong>N/A</strong></td>--}}
-                                        {{--                                        @endif--}}
-                                        {{--                                        @if (count($campaign->creative)> 0 &&  $campaign->creative->sum("clicks") > 0)--}}
-                                        {{--                                            <td><strong>R{{ round(($campaign->creative->sum("spend") / $campaign->creative->sum("clicks")) *100, 2)}} </strong></td>--}}
-                                        {{--                                        @else--}}
-
-                                        {{--                                            <td><strong>N/A</strong></td>--}}
-                                        {{--                                        @endif--}}
                                         <td><small>{{ $campaign->updated_at }}</small></td>
                                         <td>
                                             @if ($campaign->trashed())
                                                 Trashed
                                             @else
                                                 <div class="row no-gutters">
-                                                    <div class="col-md-4 no-gutters">
+                                                    <div class="col-md-3 no-gutters">
                                                         <form action="{{ route('campaigns.edit_status', [$campaign->id,'stopped']) }}" method="POST">
                                                             @method('PUT')
                                                             @csrf
-                                                            <button class="btn-sm btn-light">
-                                                                <svg class="c-icon">
-                                                                    <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-media-stop"></use>
-                                                                </svg>
+                                                            <button class="btn-sm btn-block btn-danger" title="Stop">
+                                                          Stop
                                                             </button>
                                                         </form>
                                                     </div>
-                                                    <div class="col-md-4 no-gutters">
+                                                    <div class="col-md-3 no-gutters">
                                                         <form action="{{ route('campaigns.edit_status', [$campaign->id,'ongoing']) }}" method="POST">
                                                             @method('PUT')
                                                             @csrf
-                                                            <button class="btn-sm btn-light">
-                                                                <svg class="c-icon">
-                                                                    <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-media-play"></use>
-                                                                </svg>
+                                                            <button class="btn-sm  btn-block btn-success" title="Start">
+                                                            Accept
                                                             </button>
                                                         </form>
                                                     </div>
-                                                    <div class="col-md-4 no-gutters">
+                                                    <div class="col-md-3 no-gutters">
                                                         <form action="{{ route('campaigns.edit_status', [$campaign->id,'paused']) }}" method="POST">
                                                             @method('PUT')
                                                             @csrf
-                                                            <button class="btn-sm btn-light">
-                                                                <svg class="c-icon">
-                                                                    <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-media-pause"></use>
-                                                                </svg>
+                                                            <button class="btn-sm  btn-block btn-info" title="Pause">
+                                                                Pause
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-md-3 no-gutters">
+                                                        <form action="{{ route('campaigns.edit_status', [$campaign->id,'rejected']) }}" method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button class="btn-sm  btn-block btn-warning" title="Reject">
+                                                                Reject
                                                             </button>
                                                         </form>
                                                     </div>

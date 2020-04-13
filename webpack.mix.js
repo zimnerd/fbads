@@ -14,17 +14,17 @@ const mix = require('laravel-mix');
 //mix.js('resources/js/app.js', 'public/js')
 //mix.sass('resources/sass/app.scss', 'public/css');
 
-//**************** CSS ******************** 
+//**************** CSS ********************
 //css
 mix.copy('resources/vendors/pace-progress/css/pace.min.css', 'public/css'); //V
 mix.copy('node_modules/@coreui/coreui-chartjs/dist/css/coreui-chartjs.css', 'public/css'); //V
 //main css
 mix.sass('resources/sass/style.scss', 'public/css');
 
-//************** SCRIPTS ****************** 
+//************** SCRIPTS ******************
 // general scripts
-mix.copy('node_modules/axios/dist/axios.min.js', 'public/js'); 
-mix.copy('node_modules/pace-progress/pace.min.js', 'public/js');  //V 
+mix.copy('node_modules/axios/dist/axios.min.js', 'public/js');
+mix.copy('node_modules/pace-progress/pace.min.js', 'public/js');  //V
 mix.copy('node_modules/@coreui/coreui/dist/js/coreui.bundle.min.js', 'public/js');  //V
 // views scripts
 mix.copy('node_modules/chart.js/dist/Chart.min.js', 'public/js');  //V
@@ -40,7 +40,7 @@ mix.copy('resources/js/coreui/tooltips.js', 'public/js');
 // details scripts admin-panel
 mix.js('resources/js/coreui/menu-create.js', 'public/js');
 mix.js('resources/js/coreui/menu-edit.js', 'public/js');
-//*************** OTHER ****************** 
+//*************** OTHER ******************
 //fonts
 mix.copy('node_modules/@coreui/icons/fonts', 'public/fonts');
 //icons

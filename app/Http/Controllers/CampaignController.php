@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\AdFormat;
 use App\Models\Campaign;
 use App\Models\Category;
+use App\Models\Goal;
+use App\Models\Interest;
+use App\Models\MediaType;
+use App\Models\Objective;
 use App\Models\Status;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class CampaignController extends Controller
 {
@@ -32,14 +37,11 @@ class CampaignController extends Controller
     public function index()
     {
         $user = auth()->user();
-        if (strpos($user->menuroles, 'admin'))
-        {
+        if (strpos($user->menuroles, 'admin')) {
             $campaigns = Campaign::withTrashed()->with('user')->with('status')->paginate(10);
 
             return view('dashboard.campaigns.admin_list', ['campaigns' => $campaigns]);
-        }
-        else
-        {
+        } else {
             $campaigns = Campaign::with('user')->with('status')->where('user_id', '=', $user->getAuthIdentifier())->paginate(10);
 
         }
@@ -57,6 +59,9 @@ class CampaignController extends Controller
 
         $users = Users::all();
         $statuses = Status::all();
+        $interests = Interest::all();
+        $objectives = Objective::all();
+        $goals = Goal::all();
         $formats = AdFormat::all();
         $categories = Category::all();
         $user = auth()->user();
@@ -73,6 +78,9 @@ class CampaignController extends Controller
                 'isadmin' => $isadmin,
                 'users' => $users,
                 'selected' => $selected,
+                'goals' => $goals,
+                'objectives' => $objectives,
+                'interests' => $interests,
             ]);
     }
 
@@ -85,33 +93,49 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
+
         $validatedData = $request->validate([
             'start' => 'required|date_format:Y-m-d',
-            'end' => 'required|date_format:Y-m-d',
             'name' => 'required|min:1|max:64',
-            'geo_targeting' => 'required',
-            'day_parting' => 'required',
-            'devices' => 'required',
-            'ad_format_id' => 'required',
-            'traffic_source' => 'required',
-            'daily_budget' => 'required',
-            'current_bid' => 'required',
+            'location' => 'required',
+            'media_type' => 'required',
+            'budget' => 'required',
+            'gender' => 'required',
+            'ad_period' => 'required',
+            'goal_id' => 'required',
+            'category_id' => 'required',
+            'objective_id' => 'required',
 
         ]);
         $user = auth()->user();
+        $pendingStatus = Status::where('name', 'pending')
+            ->first()->id;
+        $mediType = MediaType::where('name', $request->input('media_type'))
+            ->first()->id;
         $campaign = new Campaign();
-        $campaign->start = $request->input('start');
-        $campaign->end = $request->input('end');
         $campaign->name = $request->input('name');
-        $campaign->geo_targeting = $request->input('geo_targeting');
-        $campaign->day_parting = $request->input('day_parting');
-        $campaign->devices = $request->input('devices');
-        $campaign->ad_format_id = $request->input('ad_format_id');
-        $campaign->status_id = $request->input('status_id');
         $campaign->category_id = $request->input('category_id');
-        $campaign->traffic_source = $request->input('traffic_source');
-        $campaign->daily_budget = $request->input('daily_budget');
-        $campaign->current_bid = $request->input('current_bid');
+        $campaign->goal_id = $request->input('goal_id');
+        $campaign->objective_id = $request->input('objective_id');
+        $campaign->start = $request->input('start');
+        $campaign->radius = $request->input('radius');
+        $campaign->location = $request->input('location');
+        $campaign->location_metadata = json_encode([
+            "locality" => $request->input('locality'),
+            "administrative_area_level_1" => $request->input('administrative_area_level_1'),
+            "postal_code" => $request->input('postal_code'),
+            "country" => $request->input('country'),
+            "address_latitude" => $request->input('address_latitude'),
+            "address_longitude" => $request->input('address_longitude'),
+            "street_number" => $request->input('street_number')
+        ]);
+        $campaign->gender = $request->input('gender');
+        $campaign->age_range = $request->input('age_range');
+        $campaign->media_type_id = $mediType;
+        $campaign->budget = $request->input('budget');
+        $campaign->interest_id = $request->input('interest_id');
+        $campaign->ad_period = $request->input('ad_period');
+        $campaign->status_id = $pendingStatus;
         $campaign->user_id = $user->id;
         $campaign->save();
 
@@ -150,53 +174,92 @@ class CampaignController extends Controller
     public function edit($id)
     {
         $campaign = Campaign::withTrashed()->find($id);
+        $users = Users::all();
         $statuses = Status::all();
+        $interests = Interest::all();
+        $objectives = Objective::all();
+        $goals = Goal::all();
         $formats = AdFormat::all();
         $categories = Category::all();
+        $user = auth()->user();
+        $isadmin = strpos($user->menuroles, 'admin');
+        $selected = Status::where('name', 'pending')
+            ->first()->id;
 
-        return view('dashboard.campaigns.edit_campaign', ['statuses' => $statuses, 'categories' => $categories, 'formats' => $formats, 'campaign' => $campaign]);
+        return view('dashboard.campaigns.edit_campaign',
+            ['categories' => $categories,
+                'statuses' => $statuses,
+                'ad_formats' => $formats,
+                'user' => $user,
+                'isadmin' => $isadmin,
+                'users' => $users,
+                'selected' => $selected,
+                'goals' => $goals,
+                'objectives' => $objectives,
+                'interests' => $interests,
+                'campaign' => $campaign]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int                      $id
+     * @param int $id
      *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        //var_dump('bazinga');
-        //die();
         $validatedData = $request->validate([
             'start' => 'required|date_format:Y-m-d',
-            'end' => 'required|date_format:Y-m-d',
             'name' => 'required|min:1|max:64',
-            'geo_targeting' => 'required',
-            'day_parting' => 'required',
-            'devices' => 'required',
-            'traffic_source' => 'required',
-            'daily_budget' => 'required',
-            'current_bid' => 'required',
+            'location' => 'required',
+            'media_type' => 'required',
+            'budget' => 'required',
+            'gender' => 'required',
+            'ad_period' => 'required',
+            'goal_id' => 'required',
+            'category_id' => 'required',
+            'objective_id' => 'required',
+
         ]);
+        $user = auth()->user();
+        $pendingStatus = Status::where('name', 'pending')
+            ->first()->id;
+        $mediType = MediaType::where('name', $request->input('media_type'))
+            ->first()->id;
+
         $campaign = Campaign::withTrashed()->find($id);
-        $campaign->start = $request->input('start');
-        $campaign->end = $request->input('end');
         $campaign->name = $request->input('name');
-        $campaign->geo_targeting = $request->input('geo_targeting');
-        $campaign->day_parting = $request->input('day_parting');
-        $campaign->devices = $request->input('devices');
-        $campaign->status_id = $request->input('status_id');
-        $campaign->deleted_at = NULL;
         $campaign->category_id = $request->input('category_id');
-        $campaign->traffic_source = $request->input('traffic_source');
-        $campaign->daily_budget = $request->input('daily_budget');
-        $campaign->current_bid = $request->input('current_bid');
+        $campaign->goal_id = $request->input('goal_id');
+        $campaign->objective_id = $request->input('objective_id');
+        $campaign->start = $request->input('start');
+        $campaign->radius = $request->input('radius');
+        $campaign->location = $request->input('location');
+        $campaign->location_metadata = json_encode([
+            "locality" => $request->input('locality'),
+            "administrative_area_level_1" => $request->input('administrative_area_level_1'),
+            "postal_code" => $request->input('postal_code'),
+            "country" => $request->input('country'),
+            "address_latitude" => $request->input('address_latitude'),
+            "address_longitude" => $request->input('address_longitude'),
+            "street_number" => $request->input('street_number')
+        ]);
+        $campaign->gender = $request->input('gender');
+        $campaign->age_range = $request->input('age_range');
+        $campaign->media_type_id = $mediType;
+        $campaign->budget = $request->input('budget');
+        $campaign->interest_id = $request->input('interest_id');
+        $campaign->ad_period = $request->input('ad_period');
+        $campaign->status_id = $pendingStatus;
+        $campaign->user_id = $user->id;
+        $campaign->deleted_at = NULL;
         $campaign->save();
         $request->session()->flash('message', 'Successfully edited campaign');
 
-        return redirect()->route('campaigns.index')->with('success', 'Successfully edited campaign');
+        return redirect('/creatives/'.$campaign->creative->id.'/edit')->with('success', 'Successfully edited the campaign, Edit creative now');
     }
 
     /**
@@ -209,8 +272,7 @@ class CampaignController extends Controller
     public function edit_status($id, $status)
     {
         $campaign = Campaign::withTrashed()->find($id);
-        if ($campaign)
-        {
+        if ($campaign) {
             $data = [
                 'status_id' => Status::where('name', $status)->first()->id,
                 'updated_at' => Carbon::now(),
@@ -235,8 +297,7 @@ class CampaignController extends Controller
     public function destroy($id)
     {
         $campaign = Campaign::withTrashed()->find($id);
-        if ($campaign)
-        {
+        if ($campaign) {
             $data = [
                 'status_id' => Status::where('name', 'deleted')->first()->id,
                 'updated_at' => Carbon::now()
@@ -253,5 +314,21 @@ class CampaignController extends Controller
     public function download($path)
     {
         return Storage::download($path);
+    }
+
+    public function downloadPDF($id)
+    {
+        $users = Users::all();
+        $user = auth()->user();
+        $isadmin = strpos($user->menuroles, 'admin');
+        $campaign = Campaign::withTrashed()->with('user')->with('status')->find($id);
+
+        $pdf = PDF::loadView('dashboard.campaigns.download_campaign', [
+            'campaign' => $campaign,
+            'isadmin' => $isadmin,
+            'users' => $users
+        ]);
+
+        return $pdf->download($campaign->name . '_campaign.pdf');
     }
 }
