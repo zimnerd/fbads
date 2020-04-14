@@ -11,7 +11,7 @@
                         <i class="fa fa-align-justify"></i>{{ __('Campaigns') }}</div>
                     <div class="card-body">
                         <div class="row">
-                            <a href="{{ route('campaigns.create') }}" class="btn btn-primary m-2 float-right">{{ __('Add Campaign') }}</a>
+                            <a href="{{ route('campaigns.create') }}" class="btn btn-info m-2 float-right">{{ __('Add Campaign') }}</a>
                         </div>
                         <br>
                         <table class="table table-responsive-sm table-sm table-bordered table-striped">

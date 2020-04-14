@@ -308,7 +308,7 @@
                             <div class="row">
                                 <div class="col-md-3">
 
-                                    <a href="{{ route('campaigns.index') }}" class="btn btn-lg btn-primary float-left">{{
+                                    <a href="{{ route('campaigns.index') }}" class="btn btn-lg btn-info float-left">{{
                                         __('Return') }}</a>
                                 </div>
                                 <div class="col-md-3">

@@ -294,7 +294,7 @@
                                         media files')
                                         }}
                                     </button>
-                                    <a href="{{ route('campaigns.index') }}" class="btn btn-block  v btn-primary">{{
+                                    <a href="{{ route('campaigns.index') }}" class="btn btn-block   btn-info">{{
                                         __('Return')
                                         }}</a>
                                 </div>

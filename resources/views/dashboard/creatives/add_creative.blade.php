@@ -9,7 +9,7 @@
         <div class="animated fadeIn">
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
-                    <div class="card bg-primary  text-white">
+                    <div class="card bg-info  text-white">
                         <div class="card-body">
                             <h2 class="card-title"><strong>Campaign title: </strong>  {{$campaign->name}}</h2>
                             <p class="card-text"><strong>Campaign Type: </strong>  {{$campaign->media_type->name}}</p>
@@ -78,7 +78,7 @@
                                 </div>
                                 <input class="form-control" value="{{$campaign->id}}" type="hidden" name="campaign_id">
                                 <div class="form-group row">
-                                    <div class="col-md-6">           <a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-lg btn-primary float-left">{{ __('Return') }}</a></div>
+                                    <div class="col-md-6">           <a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-lg btn-info float-left">{{ __('Return') }}</a></div>
                                     <div class="col-md-6"> <button class="btn btn-lg btn-success float-right" type="submit">{{ __('Save creative') }}</button></div>
 
 

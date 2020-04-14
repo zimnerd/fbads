@@ -6,7 +6,7 @@
     <div class="animated fadeIn">
         <div class="row">
             <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                <div class="card bg-primary  text-white">
+                <div class="card bg-info  text-white">
                     <div class="card-body">
                         <h2 class="card-title"><strong>Campaign title: </strong> {{$campaign->name}}</h2>
                         <p class="card-text"><strong>Campaign Type: </strong> {{$campaign->media_type->name}}</p>
@@ -40,7 +40,7 @@
 
             </div>
             <div class="col-sm-9 col-md-5 col-lg-5 col-xl-5">
-                <div class="card bg-primary text-white-50">
+                <div class="card bg-info text-white-50">
                     <div class="card-body">
                         <h4 class="card-title">Campaign Details</h4>
                         <p class="card-text">Your lifetime stats</p>
@@ -184,7 +184,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card bg-primary text-white">
+                <div class="card bg-info text-white">
                     <div class="card-body">
                         <h4 class="card-title">Ad Library ({{count($campaign->creative->media)}})</h4>
                     </div>
@@ -197,7 +197,7 @@
                         <label>Image : {{$campaign->creative->title}}</label>
                         <img class="card-img-top" src="{{$adfile->link}}" alt="{{$adfile->name}}">
                         <p class="card-text"><strong>Landing Page</strong></p>
-                        <a class="card-text text-primary" href="{{$campaign->creative->link}}" target="_blank">{{$campaign->creative->link}}</a>
+                        <a class="card-text text-info" href="{{$campaign->creative->link}}" target="_blank">{{$campaign->creative->link}}</a>
                     </div>
                 </div>
                 @elseif($adfile->video_path !== null)
@@ -223,7 +223,7 @@
 
 
         </div>
-        <a href="{{ route('campaigns.index') }}" class="btn btn-block btn-primary">{{ __('Return') }}</a>
+        <a href="{{ route('campaigns.index') }}" class="btn btn-block btn-info">{{ __('Return') }}</a>
 
     </div>
 </div>
