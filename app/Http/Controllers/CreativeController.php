@@ -38,14 +38,21 @@ class CreativeController extends Controller
         $campaign = Campaign::withTrashed()->find($id);
         $selected = Status::where('name', 'pending')
             ->first()->id;
+        if($campaign->creative){
+            return redirect('/creatives/'.$campaign->creative->id.'/edit')->with('success', 'Successfully edited the campaign, Edit creative now');
+        }
+        else{
+            return view('dashboard.creatives.add_creative',
+                [
+                    'statuses' => $statuses,
+                    'selected' => $selected,
+                    'campaign' => $campaign,
+                    'categories' => $categories,
+                ]);
+        }
 
-        return view('dashboard.creatives.add_creative',
-            [
-                'statuses' => $statuses,
-                'selected' => $selected,
-                'campaign' => $campaign,
-                'categories' => $categories,
-            ]);
+
+
     }
 
     /**
@@ -204,7 +211,7 @@ class CreativeController extends Controller
             }
         }
 
-        return redirect('/campaigns/' . $request->input('campaign_id'))->with('success', 'Successfully created a creative');
+        return redirect('/campaigns/' . $request->input('campaign_id'))->with('success', 'Successfully updated a creative');
     }
 
     public function storeMedia(Request $request)

@@ -139,7 +139,13 @@ class CampaignController extends Controller
         $campaign->user_id = $user->id;
         $campaign->save();
 
-        return redirect('/creatives/create?id=' . $campaign->id)->with('success', 'Successfully created a campaign, add creative now');
+        if($campaign->creative){
+            return redirect('/creatives/'.$campaign->creative->id.'/edit')->with('success', 'Successfully edited the campaign, Edit creative now');
+        }
+        else{
+            return redirect('/creatives/create?id=' . $campaign->id)->with('success', 'Successfully created a campaign, add creative now');
+        }
+
         //return redirect()->route('campaigns.index')->with('success', 'Successfully created campaign');
     }
 
@@ -258,8 +264,13 @@ class CampaignController extends Controller
         $campaign->deleted_at = NULL;
         $campaign->save();
         $request->session()->flash('message', 'Successfully edited campaign');
+        if($campaign->creative){
+            return redirect('/creatives/'.$campaign->creative->id.'/edit')->with('success', 'Successfully edited the campaign, Edit creative now');
+        }
+        else{
+            return redirect('/creatives/create?id=' . $campaign->id)->with('success', 'Successfully edited a campaign, add creative now');
+        }
 
-        return redirect('/creatives/'.$campaign->creative->id.'/edit')->with('success', 'Successfully edited the campaign, Edit creative now');
     }
 
     /**
