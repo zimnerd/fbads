@@ -312,7 +312,7 @@
                                         __('Return') }}</a>
                                 </div>
                                 <div class="col-md-3">
-                                    <button class="btn btn-lg btn-success float-right" type="submit">{{ __('Save') }}
+                                    <button class="btn btn-lg btn-success float-right" type="submit">{{ __('Continue') }}
                                     </button>
                                 </div>
                             </div>

@@ -290,8 +290,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <button class="btn btn-block  btn-success" type="submit">{{ __('Save and add
-                                        media files')
+                                    <button class="btn btn-block  btn-success" type="submit">{{ __('Continue')
                                         }}
                                     </button>
                                     <a href="{{ route('campaigns.index') }}" class="btn btn-block   btn-info">{{
