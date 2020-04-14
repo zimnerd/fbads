@@ -45,13 +45,13 @@
 
                                 </td>
                                 <td>{{ $campaign->budget }}</td>
-                                @if (count($campaign->creative->media)> 0)
+                                @if ($campaign->creative && count($campaign->creative->media)> 0)
 
-                                <td><strong>{{ $campaign->creative->reach }}</strong></td>
+                                <td><strong>@if ($campaign->creative){{ $campaign->creative->reach }} @endif</strong></td>
                                 @else
                                 <td><strong>Creatives missing</strong></td>
                                 @endif
-                                <td><strong>{{  $campaign->creative->clicks}}</strong></td>
+                                <td><strong>@if ($campaign->creative){{  $campaign->creative->clicks}}@endif</strong></td>
                                 <td><strong>{{ $campaign->location }}</strong></td>
                                 <td><strong>{{ $campaign->radius }}</strong></td>
                                 <td><strong>{{ $campaign->gender }}</strong></td>
