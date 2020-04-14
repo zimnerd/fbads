@@ -19,18 +19,18 @@ Route::group(['middleware' => ['get.menu']], function () {
         Route::resource('campaigns', 'CampaignController');
         Route::resource('creatives', 'CreativeController');
         Route::resource('dashboard', 'HomeController');
+        Route::post('creatives/delete_media', 'CreativeController@delete_media')->name('creatives.delete_media');
+        Route::post('creatives/delete_edit_media', 'CreativeController@delete_edit_media')->name('creatives.delete_edit_media');
+        Route::post('creatives/media', 'CreativeController@storeMedia')->name('creatives.storeMedia');
+        Route::get('creatives/media/{id}', 'CreativeController@getStoredMedia')->name('creatives.getStoredMedia');
+        Route::get('/campaigns/download/{path}', 'CampaignController@download')->name('campaigns.download');
+        Route::get('campaigns/downloadPDF/{id}','CampaignController@downloadPDF');
     });
     Auth::routes();
 
     Route::group(['middleware' => ['role:admin']], function () {
         Route::post('/creatives/live_update', 'CreativeController@live_update')->name('creatives.live_update');
-        Route::post('creatives/delete_media', 'CreativeController@delete_media')->name('creatives.delete_media');
-        Route::post('creatives/delete_edit_media', 'CreativeController@delete_edit_media')->name('creatives.delete_edit_media');
-        Route::post('creatives/media', 'CreativeController@storeMedia')->name('creatives.storeMedia');
-        Route::get('creatives/media/{id}', 'CreativeController@getStoredMedia')->name('creatives.getStoredMedia');
         Route::put('/campaigns/edit_status/{id}/{status}', 'CampaignController@edit_status')->name('campaigns.edit_status');
-        Route::get('/campaigns/download/{path}', 'CampaignController@download')->name('campaigns.download');
-        Route::get('campaigns/downloadPDF/{id}','CampaignController@downloadPDF');
         Route::resource('users', 'UsersController');
         Route::resource('roles', 'RolesController');
         Route::get('/roles/move/move-up', 'RolesController@moveUp')->name('roles.up');
