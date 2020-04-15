@@ -27,6 +27,7 @@
                                 <th>Radius</th>
                                 <th>Gender</th>
                                 <th>Age</th>
+                                <th>Start Date</th>
                                 <th>Last Update</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -35,7 +36,7 @@
                             <tbody>
                             @foreach($campaigns as $campaign)
                             <tr>
-                                <td><strong><a href="{{ url('/campaigns/' . $campaign->id) }}" class="">{{ $campaign->name }}</a></strong></td>
+                                <td><strong><a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-md btn-outline-info btn-block">{{ $campaign->name }}</a></strong></td>
                                 <td>{{ $campaign->media_type->name }}</td>
                                 <td>
                                        <span class="{{ $campaign->status->class }}">
@@ -57,6 +58,7 @@
                                 <td><strong>{{ $campaign->gender }}</strong></td>
                                 <td><strong>{{ $campaign->age_range }}</strong></td>
 
+                                <td><small>{{ $campaign->start }}</small></td>
                                 <td><small>{{ $campaign->updated_at }}</small></td>
                                 <td>
                                     <a href="{{ url('/campaigns/' . $campaign->id . '/edit') }}" class="btn btn-block btn-primary btn-sm">Edit</a>
