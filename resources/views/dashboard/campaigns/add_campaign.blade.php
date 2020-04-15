@@ -26,7 +26,7 @@
 
                             <div class="form-group  col-md-6">
                                 <label>Campaign Name</label>
-                                <input class="form-control" type="text" placeholder="{{ __('Name') }}" name="name"
+                                <input class="form-control" type="text" value="{{ old('name') }}" placeholder="{{ __('Name') }}" name="name"
                                        required autofocus>
                             </div>
                             <div class="form-group col-md-6">
@@ -112,36 +112,36 @@
                                     <div class="form-row" id="address">
                                         <div class="form-group col-md-2">
                                             <label class="label text-sm">Street Number</label>
-                                            <input type="text" class="field form-control" id="street_number"
+                                            <input type="text" class="field form-control" id="street_number" value="{{ old('street_number') }}"
                                                    name="street_number" disabled="true">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="label text-sm">Street Name</label>
-                                            <input type="text" class="field form-control" id="route" name="route"
+                                            <input type="text" class="field form-control" id="route" name="route" value="{{ old('route') }}"
                                                    disabled="true" placeholder="123 Main Street">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="label text-sm">City</label>
-                                            <input type="text" class="field form-control" id="locality" disabled="true"
+                                            <input type="text" class="field form-control" id="locality" disabled="true"  value="{{ old('locality') }}"
                                                    name="locality" placeholder="City">
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label class="label text-sm">Province</label>
                                             <input type="text" class="field form-control"
                                                    id="administrative_area_level_1"
-                                                   disabled="true" name="administrative_area_level_1"
+                                                   disabled="true" name="administrative_area_level_1"   value="{{ old('administrative_area_level_1') }}"
                                                    placeholder="Province">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="label text-sm">Zip code</label>
                                             <input type="text" class="field form-control" id="postal_code"
-                                                   disabled="true"
+                                                   disabled="true"   value="{{ old('postal_code') }}"
                                                    name="postal_code" placeholder="Zip">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="label text-sm">Country</label>
                                             <input type="text" class="field form-control" id="country"
-                                                   disabled="true"
+                                                   disabled="true" value="{{ old('country') }}"
                                                    name="country" placeholder="Country">
                                         </div>
                                     </div>
@@ -181,7 +181,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label>Select Ad format</label>
+                                    <label>Select Ad format / Media Type</label>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="card normalize-header" onclick="showVideo('link')" id="link">
@@ -285,7 +285,7 @@
                                     <div class="col-md-6">
 
                                         <label class="label text-sm">Budget</label>
-                                        <input type="number" class="field form-control" id="budget"
+                                        <input type="number" class="field form-control" id="budget" value="{{ old('budget') }}"
                                                name="budget" placeholder="Budget">
                                     </div>
                                 </div>
