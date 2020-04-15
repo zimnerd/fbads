@@ -168,7 +168,7 @@
                 <div class="fade-in">
                     <div class="row">
                         <div class="col-md-6 offset-md-3">
-                            <h1 class="text-center">Welcome to Air Push</h1>
+                            <h1 class="text-center">Welcome to Facebook Ads Planner</h1>
                             <h2  class="text-center">You are logged in as {{Auth::user()->name}}</h2>
                         </div>
                     </div>
@@ -178,7 +178,7 @@
             <div class="fade-in">
                 <div class="row">
                     <div class="col-md-6 offset-md-3">
-                        <h1 class="text-center">Welcome to Air Push</h1>
+                        <h1 class="text-center">Welcome to Facebook Ads Planner</h1>
                         <h2>Create and account or login to access the resources</h2>
                     </div>
                 </div>
