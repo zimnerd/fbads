@@ -211,7 +211,7 @@
                                                 </div>
                                                 <div class="card-block"><!----><!---->
                                                     <div class="img normalize-swiper carousel"><img
-                                                            src="../assets/img/link.png"
+                                                            src="../assets/img/slider.png"
                                                             style="width: 100%; height: auto;">
                                                     </div>
                                                 </div><!----></div>
