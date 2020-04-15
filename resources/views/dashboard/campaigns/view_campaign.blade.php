@@ -1,3 +1,9 @@
+<style>
+    .editable{
+        border-radius: 10px;
+        background-color: rgba(27, 158, 62, 0.22);
+    }
+</style>
 @extends('dashboard.base')
 
 @section('content')
@@ -5,6 +11,57 @@
 <div class="container-fluid">
     <div class="animated fadeIn">
         <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fa fa-align-justify"></i> <h4>Capture and Edit campaign data<span><button class="btn btn-light m-2 float-right">{{ __('Click the green box to edit') }}</button></span></h4></div>
+                        <div class="card-body">
+                            <div id="message"></div>
+
+                            <table class="table table-responsive-sm table-sm table-striped">
+                                <thead class="bg-dark text-white">
+                                <tr>
+                                    <th>Creative Title</th>
+                                    <th>Status</th>
+                                    <th>Landing page</th>
+                                    <th>Reach</th>
+                                    <th>Clicks</th>
+                                    <th>Frequency</th>
+                                    <th>Video Views</th>
+                                    <th>Engagement</th>
+                                    <th>Setup</th>
+                                    <th>Ready</th>
+                                    <th>Active</th>
+                                    <th>Finished</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if($campaign->creative)
+                                <tr>
+                                    <td @if ($isadmin) contenteditable class="column_name editable" data-column_name="title" data-id="{{$campaign->creative->id}}" @endif>{{$campaign->creative->title}}</td>
+                                    <td><span class="{{ $campaign->status->class }}">
+                                      {{ $campaign->status->name }}
+                                  </span>
+                                    </td>
+                                    <td @if ($isadmin)
+                                        contenteditable class="column_name editable" data-column_name="link" data-id="{{$campaign->creative->id}}" @endif >{{$campaign->creative->link}}</td>
+                                    <td @if ($isadmin) contenteditable class="column_name editable" data-column_name="reach" data-id="{{$campaign->creative->id}}" @endif>{{$campaign->creative->reach}}</td>
+                                    <td @if ($isadmin) contenteditable class="column_name editable" data-column_name="clicks" data-id="{{$campaign->creative->id}}" @endif>{{$campaign->creative->clicks}}</td>
+                                    <td @if ($isadmin) contenteditable class="column_name editable" data-column_name="frequency" data-id="{{$campaign->creative->id}}" @endif>{{$campaign->creative->frequency}}</td>
+                                    <td @if ($isadmin) contenteditable class="column_name editable" data-column_name="video_views" data-id="{{$campaign->creative->id}}" @endif>{{$campaign->creative->video_views}}</td>
+                                    <td @if ($isadmin) contenteditable class="column_name editable" data-column_name="engagement_rate" data-id="{{$campaign->creative->id}}" @endif>{{$campaign->creative->engagement_rate}}</td>
+                                    <td @if ($isadmin) contenteditable class="column_name editable" data-column_name="setup" data-id="{{$campaign->creative->id}}" @endif>{{$campaign->creative->setup}}</td>
+                                    <td @if ($isadmin) contenteditable class="column_name editable" data-column_name="ready" data-id="{{$campaign->creative->id}}" @endif>{{$campaign->creative->ready}}</td>
+                                    <td @if ($isadmin) contenteditable class="column_name editable" data-column_name="active" data-id="{{$campaign->creative->id}}" @endif>{{$campaign->creative->active}}</td>
+                                    <td @if ($isadmin) contenteditable class="column_name editable" data-column_name="finished" data-id="{{$campaign->creative->id}}" @endif>{{$campaign->creative->finished}}</td>
+                                </tr>
+                                @endif
+                                </tbody>
+                            </table>
+                            {{ csrf_field() }}
+                        </div>
+                    </div>
+            </div>
             <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
                 <div class="card bg-info  text-white">
                     <div class="card-body">
@@ -176,10 +233,9 @@
                         <label class="text-black-50">Completed</label>
                         <div class="progress">
                             <div class="progress-bar progress-bar bg-danger" role="progressbar" @if ($campaign->
-                                creative->completed == 1 || $campaign->end < Carbon\Carbon::now()) style="width: 100%"
+                                creative->completed == 1 ) style="width: 100%"
                                 aria-valuenow="100" @else style="width: 0%" aria-valuenow="0" @endif
-                                aria-valuemin="0" aria-valuemax="100">@if ($campaign->creative->completed == 1 ||
-                                $campaign->end < Carbon\Carbon::now())Completed @else Not complete @endif
+                                aria-valuemin="0" aria-valuemax="100">@if ($campaign->creative->completed == 1 )Completed @else Not complete @endif
                             </div>
                         </div>
                     </div>
@@ -262,6 +318,45 @@
                 });
             }
             else {
+                $('#message').html('<div class=\'alert alert-danger\'>Enter some value</div>').delay(8000).slideUp(200, function () {
+                    $(this).alert('close');
+                    location.reload();
+                });
+            }
+        });
+
+        $(document).on('blur', '.column_name', function () {
+            const column_name = $(this).data('column_name');
+            const column_value = $(this).text();
+            const id = $(this).data('id');
+            if(['setup', 'ready', 'active', 'finished'].includes(column_name) ){
+                if(['0','1'].includes(column_value)){
+
+                }
+                else {
+                    $('#message').html('<div class=\'alert alert-danger\'>The input value can only be 1 or 0 for '+column_name +'.</div>').delay(8000).slideUp(200, function () {
+                        $(this).alert('close');
+                        location.reload();
+                    });
+                }
+            }
+            if (column_value !== '')
+            {
+                $.ajax({
+                    url: "{{ route('creatives.live_update') }}",
+                    method: 'POST',
+                    data: {column_name: column_name, column_value: column_value, id: id, _token: _token},
+                    success: function (data) {
+                        console.log(data);
+                        $('#message').html(data).delay(3000).slideUp(200, function () {
+                            $(this).alert('close');
+                            location.reload();
+                        });
+                    }
+                });
+            }
+            else
+            {
                 $('#message').html('<div class=\'alert alert-danger\'>Enter some value</div>').delay(8000).slideUp(200, function () {
                     $(this).alert('close');
                     location.reload();

@@ -14,6 +14,7 @@ use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use PDF;
 
 class CampaignController extends Controller
@@ -156,17 +157,20 @@ class CampaignController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($id)
+    public function show($id,$capture=null)
     {
+        $capture = ($capture == "capture");
         $users = Users::all();
         $user = auth()->user();
         $isadmin = strpos($user->menuroles, 'admin');
         $campaign = Campaign::withTrashed()->with('user')->with('status')->find($id);
 
+        Log::info("Capture: ".$capture);
         return view('dashboard.campaigns.view_campaign', [
             'campaign' => $campaign,
             'isadmin' => $isadmin,
-            'users' => $users
+            'users' => $users,
+            'capture' => $capture
         ]);
     }
 
@@ -293,6 +297,24 @@ class CampaignController extends Controller
                 ->where('id', $id)
                 ->update($data);
         }
+
+        if($campaign->creative){
+            $creative = $campaign->creative;
+            if($status=="ongoing"){
+                $creative->ready = 1;
+                $creative->active = 1;
+                $creative->save();
+            }
+            if(in_array($status,['rejected','paused','stopped'])){
+                $creative->active = 0;
+                $creative->save();
+            }
+            if($status=="stopped"){
+                $creative->finished = 1;
+                $creative->save();
+            }
+        }
+
 
         return redirect()->route('campaigns.index')->with('success', 'Successfully edited campaign');
     }

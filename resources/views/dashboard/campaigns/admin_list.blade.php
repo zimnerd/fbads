@@ -14,7 +14,7 @@
                                 <a href="{{ route('campaigns.create') }}" class="btn btn-info m-2 float-right">{{ __('Add Campaign') }}</a>
                             </div>
                             <br>
-                            <table class="table table-responsive-sm table-sm table-bordered table-striped">
+                            <table class="table table-responsive-sm table-sm table-bordered table-striped w-100">
                                 <thead class="bg-dark white-text">
                                 <tr>
                                     <th>Name</th>
@@ -105,14 +105,20 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ url('/campaigns/' . $campaign->id . '/edit') }}" class="btn btn-block btn-primary btn-sm">Edit</a>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <a class="btn btn-outline-dark btn-sm" href="{{ url('/campaigns/' . $campaign->id.'/capture') }}">Capture Data</a>
+                                                <a href="{{ url('/campaigns/' . $campaign->id . '/edit') }}" class="btn btn-outline-primary btn-sm">Edit Campaign</a>
+                                            </div>
                                         </td>
                                         <td>
-                                            <form action="{{ route('campaigns.destroy', $campaign->id ) }}" method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button class="btn btn-block btn-danger btn-sm">Delete</button>
-                                            </form>
+                                                <form action="{{ route('campaigns.destroy', $campaign->id ) }}" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                                </form>
+
+
+
                                         </td>
                                     </tr>
                                 @endforeach
