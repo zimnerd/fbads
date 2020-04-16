@@ -90,7 +90,7 @@
                                         </div>
                                         <div class="form-group col-md-2">
                                             <label for="customRange3">Selected Radius</label>
-                                            <input type="text"
+                                            <input type="number"
                                                    class="form-control "
                                                    name="radius"
                                                    id="mapRadius"
