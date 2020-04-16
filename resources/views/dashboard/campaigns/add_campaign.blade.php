@@ -24,48 +24,53 @@
                         <form method="POST" action="{{ route('campaigns.store') }}">
                             @csrf
 
-                            <div class="form-group  col-md-6">
+                            <div class="form-group  col-md-6  {{ $errors->has('name') ? 'border-danger rounded' : ''}}">
                                 <label>Campaign Name</label>
                                 <input class="form-control" type="text" value="{{ old('name') }}" placeholder="{{ __('Name') }}" name="name"
                                        required autofocus>
+                                {!! $errors->first('name', '<p class="text-danger">:message</p>') !!}
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6  {{ $errors->has('category_id') ? 'border-danger rounded' : ''}}">
                                 <label>Campaign Category</label>
-                                <select class="form-control categories select2" name="category_id">
+                                <select class="form-control categories select2" name="category_id" required>
                                     <option value="">Select Category</option>
                                     @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}"  {{(old('category_id') == $category->id ?'selected':'')}}>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
+                                {!! $errors->first('category_id', '<p class="text-danger">:message</p>') !!}
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6  {{ $errors->has('goal_id') ? 'border-danger rounded' : ''}}">
                                 <label>Marketing Goal</label>
-                                <select class="form-control goals" name="goal_id">
+                                <select class="form-control goals" name="goal_id" required>
                                     <option value="">Select Marketing Goal</option>
                                     @foreach($goals as $goal)
-                                    <option value="{{ $goal->id }}">{{ $goal->name }}</option>
+                                    <option value="{{ $goal->id }}"  {{(old('goal_id') == $goal->id?'selected':'')}}>{{ $goal->name }}</option>
                                     @endforeach
                                 </select>
+                                {!! $errors->first('goal_id', '<p class="text-danger">:message</p>') !!}
                             </div>
 
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6   {{ $errors->has('objective_id') ? 'border-danger rounded' : ''}}">
                                 <label>Campaign Objetive</label>
-                                <select class="form-control objectives" name="objective_id">
+                                <select class="form-control objectives" name="objective_id" required>
                                     <option value="">Select Objetive</option>
                                     @foreach($objectives as $objective)
-                                    <option value="{{ $objective->id }}">{{ $objective->description }}</option>
+                                    <option value="{{ $objective->id }}" {{(old('objective_id') == $objective->id?'selected':'')}} >{{ $objective->description }}</option>
                                     @endforeach
                                 </select>
+                                {!! $errors->first('objective_id', '<p class="text-danger">:message</p>') !!}
                             </div>
 
 
                             <div class="col-md-6">
-                                <div class="form-group row">
+                                <div class="form-group row   {{ $errors->has('start') ? 'border-danger rounded' : ''}}">
                                     <div class="col-md-6">
                                         <label>Start Date</label>
                                         <input class="form-control" type="date" placeholder="{{ __('Start Date') }}"
                                                name="start" value="{{ old('start') }}" required autofocus>
+                                        {!! $errors->first('start', '<p class="text-danger">:message</p>') !!}
                                     </div>
 
                                 </div>
@@ -76,7 +81,7 @@
                                 <div class="col-md-6">
 
                                     <!--                                Field to type in autocompleted address-->
-                                    <div class="form-group" id="locationField">
+                                    <div class="form-group   {{ $errors->has('location') ? 'border-danger rounded' : ''}}" id="locationField">
                                         <label for="locationField">Geo Targeting</label>
                                         <input id="autocomplete"
                                                placeholder="Address / Area name / Region"
@@ -86,6 +91,7 @@
                                                class="form-control"
                                                value="{{ old('location') }}"
                                                required>
+                                        {!! $errors->first('location', '<p class="text-danger">:message</p>') !!}
                                     </div>
 
                                     <div class="row">
@@ -98,10 +104,11 @@
                                         <div class="form-group col-md-2">
                                             <label for="customRange3">Selected Radius</label>
                                             <input type="text"
-                                                   class="form-control "
+                                                   class="form-control   {{ $errors->has('radius') ? 'border-danger rounded' : ''}}"
                                                    name="radius"
                                                    id="mapRadius"
-                                                   value="100">
+                                                   value="{{ old('radius') }}">
+                                            {!! $errors->first('radius', '<p class="text-danger">:message</p>') !!}
                                         </div>
                                     </div>
                                     <!--                                Hidden fields where the lattitude and longitude is saved-->
@@ -156,34 +163,37 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Gender</label>
-                                <select class="form-control" name="gender" required>
+                                <select class="form-control   {{ $errors->has('gender') ? 'border-danger rounded' : ''}}" name="gender" required>
                                     <option value="">Select gender</option>
-                                    <option value="all">All</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="all" {{(old('gender') == 'all'?'selected':'')}}>All</option>
+                                    <option value="Male" {{(old('gender') == 'Male'?'selected':'')}}>Male</option>
+                                    <option value="Female" {{(old('gender') == 'Female'?'selected':'')}}>Female</option>
                                 </select>
+                                {!! $errors->first('gender', '<p class="text-danger">:message</p>') !!}
                             </div>
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6 {{ $errors->has('age_range') ? 'border-danger rounded' : ''}}" >
                                 <option value="">Select Age Range</option>
                                 <input type="text" class="js-range-slider" value=""/>
+                                {!! $errors->first('age_range', '<p class="text-danger">:message</p>') !!}
                             </div>
 
                             <input type="hidden" name="age_range" value="" id="age_range"/>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6   {{ $errors->has('interest_id') ? 'border-danger rounded' : ''}}" >
                                 <label>Interests</label>
-                                <select class="form-control objectives select2" name="interest_id">
+                                <select class="form-control objectives select2" name="interest_id" required>
                                     <option value="">Select Target Interests</option>
                                     @foreach($interests as $interest)
-                                    <option value="{{ $interest->id }}">{{ $interest->description }}</option>
+                                    <option value="{{ $interest->id }}"  {{(old('interest_id') == $interest->id?'selected':'')}} >{{ $interest->description }}</option>
                                     @endforeach
                                 </select>
+                                {!! $errors->first('interest_id', '<p class="text-danger">:message</p>') !!}
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-6   {{ $errors->has('media_type') ? 'border-danger rounded' : ''}}">
                                     <label>Select Ad format / Media Type</label>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="card normalize-header" onclick="showVideo('link')" id="link">
                                                 <!---->
                                                 <div class="card-header">
@@ -200,9 +210,9 @@
                                                     </div>
                                                 </div><!----></div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="card normalize-header" onclick="showVideo('carousel')"
-                                                 id="carousel"><!---->
+                                        <div class="col-md-3">
+                                            <div class="card normalize-header" onclick="showVideo('carousel')" id="carousel">
+                                                <!---->
                                                 <div class="card-header">
                                                     <div>Carousel</div>
                                                     <small>Suitable for
@@ -211,12 +221,43 @@
                                                 </div>
                                                 <div class="card-block"><!----><!---->
                                                     <div class="img normalize-swiper carousel"><img
-                                                            src="../assets/img/slider.png"
+                                                            src="../assets/img/carousel.png"
+                                                            style="width: 100%; height: auto;">
+                                                    </div>
+                                                </div><!----></div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="card normalize-header" onclick="showVideo('slideshow')" id="slideshow">
+                                                <!---->
+                                                <div class="card-header">
+                                                    <div>Slideshow</div>
+
+                                                    <small>Suitable fo Multiservice or multiproduct awareness
+                                                    </small>
+                                                </div>
+                                                <div class="card-block"><!----><!---->
+                                                    <div class="img normalize-swiper slideshow"><img
+                                                            src="../assets/img/slideshow.png"
+                                                            style="width: 100%; height: auto;">
+                                                    </div>
+                                                </div><!----></div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="card normalize-header" onclick="showVideo('video')" id="video"><!---->
+                                                <div class="card-header">
+                                                    <div>Video</div>
+                                                    <small>Suitable for Be at the centre of daily discovery
+                                                    </small>
+                                                </div>
+                                                <div class="card-block"><!----><!---->
+                                                    <div class="img normalize-swiper video"><img
+                                                            src="../assets/img/video.png"
                                                             style="width: 100%; height: auto;">
                                                     </div>
                                                 </div><!----></div>
                                         </div>
                                     </div>
+                                    {!! $errors->first('media_type', '<p class="text-danger">:message</p>') !!}
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
@@ -225,13 +266,13 @@
                                         <div class="col-md-12" id="linkSection">
                                             <label>Preview</label>
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <video width="400" controls id="linkVideo">
+                                                <div class="col-md-4">
+                                                    <video width="300" controls id="linkVideo">
                                                         <source src="../assets/video/link.mp4" type="video/mp4">
                                                         Your browser does not support HTML5 video.
                                                     </video>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-8">
                                                     <h5>Link</h5>
 
                                                     <h6>Most suitable for:</h6>
@@ -246,13 +287,13 @@
                                         <div class="col-md-12" id="carouselSection">
                                             <label>Preview</label>
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <video width="400" controls id="carouselVideo">
+                                                <div class="col-md-4">
+                                                    <video width="300" controls id="carouselVideo">
                                                         <source src="../assets/video/carousel.mp4" type="video/mp4">
                                                         Your browser does not support HTML5 video.
                                                     </video>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-8">
 
                                                     <h5>Carousel</h5>
 
@@ -265,28 +306,73 @@
                                             </div>
                                         </div>
 
+
+                                        <div class="col-md-12" id="slideshowSection">
+                                            <label>Preview</label>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <video width="300" controls id="slideVideo">
+                                                        <source src="../assets/video/slideshow.mp4" type="video/mp4">
+                                                        Your browser does not support HTML5 video.
+                                                    </video>
+                                                </div>
+                                                <div class="col-md-8">
+                                                <h5>Slideshow</h5>
+
+                                                    <h6>Most suitable for:</h6>
+                                                    <p> Multiservice or multiproduct awareness</p>
+                                                    <p>Min 3, max 10 images</p>
+                                                    <p>Engaging users with a looping video</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" id="videoSection">
+                                            <label>Preview</label>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <video width="300" controls id="videoVideo">
+                                                        <source src="../assets/video/video.mp4" type="video/mp4">
+                                                        Your browser does not support HTML5 video.
+                                                    </video>
+                                                </div>
+                                                <div class="col-md-8">
+
+                                                    <h5>Video</h5>
+
+                                                    <h6>Most suitable for:</h6>
+
+                                                    <p>Be at the centre of daily discovery</p>
+                                                    <p>Reach people across devices</p>
+                                                    <p>Format: .MOV, .MP4, .AVI or .GIF files</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
+                            </div>
                                 <input type="hidden" name="media_type" id="mediaType">
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-12 {{ $errors->has('ad_period') ? 'border-danger rounded' : ''}}">
                                     <div class="col-md-6">
                                         <label>Campaign Duration</label>
                                         <select class="form-control" name="ad_period" required>
                                             <option value="">Select Mode</option>
-                                            <option value="1">Once Off</option>
-                                            <option value="3">3 Months</option>
-                                            <option value="6">6 Months</option>
-                                            <option value="9">9 Months</option>
-                                            <option value="12">12 Months</option>
+                                            <option value="1"  {{(old('ad_period') == '1'?'selected':'')}}>Once Off</option>
+                                            <option value="3" {{(old('ad_period') == '3'?'selected':'')}}>3 Months</option>
+                                            <option value="6" {{(old('ad_period') == '6'?'selected':'')}}>6 Months</option>
+                                            <option value="9" {{(old('ad_period') == '9'?'selected':'')}}>9 Months</option>
+                                            <option value="12" {{(old('ad_period') == '12'?'selected':'')}}>12 Months</option>
                                         </select>
+                                        {!! $errors->first('ad_period', '<p class="text-danger">:message</p>') !!}
                                     </div>
                                 </div>
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-12   {{ $errors->has('budget') ? 'border-danger rounded' : ''}}">
                                     <div class="col-md-6">
 
                                         <label class="label text-sm">Budget</label>
                                         <input type="number" class="field form-control" id="budget" value="{{ old('budget') }}"
-                                               name="budget" placeholder="Budget">
+                                               name="budget" placeholder="Budget" required>
+                                        {!! $errors->first('budget', '<p class="text-danger">:message</p>') !!}
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
@@ -318,10 +404,15 @@
         var ageFrom;
         var ageTo;
         $("#age_range").val(ageFrom + " - " + ageTo);
+
+        $("#carouselSection").hide()
         $("#carouselVideo").hide();
-        $("#linkSection").hide();
-        $("#carouselSection").hide();
+        $("#linkSection").hide();;
         $("#linkVideo").hide();
+        $("#videoSection").hide()
+        $("#videoVideo").hide();
+        $("#slideshowSection").hide();;
+        $("#slideshowVideo").hide();
         $(".js-range-slider").ionRangeSlider({
             type: "double",
             min: 16,
@@ -545,20 +636,54 @@
         $("#" + section + "").addClass("active_card");
         $("#mediaType").val(section);
         if (section === "link") {
-            $("#carousel").removeClass("active_card");
+            $("#carousel,#video,#slideshow").removeClass("active_card");
             $("#carouselVideo").hide();
             $("#carouselSection").hide();
             $("#linkVideo").show();
             $("#linkSection").show();
+            $("#videoVideo").hide();
+            $("#videoSection").hide();
+            $("#slideshowVideo").hide();
+            $("#slideshowSection").hide();
             myVideo = document.getElementById("linkVideo");
         }
         if (section === "carousel") {
-            $("#link").removeClass("active_card");
+            $("#link,#video,#slideshow").removeClass("active_card");
             $("#carouselVideo").show();
             $("#carouselSection").show();
             $("#linkVideo").hide();
             $("#linkSection").hide();
+            $("#videoVideo").hide();
+            $("#videoSection").hide();
+            $("#slideshowVideo").hide();
+            $("#slideshowSection").hide();
             myVideo = document.getElementById("carouselVideo");
+        }
+
+        if (section === "video") {
+            $("#link,#carousel,#slideshow").removeClass("active_card");
+            $("#carouselVideo").hide();
+            $("#carouselSection").hide();
+            $("#linkVideo").hide();
+            $("#linkSection").hide();
+            $("#videoVideo").show();
+            $("#videoSection").show();
+            $("#slideshowVideo").hide();
+            $("#slideshowSection").hide();
+            myVideo = document.getElementById("videoVideo");
+        }
+
+        if (section === "slideshow") {
+            $("#link,#video,#carousel").removeClass("active_card");
+            $("#carouselVideo").hide();
+            $("#carouselSection").hide();
+            $("#linkVideo").hide();
+            $("#linkSection").hide();
+            $("#videoVideo").hide();
+            $("#videoSection").hide();
+            $("#slideshowVideo").show();
+            $("#slideshowSection").show();
+            myVideo = document.getElementById("slideshowlVideo");
         }
 
 

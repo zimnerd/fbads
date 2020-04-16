@@ -37,7 +37,7 @@
             <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i><strong>{{ __('Ad Settings') }} </strong>  <h6 class="float-right">Type: </strong>  {{$campaign->media_type->name}}</h6>
+                        <i class="fa fa-align-justify"></i><strong>{{ __('Ad Settings') }} </strong>  <h6 class="float-right"><strong>Type: </strong>  {{$campaign->media_type->name}} : <strong>Allowed files :</strong> {{$campaign->media_type->allowed_types}}</h6>
                     </div>
                     <div class="card-body mx-2">
                         <label>Ad Files</label>
@@ -93,20 +93,23 @@
 @section('javascript')
 <script>
     const parameters = <?=$campaign->media_type->metadata?>;
+    const min = <?=$campaign->media_type->min?>;
+    const max = <?=$campaign->media_type->max?>;
+    const allowed = "<?=$campaign->media_type->allowed_types?>";
     console.log(parameters);
 
     //        Dropzone.autoDiscover = false;
     var uploadedDocumentMap = {}
     Dropzone.options.dropzone = {
         url: '{{ route('creatives.storeMedia') }}',
-        maxFiles: parameters.max,
+        maxFiles: max,
         maxFilesize: 30, // MB
         addRemoveLinks: true,
         headers: {
         'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
     addRemoveLinks: true,
-        acceptedFiles: ".jpeg,.jpg,.png,.gif,.mp4,.avi,.mkv",
+        acceptedFiles: allowed,
         success: function (file, response) {
 
         console.log("RES: ",response);

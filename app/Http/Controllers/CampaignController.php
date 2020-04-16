@@ -106,6 +106,10 @@ class CampaignController extends Controller
             'goal_id' => 'required',
             'category_id' => 'required',
             'objective_id' => 'required',
+            'radius' => 'required',
+            'age_range' => 'required',
+            'interest_id' => 'required',
+
 
         ]);
         $user = auth()->user();
@@ -232,6 +236,9 @@ class CampaignController extends Controller
             'goal_id' => 'required',
             'category_id' => 'required',
             'objective_id' => 'required',
+            'radius' => 'required',
+            'age_range' => 'required',
+            'interest_id' => 'required',
 
         ]);
         $user = auth()->user();

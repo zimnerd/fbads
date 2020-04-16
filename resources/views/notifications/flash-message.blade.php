@@ -38,7 +38,7 @@
     <div class="container-fluid">
         <div class="alert alert-danger">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            Please check the form below for errors<br>
+            Please check the form below for errors:
             @foreach ($errors->all() as $error)
             <p>{{ $error }}</p>
             @endforeach

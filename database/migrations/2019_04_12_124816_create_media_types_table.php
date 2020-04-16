@@ -17,6 +17,9 @@ class CreateMediaTypesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('metadata');
+            $table->string('allowed_types');
+            $table->integer('max');
+            $table->integer('min');
             $table->timestamps();
         });
     }

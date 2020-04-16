@@ -88,6 +88,16 @@ class CreativeController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'link' => 'required',
+            'campaign_id' => 'required',
+            'facebook_page' => 'required',
+            'facebook_email' => 'required',
+            'description' => 'required',
+            'ad_media' => 'required',
+            'title' => 'required'
+        ]);
+
 
         $pendingStatus = Status::where('name', 'pending')
             ->first()->id;

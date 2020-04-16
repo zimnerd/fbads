@@ -31,50 +31,52 @@
                             <li class="list-group-item"><strong>Start date : </strong>  {{$campaign->start}} </li>
                             <li class="list-group-item"><strong>Businesss category: </strong>  {{$campaign->category->name}} </li>
                         </ul>
-                        <div class="card-body">
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
                     </div>
 
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
                     <div class="card">
                         <div class="card-header">
-                            <i class="fa fa-align-justify"></i><strong>{{ __('Ad Settings') }} </strong>  <h6 class="float-right">Type: </strong>  {{$campaign->media_type->name}}</h6>
+                            <i class="fa fa-align-justify"></i><strong>{{ __('Ad Settings') }} </strong>  <h6 class="float-right"><strong>Type: </strong>  {{$campaign->media_type->name}} : <strong>Allowed files :</strong> {{$campaign->media_type->allowed_types}}</h6>
                         </div>
                         <div class="card-body mx-2">
                             <label>Ad Files</label>
                             <form method="post" action="{{route('creatives.storeMedia')}}" enctype="multipart/form-data"
-                                  class="dropzone mb-3" id="dropzone">
+                                  class="dropzone mb-3   {{ $errors->has('ad_media') ? 'border-danger rounded' : ''}}" id="dropzone">
                                 @csrf
+                                {!! $errors->first('ad_media', '<p class="text-danger">:message</p>') !!}
                             </form>
 
                             <form method="POST" action="{{ route('creatives.store') }}" id="creatives_form" enctype="multipart/form-data">
                                 @csrf
 
-                                <div class="form-group row">
+                                <div class="form-group row {{ $errors->has('title') ? 'border-danger rounded' : ''}}">
                                     <label>Ad Title</label>
-                                    <input class="form-control" type="text" placeholder="{{ __('Title') }}" name="title" required>
+                                    <input class="form-control" value="{{ old('title') }}"  type="text" placeholder="{{ __('Title') }}" name="title" required>
+                                    {!! $errors->first('title', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
 
-                                <div class="form-group row">
+                                <div class="form-group row {{ $errors->has('description') ? 'border-danger rounded' : ''}}">
                                     <label>Ad Descriptive Text</label>
-                                    <textarea class="form-control" type="text" placeholder="{{ __('Descriptive Text') }}" name="description" required></textarea>
+                                    <textarea class="form-control" type="text"  placeholder="{{ __('Descriptive Text') }}" name="description" required>{{ old('description') }}</textarea>
+                                    {!! $errors->first('description', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
-                                <div class="form-group row">
+                                <div class="form-group row {{ $errors->has('link') ? 'border-danger rounded' : ''}}">
                                     <label>Landing page</label>
-                                    <input class="form-control" value="http://" type="url" placeholder="{{ __('Ad Link') }}" name="link" required>
+                                    <input class="form-control"  value="{{ old('link') }}"  type="url" placeholder="{{ __('Ad Link') }}" name="link" required>
+                                    {!! $errors->first('link', '<p class="text-danger">:message</p>') !!}
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row {{ $errors->has('facebook_page') ? 'border-danger rounded' : ''}}">
                                     <label>Facebook page</label>
-                                    <input class="form-control" value="https://facebook.com/" type="url" placeholder="{{ __('Facebook page') }}" name="facebook_page" required>
+                                    <input class="form-control" value="{{ old('facebook_page') }}"  type="url" placeholder="{{ __('Facebook page') }}" name="facebook_page" required>
+                                    {!! $errors->first('facebook_page', '<p class="text-danger">:message</p>') !!}
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row {{ $errors->has('facebook_email') ? 'border-danger rounded' : ''}}">
                                     <label>Facebook email</label>
-                                    <input class="form-control" value="" type="email" placeholder="{{ __('Facebook email') }}" name="facebook_email" required>
+                                    <input class="form-control" value="{{ old('facebook_email') }}"  type="email" placeholder="{{ __('Facebook email') }}" name="facebook_email" required>
+                                    {!! $errors->first('facebook_email', '<p class="text-danger">:message</p>') !!}
                                 </div>
                                 <input class="form-control" value="{{$campaign->id}}" type="hidden" name="campaign_id">
                                 <div class="form-group row">
@@ -96,20 +98,23 @@
 @section('javascript')
     <script>
         const parameters = <?=$campaign->media_type->metadata?>;
+        const min = <?=$campaign->media_type->min?>;
+        const max = <?=$campaign->media_type->max?>;
+        const allowed = "<?=$campaign->media_type->allowed_types?>";
         console.log(parameters);
 
 //        Dropzone.autoDiscover = false;
 var uploadedDocumentMap = {}
         Dropzone.options.dropzone = {
             url: '{{ route('creatives.storeMedia') }}',
-            maxFiles: parameters.max,
+            maxFiles: max,
             maxFilesize: 30, // MB
             addRemoveLinks: true,
             headers: {
             'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
         addRemoveLinks: true,
-            acceptedFiles: ".jpeg,.jpg,.png,.gif,.mp4,.avi,.mkv",
+            acceptedFiles: allowed,
         success: function (file, response) {
 
             console.log("RES: ",response);
@@ -119,7 +124,8 @@ var uploadedDocumentMap = {}
         error: function(file, response)
         {
             console.log(file)
-            console.log(response)
+            console.log("RESPONSE:",response)
+            alert(response)
             file.previewElement.remove();
 
         },
