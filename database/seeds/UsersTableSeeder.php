@@ -12,12 +12,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('users')->delete();
-        
+
         \DB::table('users')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 1,
                 'name' => 'admin',
@@ -31,11 +31,11 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => '2020-01-08 06:49:16',
                 'deleted_at' => NULL,
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 2,
-                'name' => 'Imani Monahan',
-                'email' => 'karen54@example.org',
+                'name' => 'Edwin Nyagano',
+                'email' => 'edganz@icloud.com',
                 'organisation' => 'Emmerich, Hudson and Grimes',
                 'email_verified_at' => '2020-01-08 06:49:16',
                 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
@@ -45,7 +45,7 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => '2020-01-08 06:49:16',
                 'deleted_at' => NULL,
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 3,
                 'name' => 'Bartholome Trantow',
@@ -59,7 +59,7 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => '2020-01-08 06:49:16',
                 'deleted_at' => NULL,
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 4,
                 'name' => 'Dr. Anais Marks II',
@@ -73,7 +73,7 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => '2020-01-08 06:49:16',
                 'deleted_at' => NULL,
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 5,
                 'name' => 'Angeline Lehner MD',
@@ -87,7 +87,7 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => '2020-01-08 06:49:16',
                 'deleted_at' => NULL,
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 6,
                 'name' => 'Sage Nikolaus',
@@ -101,7 +101,7 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => '2020-01-08 06:49:16',
                 'deleted_at' => NULL,
             ),
-            6 => 
+            6 =>
             array (
                 'id' => 7,
                 'name' => 'Miss Carrie Glover PhD',
@@ -115,7 +115,7 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => '2020-01-08 06:49:16',
                 'deleted_at' => NULL,
             ),
-            7 => 
+            7 =>
             array (
                 'id' => 8,
                 'name' => 'Dell Kessler III',
@@ -129,7 +129,7 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => '2020-01-08 06:49:16',
                 'deleted_at' => NULL,
             ),
-            8 => 
+            8 =>
             array (
                 'id' => 9,
                 'name' => 'Trever Auer',
@@ -143,7 +143,7 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => '2020-01-08 06:49:16',
                 'deleted_at' => NULL,
             ),
-            9 => 
+            9 =>
             array (
                 'id' => 10,
                 'name' => 'Ines Pacocha',
@@ -157,7 +157,7 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => '2020-01-08 06:49:16',
                 'deleted_at' => NULL,
             ),
-            10 => 
+            10 =>
             array (
                 'id' => 11,
                 'name' => 'Dr. Lucile Stamm PhD',
@@ -172,7 +172,7 @@ class UsersTableSeeder extends Seeder
                 'deleted_at' => NULL,
             ),
         ));
-        
-        
+
+
     }
 }
