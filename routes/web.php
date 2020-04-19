@@ -14,7 +14,9 @@
 Route::group(['middleware' => ['get.menu']], function () {
     Route::get('/','Auth\LoginController@showLoginForm');
     Route::get('/home','Auth\LoginController@showLoginForm');
+    Route::post('post-login', 'Auth\LoginController@@postLogin');
 
+    Auth::routes();
     Route::group(['middleware' => ['role:user']], function () {
         Route::resource('campaigns', 'CampaignController');
         Route::resource('creatives', 'CreativeController');
@@ -28,7 +30,6 @@ Route::group(['middleware' => ['get.menu']], function () {
         Route::get('/campaigns/download/{path}', 'CampaignController@download')->name('campaigns.download');
         Route::get('campaigns/downloadPDF/{id}','CampaignController@downloadPDF');
     });
-    Auth::routes();
 
     Route::group(['middleware' => ['role:admin']], function () {
         Route::post('/creatives/live_update', 'CreativeController@live_update')->name('creatives.live_update');

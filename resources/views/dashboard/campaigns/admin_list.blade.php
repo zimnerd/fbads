@@ -145,7 +145,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" action="/creatives/{{ $campaign->creative->id}}"
+                        <form method="POST" action=""
                               id="rejection" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')

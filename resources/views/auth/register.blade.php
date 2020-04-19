@@ -5,6 +5,10 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-6">
+            <div class="col-md-12">
+
+                @include('notifications.flash-message')
+            </div>
           <div class="card mx-4">
             <div class="card-body p-4">
                 <form method="POST" action="{{ route('register') }}">

@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller
 {
@@ -27,6 +31,27 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/campaigns';
+
+    protected function login(Request $request)
+    {
+        request()->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        if ($this->attemptLogin($request)) {
+            return $this->sendLoginResponse($request);
+        }
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        $this->incrementLoginAttempts($request);
+
+        return $this->sendFailedLoginResponse($request);
+
+    }
+
 
     /**
      * Create a new controller instance.
