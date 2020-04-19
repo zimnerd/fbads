@@ -22,6 +22,7 @@ class CreateMediaTable extends Migration
             $table->string('link')->nullable();
             $table->string('image_path')->nullable();
             $table->string('video_path')->nullable();
+            $table->string('screenshot_path')->nullable();
             $table->unsignedBigInteger('creative_id');
             $table->timestamps();
             $table->softDeletes();

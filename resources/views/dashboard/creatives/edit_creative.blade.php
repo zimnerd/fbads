@@ -11,6 +11,7 @@
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
                 <div class="card bg-info  text-white">
                     <div class="card-body">
+                        {{$action}}
                         <h2 class="card-title"><strong>Campaign title: </strong>  {{$campaign->name}}</h2>
                         <p class="card-text"><strong>Campaign Type: </strong>  {{$campaign->media_type->name}}</p>
                     </div>
@@ -34,6 +35,35 @@
                 </div>
 
             </div>
+            @if($action =='submit_for_review')
+            <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i><strong>{{ __('Ad Settings') }} </strong>  <h6 class="float-right"><strong>Type: </strong>  {{$campaign->media_type->name}} : <strong>Allowed files :</strong> .jpg,.pgn,.gif</h6>
+                    </div>
+                    <div class="card-body mx-2">
+                        <label>Attach Screenshot</label>
+                        <form method="post" action="{{route('creatives.storeMedia')}}" enctype="multipart/form-data"
+                              class="dropzone mb-3" id="dropzone1">
+                            @csrf
+                        </form>
+
+                        <form method="POST" action="/creatives/{{ $creative->id }}" id="creatives_ss_form" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <input class="form-control" value="{{$campaign->id}}" type="hidden" name="campaign_id">
+                            <input class="form-control" value="{{$action}}" type="hidden" name="action">
+                            <div class="form-group row">
+                                <div class="col-md-6">           <a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-lg btn-info float-left">{{ __('Return') }}</a></div>
+                                <div class="col-md-6"> <button class="btn btn-lg btn-success float-right" type="submit">{{ __('Submit for review') }}</button></div>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @else
             <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
                 <div class="card">
                     <div class="card-header">
@@ -73,6 +103,10 @@
                                 <label>Facebook email</label>
                                 <input class="form-control"  type="email" placeholder="{{ __('Facebook email') }}"  value="{{$creative->facebook_email}}"  name="facebook_email" required>
                             </div>
+                            <div class="form-group row">
+                                <label>Ad Extra Inforamtion</label>
+                                <textarea class="form-control" type="text" placeholder="{{ __('Ad Extra Inforamtion') }}"  value="{{$creative->notes}}"  name="notes" required>{{$creative->notes}}</textarea>
+                            </div>
                             <input class="form-control" value="{{$campaign->id}}" type="hidden" name="campaign_id">
                             <div class="form-group row">
                                 <div class="col-md-6">           <a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-lg btn-info float-left">{{ __('Return') }}</a></div>
@@ -84,6 +118,8 @@
                     </div>
                 </div>
             </div>
+
+            @endif
         </div>
     </div>
 </div>
@@ -187,6 +223,102 @@
                 });
 
             });
+
+
+
+    }
+    }
+
+
+
+    Dropzone.options.dropzone1 = {
+        url: '{{ route('creatives.storeMedia') }}',
+        maxFiles: 1,
+        maxFilesize: 30, // MB
+        addRemoveLinks: true,
+        headers: {
+        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+    addRemoveLinks: true,
+        acceptedFiles: '.jpg,.jpeg,.png',
+        success: function (file, response) {
+
+        console.log("RES: ",response);
+        $('#creatives_ss_form').append('<input type="hidden" name="ss_media[]" value="' + response.name + '">')
+        uploadedDocumentMap[file.name] = response.name
+    },
+    error: function(file, response)
+    {
+        console.log(file)
+        console.log(response)
+        alert(response)
+        file.previewElement.remove();
+
+    },
+    removedfile: function (file) {
+        console.log("FILE DEL: ",file);
+        var request_data = {file_data:{name:file.name,creative:<?=$campaign->creative->id?>}}
+        file.previewElement.remove()
+        var name = ''
+        if (typeof file.file_name !== 'undefined') {
+            name = file.file_name
+        } else {
+            name = uploadedDocumentMap[file.name]
+        }
+        $('#creatives_ss_form').find('input[name="ss_media[]"][value="' + name + '"]').remove();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            type: 'POST',
+            url: '{{ url("creatives/delete_edit_media") }}',
+            data: request_data,
+            success: function (data){
+                console.log("File has been successfully removed!!");
+            },
+            error: function(e) {
+                console.log(e);
+            }});
+    },
+    init: function () {
+        this.on('addedfile', function(file) {
+            if (this.files.length > parameters.max) {
+                this.removeFile(this.files[0]);
+            }
+        });
+        console.log("INIT")
+    @if(isset($creative) && $creative->ad_media)
+        var files =
+            {!! json_encode($creative->ad_media) !!}
+        for (var i in files) {
+            var file = files[i]
+            this.options.addedfile.call(this, file)
+            file.previewElement.classList.add('dz-complete')
+            $('#creatives_ss_form').append('<input type="hidden" name="ss_media[]" value="' + file.file_name + '">')
+        }
+        @endif
+        let myDropzone = this;
+        <!-- 4 -->
+        $.get('{{url("creatives/ss/$creative->id")}}', function(data) {
+
+            <!-- 5 -->
+            $.each(data, function(key,value){
+
+                // If you only have access to the original image sizes on your server,
+                // and want to resize them in the browser:
+                let mockFile = { name: value.name, size: value.size };
+                myDropzone.displayExistingFile(mockFile, "/files/uploads/"+value.name);
+
+                // If you use the maxFiles option, make sure you adjust it to the
+                // correct amount:
+                let fileCountOnServer = data.length; // The number of files already uploaded
+                myDropzone.options.maxFiles = myDropzone.options.maxFiles - fileCountOnServer;
+                $('#creatives_ss_form').append('<input type="hidden" name="ss_media[]" value="' + value.name + '">')
+
+
+            });
+
+        });
 
 
 

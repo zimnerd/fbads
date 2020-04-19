@@ -106,7 +106,6 @@ class CampaignController extends Controller
             'goal_id' => 'required',
             'category_id' => 'required',
             'objective_id' => 'required',
-            'radius' => 'required',
             'age_range' => 'required',
             'interest_id' => 'required',
 
@@ -123,7 +122,7 @@ class CampaignController extends Controller
         $campaign->goal_id = $request->input('goal_id');
         $campaign->objective_id = $request->input('objective_id');
         $campaign->start = $request->input('start');
-        $campaign->radius = $request->input('radius');
+        $campaign->radius = ($request->input('radius')== null)?0:$request->input('radius');
         $campaign->location = $request->input('location');
         $campaign->location_metadata = json_encode([
             "locality" => $request->input('locality'),
@@ -236,7 +235,6 @@ class CampaignController extends Controller
             'goal_id' => 'required',
             'category_id' => 'required',
             'objective_id' => 'required',
-            'radius' => 'required',
             'age_range' => 'required',
             'interest_id' => 'required',
 
@@ -253,7 +251,7 @@ class CampaignController extends Controller
         $campaign->goal_id = $request->input('goal_id');
         $campaign->objective_id = $request->input('objective_id');
         $campaign->start = $request->input('start');
-        $campaign->radius = $request->input('radius');
+        $campaign->radius = ($request->input('radius')== null)?0:$request->input('radius');
         $campaign->location = $request->input('location');
         $campaign->location_metadata = json_encode([
             "locality" => $request->input('locality'),
@@ -271,7 +269,6 @@ class CampaignController extends Controller
         $campaign->interest_id = $request->input('interest_id');
         $campaign->ad_period = $request->input('ad_period');
         $campaign->status_id = $pendingStatus;
-        $campaign->user_id = $user->id;
         $campaign->deleted_at = NULL;
         $campaign->save();
         $request->session()->flash('message', 'Successfully edited campaign');
@@ -291,7 +288,7 @@ class CampaignController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function edit_status($id, $status)
+    public function edit_status($id, $status,$reason='')
     {
         $campaign = Campaign::withTrashed()->find($id);
         if ($campaign) {
@@ -312,7 +309,15 @@ class CampaignController extends Controller
                 $creative->active = 1;
                 $creative->save();
             }
-            if(in_array($status,['rejected','paused','stopped'])){
+            if($status=="ready"){
+                $creative->ready = 1;
+                $creative->save();
+            }
+            if(in_array($status,['paused','stopped'])){
+                $creative->active = 0;
+                $creative->save();
+            }
+            if($status=='rejected'){
                 $creative->active = 0;
                 $creative->save();
             }

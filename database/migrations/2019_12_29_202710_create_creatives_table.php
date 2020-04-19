@@ -19,6 +19,9 @@ class CreateCreativesTable extends Migration
             $table->string('link')->nullable();
             $table->string('title');
             $table->text('description');
+            $table->text('notes')->nullable();
+            $table->text('comments')->nullable();
+            $table->text('rejection_reason')->nullable();
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('campaign_id')->nullable();
             $table->integer('reach')->nullable();

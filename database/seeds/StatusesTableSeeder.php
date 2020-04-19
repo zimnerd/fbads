@@ -80,6 +80,33 @@ class StatusesTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
+            7 => 
+            array (
+                'id' => 8,
+                'name' => 'pending review',
+                'class' => 'badge badge-pill badge-info',
+                'description' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            8 => 
+            array (
+                'id' => 9,
+                'name' => 'ready',
+                'class' => 'badge badge-pill badge-success',
+                'description' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            9 => 
+            array (
+                'id' => 10,
+                'name' => 'rejected',
+                'class' => 'badge badge-pill badge-warning',
+                'description' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
         ));
         
         

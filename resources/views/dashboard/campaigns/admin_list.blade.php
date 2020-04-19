@@ -96,7 +96,7 @@
                                                         <form action="{{ route('campaigns.edit_status', [$campaign->id,'rejected']) }}" method="POST">
                                                             @method('PUT')
                                                             @csrf
-                                                            <button class="btn-sm  btn-block btn-warning" title="Reject">
+                                                            <button type="button" id="showReason_{{$campaign->creative->id}}" class="btn-sm  btn-block btn-warning" title="Reject">
                                                                 Reject
                                                             </button>
                                                         </form>
@@ -108,7 +108,10 @@
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic example">
                                                 <a class="btn btn-outline-dark btn-sm" href="{{ url('/campaigns/' . $campaign->id.'/capture') }}">Capture Data</a>
+                                                @if($campaign->status->name =="pending")
                                                 <a href="{{ url('/campaigns/' . $campaign->id . '/edit') }}" class="btn btn-outline-primary btn-sm">Edit Campaign</a>
+                                                <a href="{{ url('/creatives/' . $campaign->creative->id . '/edit/submit_for_review') }}" class="btn btn-outline-primary btn-sm">Send for Review</a>
+                                                @endif
                                             </div>
                                         </td>
                                         <td>
@@ -130,12 +133,58 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">You are about to reject the Ad</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="/creatives/{{ $campaign->creative->id}}"
+                              id="rejection" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Reject Reason:</label>
+                                <textarea class="form-control" id="rejection_reason" placeholder="Enter the reason why you are rejecting the Advert" name="rejection_reason" required></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" onclick="submitForm()">Reject Ad</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
 @endsection
 
 
 @section('javascript')
+<script>
+    function submitForm() {
+        $("#rejection").submit();
+    }
+    $( document ).ready(function() {
+        console.log("READY")
+        $('[id^="showReason"]').on("click",function () {
+            var id = $(this).attr('id');
+            var creative_id = id.split('_')[1];
+            $('#exampleModal').modal('show');
+            $("#rejection").attr('action','/creatives/'+creative_id)
+        });
+
+    })
+</script>
 
 @endsection
 

@@ -19,39 +19,45 @@ class StatusTableSeeder extends Seeder
         \DB::table('status')->insert(array (
             0 => 
             array (
-                'class' => 'badge badge-pill badge-primary',
                 'id' => 1,
                 'name' => 'ongoing',
+                'class' => 'badge badge-pill badge-primary',
             ),
             1 => 
             array (
-                'class' => 'badge badge-pill badge-secondary',
                 'id' => 2,
                 'name' => 'stopped',
+                'class' => 'badge badge-pill badge-secondary',
             ),
             2 => 
             array (
-                'class' => 'badge badge-pill badge-success',
                 'id' => 3,
                 'name' => 'completed',
+                'class' => 'badge badge-pill badge-success',
             ),
             3 => 
             array (
-                'class' => 'badge badge-pill badge-warning',
                 'id' => 4,
                 'name' => 'expired',
+                'class' => 'badge badge-pill badge-warning',
             ),
             4 => 
             array (
-                'class' => 'badge badge-pill badge-danger',
                 'id' => 5,
                 'name' => 'pending',
+                'class' => 'badge badge-pill badge-danger',
             ),
             5 => 
             array (
-                'class' => 'badge badge-pill badge-danger',
                 'id' => 6,
                 'name' => 'rejected',
+                'class' => 'badge badge-pill badge-danger',
+            ),
+            6 => 
+            array (
+                'id' => 7,
+                'name' => 'pending_review',
+                'class' => 'badge badge-pill badge-info',
             ),
         ));
         

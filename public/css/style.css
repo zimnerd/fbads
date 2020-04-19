@@ -18864,3 +18864,7 @@ body {
   border: 5px solid #1b9e3e;
 }
 
+label {
+  font-weight: 900;
+}
+

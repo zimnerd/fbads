@@ -75,6 +75,7 @@ class RegisterController extends Controller
             'organisation' => $data['organisation'],
             'password' => Hash::make($data['password']),
         ]);
+        $user->assignRole('user');
         Mail::to($data['email'])->send(new WelcomeMail($data));
 
         return $user;

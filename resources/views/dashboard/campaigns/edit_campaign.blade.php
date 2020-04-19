@@ -256,7 +256,7 @@
                                             <label>Preview</label>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <video width="300" controls id="linkVideo">
+                                                    <video width="80%" controls id="linkVideo">
                                                         <source src="../../assets/video/link.mp4" type="video/mp4">
                                                         Your browser does not support HTML5 video.
                                                     </video>
@@ -277,7 +277,7 @@
                                             <label>Preview</label>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <video width="300" controls id="carouselVideo">
+                                                    <video width="80%" controls id="carouselVideo">
                                                         <source src="../../assets/video/carousel.mp4" type="video/mp4">
                                                         Your browser does not support HTML5 video.
                                                     </video>
@@ -300,7 +300,7 @@
                                             <label>Preview</label>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <video width="300" controls id="slideVideo">
+                                                    <video width="80%" controls id="slideVideo">
                                                         <source src="../../assets/video/slideshow.mp4" type="video/mp4">
                                                         Your browser does not support HTML5 video.
                                                     </video>
@@ -319,7 +319,7 @@
                                             <label>Preview</label>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <video width="300" controls id="videoVideo">
+                                                    <video width="80%" controls id="videoVideo">
                                                         <source src="../../assets/video/video.mp4" type="video/mp4">
                                                         Your browser does not support HTML5 video.
                                                     </video>
@@ -579,6 +579,14 @@
         place = autocomplete.getPlace();
         console.log(place);
         console.log(componentForm);
+        let level = place.address_components.length;
+        if(level < 3){
+            zoomLevel = 5;
+            $("#mapRadiusSlider,#mapRadius").prop("disabled",true);
+            $("#mapRadius").val("0");
+        }else{
+            $("#mapRadiusSlider,#mapRadius").prop("disabled",false);
+        }
 
         for (var component in componentForm) {
             document.getElementById(component).value = '';
@@ -617,18 +625,19 @@
             infowindow.open(map, this);
         });
 
-
-        // Add the circle for this city to the map.
-        var cityCircle = new google.maps.Circle({
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#FF0000',
-            fillOpacity: 0.35,
-            map: map,
-            center: {lat: lat, lng: lng},
-            radius: parseInt(radius)
-        });
+        if (level > 2) {
+            // Add the circle for this city to the map.
+            var cityCircle = new google.maps.Circle({
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
+                map: map,
+                center: {lat: lat, lng: lng},
+                radius: parseInt(radius)
+            });
+        }
     }
 
     // Bias the autocomplete object to the user's geographical location,

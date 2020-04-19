@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminMail;
+use App\Mail\UserMail;
 use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Creative;
@@ -12,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class CreativeController extends Controller
 {
@@ -60,7 +63,7 @@ class CreativeController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Request $request, Creative $creative)
+    public function edit(Request $request, Creative $creative,$action=null)
     {
         $id = $request->input('id');
         $statuses = Status::all();
@@ -76,6 +79,7 @@ class CreativeController extends Controller
                 'campaign' => $campaign,
                 'creative' => $creative,
                 'categories' => $categories,
+                'action' => $action,
             ]);
     }
 
@@ -115,6 +119,9 @@ class CreativeController extends Controller
         $creative->other_clicks = $request->input('other_clicks');
         $creative->setup = 1;
         $creative->frequency = $request->input('frequency');
+        $creative->rejection_reason = $request->input('rejection_reason');
+        $creative->comments = $request->input('comments');
+        $creative->notes = $request->input('notes');
         $creative->video_views = $request->input('video_views');
         $creative->engagement_rate = $request->input('engagement_rate');
         $creative->save();
@@ -144,6 +151,9 @@ class CreativeController extends Controller
             Log::info($media);
             $media->save();
         }
+        $campaign = Campaign::withTrashed()->find($creative->campaign_id);
+        $campaign->action = "new_ad";
+        Mail::to(config('app.admin_email'))->send(new AdminMail($campaign));
 
         return redirect('/campaigns/' . $request->input('campaign_id'))->with('success', 'Successfully created a creative');
     }
@@ -168,61 +178,125 @@ class CreativeController extends Controller
      * @internal param Creative $creative
      *
      */
+
+
     public function update(Request $request, $id)
     {
+
+        $creative = Creative::withTrashed()->find($id);
+        $campaign = Campaign::withTrashed()->find($creative->campaign_id);
+        $pendingReview = Status::where('name', 'pending review')->first()->id;
+        $rejected = Status::where('name', 'rejected')->first()->id;
+        $ongoing = Status::where('name', 'ongoing')->first()->id;
+        $pending = Status::where('name', 'pending')->first()->id;
+        $action = $request->input('action');
+        $comments = $request->input('comments');
+        $rejection_reason = $request->input('rejection_reason');
+        Log::info("COMMENTS: ".$comments);
+        if ($action =='submit_for_review'){
+            $ad_media = $request->input('ss_media');
+            foreach ($ad_media as $media_file) {
+                $mediaExist = Media::where('name', $media_file)->where('creative_id', $id)->first();
+                if ($mediaExist) {
+
+                } else {
+                    $media = new Media();
+                    Log::info($media_file);
+                    $path_parts = pathinfo($media_file);
+                    $fileExt = $path_parts['extension'];
+                    $img_path = null;
+                    $video_path = null;
+                    $screenshot_path =  $img_path = "files/uploads/" . $media_file;;
+                    $media->name = $media_file;
+                    $media->link = config('app.url') . "/files/uploads/" . $media_file;;
+                    $media->image_path = $img_path;
+                    $media->video_path = $video_path;
+                    $media->screenshot_path = $screenshot_path;
+                    $media->creative_id = $id;
+                    Log::info($media);
+                    $media->save();
+                }
+            }
+            $campaign->status_id =$pendingReview;
+            $campaign->save();
+            $campaign->action = "submit_for_review";
+            Mail::to($campaign->user->email)->send(new UserMail($campaign));
+
+            return redirect('/campaigns/' . $request->input('campaign_id'))->with('success', 'Successfully updated a creative');
+        }
+
+        if ($comments !== null){
+            $creative->comments = $request->input('comments');
+            $creative->save();
+            $campaign->status_id = $pending;
+            $campaign->save();
+            $campaign->action = "comments";
+            Mail::to(config('app.admin_email'))->send(new AdminMail($campaign));
+            return redirect('/campaigns/' . $request->input('campaign_id'))->with('success', 'Successfully submitted comment');
+        }
+
+
+        if ($rejection_reason !== null){
+            $creative->rejection_reason = $request->input('rejection_reason');
+            $creative->status_id = $rejected;;
+            $creative->save();
+            $campaign->status_id = $rejected;
+            $campaign->save();
+            $campaign->action = "rejection_reason";
+            Mail::to($campaign->user->email)->send(new UserMail($campaign));
+            return redirect('/campaigns')->with('success', 'Successfully rejected');
+        }
+
         Log::info($request);
         Log::info($request->input());
-        $pendingStatus = Status::where('name', 'pending')
-            ->first()->id;
-        $creative = Creative::withTrashed()->find($id);
+        $pendingStatus = Status::where('name', 'pending')->first()->id;
         $creative->link = $request->input('link');
         $creative->status_id = $pendingStatus;
         $creative->campaign_id = $request->input('campaign_id');
         $creative->facebook_page = $request->input('facebook_page');
         $creative->facebook_email = $request->input('facebook_email');
-        $creative->reach = $request->input('reach');
-        $creative->clicks = $request->input('clicks');
-        $creative->landing_clicks = $request->input('landing_clicks');
-        $creative->other_clicks = $request->input('other_clicks');
         $creative->setup = 1;
+        $creative->notes = $request->input('notes');
         $creative->title = $request->input('title');
         $creative->description = $request->input('description');
-        $creative->frequency = $request->input('frequency');
-        $creative->video_views = $request->input('video_views');
-        $creative->engagement_rate = $request->input('engagement_rate');
         $creative->save();
         $ad_media = $request->input('ad_media');
-        foreach ($ad_media as $media_file) {
-            $mediaExist = Media::where('name', $media_file)->where('creative_id', $id)->first();
-            if ($mediaExist) {
+        if( $ad_media){
+            foreach ($ad_media as $media_file) {
+                $mediaExist = Media::where('name', $media_file)->where('creative_id', $id)->first();
+                if ($mediaExist) {
 
-            } else {
+                } else {
 
 
-                $media = new Media();
-                Log::info($media_file);
-                $path_parts = pathinfo($media_file);
-                $fileExt = $path_parts['extension'];
-                $img_path = null;
-                $video_path = null;
-                if (in_array(strtolower($fileExt), ["jpg", "png", "jpeg", "gif"])) {
-                    $img_path = "files/uploads/" . $media_file;
+                    $media = new Media();
+                    Log::info($media_file);
+                    $path_parts = pathinfo($media_file);
+                    $fileExt = $path_parts['extension'];
+                    $img_path = null;
+                    $video_path = null;
+                    if (in_array(strtolower($fileExt), ["jpg", "png", "jpeg", "gif"])) {
+                        $img_path = "files/uploads/" . $media_file;
+                    }
+                    if (in_array(strtolower($fileExt), ["avi", "mpg", "mp4", "mkv"])) {
+                        $video_path = "files/uploads/" . $media_file;
+                    }
+                    $media->name = $media_file;
+                    $media->link = config('app.url') . "/files/uploads/" . $media_file;;
+                    $media->image_path = $img_path;
+                    $media->video_path = $video_path;
+                    $media->creative_id = $creative->id;
+                    Log::info($media);
+                    $media->save();
                 }
-                if (in_array(strtolower($fileExt), ["avi", "mpg", "mp4", "mkv"])) {
-                    $video_path = "files/uploads/" . $media_file;
-                }
-                $media->name = $media_file;
-                $media->link = config('app.url') . "/files/uploads/" . $media_file;;
-                $media->image_path = $img_path;
-                $media->video_path = $video_path;
-                $media->creative_id = $creative->id;
-                Log::info($media);
-                $media->save();
             }
         }
 
+
         return redirect('/campaigns/' . $request->input('campaign_id'))->with('success', 'Successfully updated a creative');
     }
+
+
 
     public function storeMedia(Request $request)
     {
@@ -247,6 +321,35 @@ class CreativeController extends Controller
         ]);
     }
 
+    public function add_comment(Request $request,$id)
+    {
+        $creative = Creative::withTrashed()->find($id);
+        $creative->comments = $request->input('comments');
+        $creative->save();
+        return response()->json([
+            'id' => $id,
+        ]);
+    }
+
+
+    public function request_review(Request $request,$id)
+    {
+        $creative = Creative::withTrashed()->find($id);
+        $creative->save();
+        return response()->json([
+            'id' => $id,
+        ]);
+    }
+    public function reject(Request $request,$id)
+    {
+        $creative = Creative::withTrashed()->find($id);
+        $creative->rejection_reason = $request->input('rejection_reason');
+        $creative->save();
+        return response()->json([
+            'id' => $id,
+        ]);
+    }
+
     public function getStoredMedia(Request $request, $id)
     {
         Log::info($request);
@@ -266,6 +369,31 @@ class CreativeController extends Controller
                 $result[] = $obj;
 
             }
+        }
+
+        return response()->json($result);
+    }
+
+    public function getScreenshot(Request $request, $id)
+    {
+        Log::info($request);
+        Log::info($id);
+//        $id = $request->input('id');
+        $creative = Creative::withTrashed()->find($id);
+        Log::info($creative);
+        $result = array();
+        $files = $creative->media;
+        $ss = Media::whereNotNull('screenshot_path')->where('creative_id', $id)->first();
+        Log::info($ss);//2
+        if ($ss) {
+                Log::info($ss);//2
+                $obj['name'] = $ss->name;
+                $obj['url'] = $ss->link;
+                $file_path = $ss->screenshot_path;
+                $obj['size'] = filesize($file_path);
+                $result[] = $obj;
+
+
         }
 
         return response()->json($result);

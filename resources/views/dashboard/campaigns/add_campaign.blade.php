@@ -26,38 +26,46 @@
 
                             <div class="form-group  col-md-6  {{ $errors->has('name') ? 'border-danger rounded' : ''}}">
                                 <label>Campaign Name</label>
-                                <input class="form-control" type="text" value="{{ old('name') }}" placeholder="{{ __('Name') }}" name="name"
+                                <input class="form-control" type="text" value="{{ old('name') }}"
+                                       placeholder="{{ __('Name') }}" name="name"
                                        required autofocus>
                                 {!! $errors->first('name', '<p class="text-danger">:message</p>') !!}
                             </div>
-                            <div class="form-group col-md-6  {{ $errors->has('category_id') ? 'border-danger rounded' : ''}}">
+                            <div
+                                class="form-group col-md-6  {{ $errors->has('category_id') ? 'border-danger rounded' : ''}}">
                                 <label>Campaign Category</label>
                                 <select class="form-control categories select2" name="category_id" required>
                                     <option value="">Select Category</option>
                                     @foreach($categories as $category)
-                                    <option value="{{ $category->id }}"  {{(old('category_id') == $category->id ?'selected':'')}}>{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" {{(old(
+                                    'category_id') == $category->id ?'selected':'')}}>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                                 {!! $errors->first('category_id', '<p class="text-danger">:message</p>') !!}
                             </div>
-                            <div class="form-group col-md-6  {{ $errors->has('goal_id') ? 'border-danger rounded' : ''}}">
+                            <div
+                                class="form-group col-md-6  {{ $errors->has('goal_id') ? 'border-danger rounded' : ''}}">
                                 <label>Marketing Goal</label>
                                 <select class="form-control goals" name="goal_id" required>
                                     <option value="">Select Marketing Goal</option>
                                     @foreach($goals as $goal)
-                                    <option value="{{ $goal->id }}"  {{(old('goal_id') == $goal->id?'selected':'')}}>{{ $goal->name }}</option>
+                                    <option value="{{ $goal->id }}" {{(old(
+                                    'goal_id') == $goal->id?'selected':'')}}>{{ $goal->name }}</option>
                                     @endforeach
                                 </select>
                                 {!! $errors->first('goal_id', '<p class="text-danger">:message</p>') !!}
                             </div>
 
 
-                            <div class="form-group col-md-6   {{ $errors->has('objective_id') ? 'border-danger rounded' : ''}}">
+                            <div
+                                class="form-group col-md-6   {{ $errors->has('objective_id') ? 'border-danger rounded' : ''}}">
                                 <label>Campaign Objetive</label>
                                 <select class="form-control objectives" name="objective_id" required>
                                     <option value="">Select Objetive</option>
                                     @foreach($objectives as $objective)
-                                    <option value="{{ $objective->id }}" {{(old('objective_id') == $objective->id?'selected':'')}} >{{ $objective->description }}</option>
+                                    <option value="{{ $objective->id }}" {{(old(
+                                    'objective_id') == $objective->id?'selected':'')}} >{{ $objective->description
+                                    }}</option>
                                     @endforeach
                                 </select>
                                 {!! $errors->first('objective_id', '<p class="text-danger">:message</p>') !!}
@@ -81,7 +89,9 @@
                                 <div class="col-md-6">
 
                                     <!--                                Field to type in autocompleted address-->
-                                    <div class="form-group   {{ $errors->has('location') ? 'border-danger rounded' : ''}}" id="locationField">
+                                    <div
+                                        class="form-group   {{ $errors->has('location') ? 'border-danger rounded' : ''}}"
+                                        id="locationField">
                                         <label for="locationField">Geo Targeting</label>
                                         <input id="autocomplete"
                                                placeholder="Address / Area name / Region"
@@ -107,7 +117,8 @@
                                                    class="form-control   {{ $errors->has('radius') ? 'border-danger rounded' : ''}}"
                                                    name="radius"
                                                    id="mapRadius"
-                                                   value="{{ old('radius') }}">
+                                                   readonly
+                                                   value="{{ (old('radius') !==null)? old('radius'): 100}}">
                                             {!! $errors->first('radius', '<p class="text-danger">:message</p>') !!}
                                         </div>
                                     </div>
@@ -119,30 +130,34 @@
                                     <div class="form-row" id="address">
                                         <div class="form-group col-md-2">
                                             <label class="label text-sm">Street Number</label>
-                                            <input type="text" class="field form-control" id="street_number" value="{{ old('street_number') }}"
+                                            <input type="text" class="field form-control" id="street_number"
+                                                   value="{{ old('street_number') }}"
                                                    name="street_number" disabled="true">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="label text-sm">Street Name</label>
-                                            <input type="text" class="field form-control" id="route" name="route" value="{{ old('route') }}"
-                                                   disabled="true" placeholder="123 Main Street">
+                                            <input type="text" class="field form-control" id="route" name="route"
+                                                   value="{{ old('route') }}"
+                                                   disabled="true" placeholder="">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="label text-sm">City</label>
-                                            <input type="text" class="field form-control" id="locality" disabled="true"  value="{{ old('locality') }}"
+                                            <input type="text" class="field form-control" id="locality" disabled="true"
+                                                   value="{{ old('locality') }}"
                                                    name="locality" placeholder="City">
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label class="label text-sm">Province</label>
                                             <input type="text" class="field form-control"
                                                    id="administrative_area_level_1"
-                                                   disabled="true" name="administrative_area_level_1"   value="{{ old('administrative_area_level_1') }}"
+                                                   disabled="true" name="administrative_area_level_1"
+                                                   value="{{ old('administrative_area_level_1') }}"
                                                    placeholder="Province">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="label text-sm">Zip code</label>
                                             <input type="text" class="field form-control" id="postal_code"
-                                                   disabled="true"   value="{{ old('postal_code') }}"
+                                                   disabled="true" value="{{ old('postal_code') }}"
                                                    name="postal_code" placeholder="Zip">
                                         </div>
                                         <div class="form-group col-md-6">
@@ -163,34 +178,44 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Gender</label>
-                                <select class="form-control   {{ $errors->has('gender') ? 'border-danger rounded' : ''}}" name="gender" required>
+                                <select
+                                    class="form-control   {{ $errors->has('gender') ? 'border-danger rounded' : ''}}"
+                                    name="gender" required>
                                     <option value="">Select gender</option>
-                                    <option value="all" {{(old('gender') == 'all'?'selected':'')}}>All</option>
-                                    <option value="Male" {{(old('gender') == 'Male'?'selected':'')}}>Male</option>
-                                    <option value="Female" {{(old('gender') == 'Female'?'selected':'')}}>Female</option>
+                                    <option value="all" {{(old(
+                                    'gender') == 'all'?'selected':'')}}>All</option>
+                                    <option value="Male" {{(old(
+                                    'gender') == 'Male'?'selected':'')}}>Male</option>
+                                    <option value="Female" {{(old(
+                                    'gender') == 'Female'?'selected':'')}}>Female</option>
                                 </select>
                                 {!! $errors->first('gender', '<p class="text-danger">:message</p>') !!}
                             </div>
 
-                            <div class="form-group col-md-6 {{ $errors->has('age_range') ? 'border-danger rounded' : ''}}" >
+                            <div
+                                class="form-group col-md-6 {{ $errors->has('age_range') ? 'border-danger rounded' : ''}}">
                                 <option value="">Select Age Range</option>
                                 <input type="text" class="js-range-slider" value=""/>
                                 {!! $errors->first('age_range', '<p class="text-danger">:message</p>') !!}
                             </div>
 
                             <input type="hidden" name="age_range" value="" id="age_range"/>
-                            <div class="form-group col-md-6   {{ $errors->has('interest_id') ? 'border-danger rounded' : ''}}" >
+                            <div
+                                class="form-group col-md-6   {{ $errors->has('interest_id') ? 'border-danger rounded' : ''}}">
                                 <label>Interests</label>
                                 <select class="form-control objectives select2" name="interest_id" required>
                                     <option value="">Select Target Interests</option>
                                     @foreach($interests as $interest)
-                                    <option value="{{ $interest->id }}"  {{(old('interest_id') == $interest->id?'selected':'')}} >{{ $interest->description }}</option>
+                                    <option value="{{ $interest->id }}" {{(old(
+                                    'interest_id') == $interest->id?'selected':'')}} >{{ $interest->description
+                                    }}</option>
                                     @endforeach
                                 </select>
                                 {!! $errors->first('interest_id', '<p class="text-danger">:message</p>') !!}
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6   {{ $errors->has('media_type') ? 'border-danger rounded' : ''}}">
+                                <div
+                                    class="form-group col-md-6   {{ $errors->has('media_type') ? 'border-danger rounded' : ''}}">
                                     <label>Select Ad format / Media Type</label>
                                     <div class="row">
                                         <div class="col-md-3">
@@ -211,7 +236,8 @@
                                                 </div><!----></div>
                                         </div>
                                         <div class="col-md-3">
-                                            <div class="card normalize-header" onclick="showVideo('carousel')" id="carousel">
+                                            <div class="card normalize-header" onclick="showVideo('carousel')"
+                                                 id="carousel">
                                                 <!---->
                                                 <div class="card-header">
                                                     <div>Carousel</div>
@@ -227,7 +253,8 @@
                                                 </div><!----></div>
                                         </div>
                                         <div class="col-md-3">
-                                            <div class="card normalize-header" onclick="showVideo('slideshow')" id="slideshow">
+                                            <div class="card normalize-header" onclick="showVideo('slideshow')"
+                                                 id="slideshow">
                                                 <!---->
                                                 <div class="card-header">
                                                     <div>Slideshow</div>
@@ -243,7 +270,8 @@
                                                 </div><!----></div>
                                         </div>
                                         <div class="col-md-3">
-                                            <div class="card normalize-header" onclick="showVideo('video')" id="video"><!---->
+                                            <div class="card normalize-header" onclick="showVideo('video')" id="video">
+                                                <!---->
                                                 <div class="card-header">
                                                     <div>Video</div>
                                                     <small>Suitable for Be at the centre of daily discovery
@@ -267,7 +295,7 @@
                                             <label>Preview</label>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <video width="300" controls id="linkVideo">
+                                                    <video width="80%" controls id="linkVideo">
                                                         <source src="../assets/video/link.mp4" type="video/mp4">
                                                         Your browser does not support HTML5 video.
                                                     </video>
@@ -288,7 +316,7 @@
                                             <label>Preview</label>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <video width="300" controls id="carouselVideo">
+                                                    <video width="80%" controls id="carouselVideo">
                                                         <source src="../assets/video/carousel.mp4" type="video/mp4">
                                                         Your browser does not support HTML5 video.
                                                     </video>
@@ -311,13 +339,13 @@
                                             <label>Preview</label>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <video width="300" controls id="slideVideo">
+                                                    <video width="80%" controls id="slideVideo">
                                                         <source src="../assets/video/slideshow.mp4" type="video/mp4">
                                                         Your browser does not support HTML5 video.
                                                     </video>
                                                 </div>
                                                 <div class="col-md-8">
-                                                <h5>Slideshow</h5>
+                                                    <h5>Slideshow</h5>
 
                                                     <h6>Most suitable for:</h6>
                                                     <p> Multiservice or multiproduct awareness</p>
@@ -330,7 +358,7 @@
                                             <label>Preview</label>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <video width="300" controls id="videoVideo">
+                                                    <video width="80%" controls id="videoVideo">
                                                         <source src="../assets/video/video.mp4" type="video/mp4">
                                                         Your browser does not support HTML5 video.
                                                     </video>
@@ -351,38 +379,46 @@
                                     </div>
                                 </div>
                             </div>
-                                <input type="hidden" name="media_type" id="mediaType">
-                                <div class="form-group col-md-12 {{ $errors->has('ad_period') ? 'border-danger rounded' : ''}}">
-                                    <div class="col-md-6">
-                                        <label>Campaign Duration</label>
-                                        <select class="form-control" name="ad_period" required>
-                                            <option value="">Select Mode</option>
-                                            <option value="1"  {{(old('ad_period') == '1'?'selected':'')}}>Once Off</option>
-                                            <option value="3" {{(old('ad_period') == '3'?'selected':'')}}>3 Months</option>
-                                            <option value="6" {{(old('ad_period') == '6'?'selected':'')}}>6 Months</option>
-                                            <option value="9" {{(old('ad_period') == '9'?'selected':'')}}>9 Months</option>
-                                            <option value="12" {{(old('ad_period') == '12'?'selected':'')}}>12 Months</option>
-                                        </select>
-                                        {!! $errors->first('ad_period', '<p class="text-danger">:message</p>') !!}
-                                    </div>
+                            <input type="hidden" name="media_type" id="mediaType">
+                            <div
+                                class="form-group col-md-12 {{ $errors->has('ad_period') ? 'border-danger rounded' : ''}}">
+                                <div class="col-md-6">
+                                    <label>Campaign Duration</label>
+                                    <select class="form-control" name="ad_period" required>
+                                        <option value="">Select Mode</option>
+                                        <option value="1" {{(old(
+                                        'ad_period') == '1'?'selected':'')}}>Once Off</option>
+                                        <option value="3" {{(old(
+                                        'ad_period') == '3'?'selected':'')}}>3 Months</option>
+                                        <option value="6" {{(old(
+                                        'ad_period') == '6'?'selected':'')}}>6 Months</option>
+                                        <option value="9" {{(old(
+                                        'ad_period') == '9'?'selected':'')}}>9 Months</option>
+                                        <option value="12" {{(old(
+                                        'ad_period') == '12'?'selected':'')}}>12 Months</option>
+                                    </select>
+                                    {!! $errors->first('ad_period', '<p class="text-danger">:message</p>') !!}
                                 </div>
-                                <div class="form-group col-md-12   {{ $errors->has('budget') ? 'border-danger rounded' : ''}}">
-                                    <div class="col-md-6">
+                            </div>
+                            <div
+                                class="form-group col-md-12   {{ $errors->has('budget') ? 'border-danger rounded' : ''}}">
+                                <div class="col-md-6">
 
-                                        <label class="label text-sm">Budget</label>
-                                        <input type="number" class="field form-control" id="budget" value="{{ old('budget') }}"
-                                               name="budget" placeholder="Budget" required>
-                                        {!! $errors->first('budget', '<p class="text-danger">:message</p>') !!}
-                                    </div>
+                                    <label class="label text-sm">Budget</label>
+                                    <input type="number" class="field form-control" id="budget"
+                                           value="{{ old('budget') }}"
+                                           name="budget" placeholder="Budget" required>
+                                    {!! $errors->first('budget', '<p class="text-danger">:message</p>') !!}
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <button class="btn btn-block  btn-success" type="submit">{{ __('Continue')
-                                        }}
-                                    </button>
-                                    <a href="{{ route('campaigns.index') }}" class="btn btn-block   btn-info">{{
-                                        __('Return')
-                                        }}</a>
-                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <button class="btn btn-block  btn-success" type="submit">{{ __('Continue')
+                                    }}
+                                </button>
+                                <a href="{{ route('campaigns.index') }}" class="btn btn-block   btn-info">{{
+                                    __('Return')
+                                    }}</a>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -407,11 +443,13 @@
 
         $("#carouselSection").hide()
         $("#carouselVideo").hide();
-        $("#linkSection").hide();;
+        $("#linkSection").hide();
+        ;
         $("#linkVideo").hide();
         $("#videoSection").hide()
         $("#videoVideo").hide();
-        $("#slideshowSection").hide();;
+        $("#slideshowSection").hide();
+        ;
         $("#slideshowVideo").hide();
         $(".js-range-slider").ionRangeSlider({
             type: "double",
@@ -560,12 +598,20 @@
     function fillInAddress(zoomLevel = 16) {
         // Get the place details from the autocomplete object.
         place = autocomplete.getPlace();
-        console.log(place);
-        console.log(componentForm);
+        console.log("PLACE: ", place);
+        console.log("Zoom: ", zoomLevel);
+        let level = place.address_components.length;
+        if(level < 3){
+            zoomLevel = 5;
+            $("#mapRadiusSlider,#mapRadius").prop("disabled",true);
+            $("#mapRadius").val("0");
+        }else{
+            $("#mapRadiusSlider,#mapRadius").prop("disabled",false);
+        }
 
         for (var component in componentForm) {
             document.getElementById(component).value = '';
-            document.getElementById(component).disabled = false;
+            document.getElementById(component).disabled = true;
         }
 
         // Get each component of the address from the place details,
@@ -590,28 +636,31 @@
             zoom: zoomLevel
         });
 
-        //Map marker is created and displays address
-        var marker = new google.maps.Marker({
-            map: map,
-            position: {lat: +lat, lng: +lng}
-        });
-        google.maps.event.addListener(marker, "click", function () {
-            infowindow.setContent(document.getElementById('autocomplete').value);
-            infowindow.open(map, this);
-        });
 
 
-        // Add the circle for this city to the map.
-        var cityCircle = new google.maps.Circle({
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#FF0000',
-            fillOpacity: 0.35,
-            map: map,
-            center: {lat: lat, lng: lng},
-            radius: parseInt(radius)
-        });
+            //Map marker is created and displays address
+            var marker = new google.maps.Marker({
+                map: map,
+                position: {lat: +lat, lng: +lng}
+            });
+            google.maps.event.addListener(marker, "click", function () {
+                infowindow.setContent(document.getElementById('autocomplete').value);
+                infowindow.open(map, this);
+            });
+
+        if (level > 2) {
+            // Add the circle for this city to the map.
+            var cityCircle = new google.maps.Circle({
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
+                map: map,
+                center: {lat: lat, lng: lng},
+                radius: parseInt(radius)
+            });
+        }
     }
 
     // Bias the autocomplete object to the user's geographical location,

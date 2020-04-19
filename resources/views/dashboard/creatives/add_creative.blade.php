@@ -78,6 +78,11 @@
                                     <input class="form-control" value="{{ old('facebook_email') }}"  type="email" placeholder="{{ __('Facebook email') }}" name="facebook_email" required>
                                     {!! $errors->first('facebook_email', '<p class="text-danger">:message</p>') !!}
                                 </div>
+                                <div class="form-group row {{ $errors->has('notes') ? 'border-danger rounded' : ''}}">
+                                    <label>Ad Extra Inforamtion</label>
+                                    <textarea class="form-control" type="text"  placeholder="{{ __('Extra Inforamtion') }}" name="notes" required>{{ old('notes') }}</textarea>
+                                    {!! $errors->first('notes', '<p class="text-danger">:message</p>') !!}
+                                </div>
                                 <input class="form-control" value="{{$campaign->id}}" type="hidden" name="campaign_id">
                                 <div class="form-group row">
                                     <div class="col-md-6">           <a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-lg btn-info float-left">{{ __('Return') }}</a></div>
