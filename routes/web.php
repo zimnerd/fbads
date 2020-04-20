@@ -28,12 +28,12 @@ Route::group(['middleware' => ['get.menu']], function () {
         Route::get('creatives/ss/{id}', 'CreativeController@getScreenshot')->name('creatives.getScreenshot');
         Route::put('creatives/{id}/comment', 'CreativeController@getScreenshot')->name('creatives.getScreenshot');
         Route::get('/campaigns/download/{path}', 'CampaignController@download')->name('campaigns.download');
+        Route::put('/campaigns/edit_status/{id}/{status}', 'CampaignController@edit_status')->name('campaigns.edit_status');
         Route::get('campaigns/downloadPDF/{id}','CampaignController@downloadPDF');
     });
 
     Route::group(['middleware' => ['role:admin']], function () {
         Route::post('/creatives/live_update', 'CreativeController@live_update')->name('creatives.live_update');
-        Route::put('/campaigns/edit_status/{id}/{status}', 'CampaignController@edit_status')->name('campaigns.edit_status');
         Route::get('/campaigns/{id}/{capture}', 'CampaignController@show')->name('campaigns.show');
         Route::get('/creatives/{creative}/edit/{action}', 'CreativeController@edit')->name('creatives.edit');
         Route::resource('users', 'UsersController');

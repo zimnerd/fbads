@@ -6,7 +6,7 @@
 <body>
 <h3>Hi Admin</h3>
 @if($data->action == "new_ad")
-<h5>You have a new campaign.</h5>
+<h4>You have a new campaign.</h4>
 
 <table class="table table-responsive table-striped">
     <tbody>
@@ -26,7 +26,24 @@
 
 
 @if($data->action == "comments")
-<h5>You have a new campain comments.</h5>
+<h4>You have a new campain comments.</h4>
+<table class="table table-responsive table-striped">
+    <tbody>
+    <tr>   <td><strong>Campaign Name</strong></td><td>{{$data->name}}</td></tr>
+    <tr>   <td><strong>Submitted By</strong></td><td>{{$data->user->name}}</td></tr>
+    <tr>   <td><strong>Budget</strong></td><td>{{$data->budget}}</td></tr>
+    <tr>   <td><strong>Location</strong></td><td>{{$data->location}}</td></tr>
+    <tr>   <td><strong>From</strong></td><td>{{$data->start}}</td></tr>
+    <tr>   <td><strong>Facebook Page</strong></td><td>{{$data->creative->facebook_page}}</td></tr>
+    <tr>   <td><strong>Notes</strong></td><td>{{$data->creative->notes}}</td></tr>
+    <tr>   <td><strong>Comments</strong></td><td>{{$data->creative->comments}}</td></tr>
+    </tbody>
+</table>
+@endif
+
+
+@if($data->action == "ready")
+<h4>The campaign has been aproved.</h4>
 <table class="table table-responsive table-striped">
     <tbody>
     <tr>   <td><strong>Campaign Name</strong></td><td>{{$data->name}}</td></tr>

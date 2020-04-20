@@ -79,7 +79,7 @@
                                     {!! $errors->first('facebook_email', '<p class="text-danger">:message</p>') !!}
                                 </div>
                                 <div class="form-group row {{ $errors->has('notes') ? 'border-danger rounded' : ''}}">
-                                    <label>Ad Extra Inforamtion</label>
+                                    <label>Ad Extra Information</label>
                                     <textarea class="form-control" type="text"  placeholder="{{ __('Extra Inforamtion') }}" name="notes" required>{{ old('notes') }}</textarea>
                                     {!! $errors->first('notes', '<p class="text-danger">:message</p>') !!}
                                 </div>

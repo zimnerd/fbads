@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminMail;
+use App\Mail\UserMail;
 use App\Models\AdFormat;
 use App\Models\Campaign;
 use App\Models\Category;
@@ -15,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use PDF;
 
 class CampaignController extends Controller
@@ -308,10 +311,14 @@ class CampaignController extends Controller
                 $creative->ready = 1;
                 $creative->active = 1;
                 $creative->save();
+                $campaign->action = "ongoing";
+                Mail::to($campaign->user->email)->send(new UserMail($campaign));
             }
             if($status=="ready"){
                 $creative->ready = 1;
                 $creative->save();
+                $campaign->action = "ready";
+                Mail::to(config('app.admin_email'))->send(new AdminMail($campaign));
             }
             if(in_array($status,['paused','stopped'])){
                 $creative->active = 0;

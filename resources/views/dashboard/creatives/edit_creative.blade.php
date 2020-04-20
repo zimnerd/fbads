@@ -11,7 +11,6 @@
             <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
                 <div class="card bg-info  text-white">
                     <div class="card-body">
-                        {{$action}}
                         <h2 class="card-title"><strong>Campaign title: </strong>  {{$campaign->name}}</h2>
                         <p class="card-text"><strong>Campaign Type: </strong>  {{$campaign->media_type->name}}</p>
                     </div>
@@ -39,7 +38,7 @@
             <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i><strong>{{ __('Ad Settings') }} </strong>  <h6 class="float-right"><strong>Type: </strong>  {{$campaign->media_type->name}} : <strong>Allowed files :</strong> .jpg,.pgn,.gif</h6>
+                        <i class="fa fa-align-justify"></i><strong>{{ __('Upload Ad screenshot for approval') }} </strong>  <h6 class="float-right"><strong>Type: </strong>  {{$campaign->media_type->name}} : <strong>Allowed files :</strong> .jpg,.pgn,.gif</h6>
                     </div>
                     <div class="card-body mx-2">
                         <label>Attach Screenshot</label>
