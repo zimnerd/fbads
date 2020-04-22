@@ -107,20 +107,20 @@
                                                 </button>
                                             </form>
                                         </div>
+                                        @if ($campaign->creative)
                                         <div class="col-md-3 no-gutters">
                                             <form
                                                 action="{{ route('campaigns.edit_status', [$campaign->id,'rejected']) }}"
                                                 method="POST">
                                                 @method('PUT')
                                                 @csrf
-                                                @if ($campaign->creative)
                                                 <button type="button" id="showReason_{{$campaign->creative->id}}"
                                                         class="btn-sm  btn-block btn-warning" title="Reject">
                                                     Reject
                                                 </button>
-                                                @endif
                                             </form>
                                         </div>
+                                        @endif
                                     </div>
 
                                     @endif
