@@ -30,7 +30,6 @@
                                 <th>Gender</th>
                                 <th>Age</th>
                                 <th>Start Date</th>
-                                <th>Last Update</th>
                                 <th>Action</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -64,10 +63,7 @@
                                 <td><strong>{{ $campaign->gender }}</strong></td>
                                 <td><strong>{{ $campaign->age_range }}</strong></td>
                                 <td>
-                                    <small>{{ $campaign->start }}</small>
-                                </td>
-                                <td>
-                                    <small>{{ $campaign->updated_at }}</small>
+                                    <small>{{ $campaign->start->format('d-m-Y') }}</small>
                                 </td>
                                 <td>
                                     @if ($campaign->trashed())
