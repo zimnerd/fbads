@@ -63,7 +63,7 @@
                                 <td><strong>{{ $campaign->gender }}</strong></td>
                                 <td><strong>{{ $campaign->age_range }}</strong></td>
                                 <td>
-                                    <small>{{ $campaign->start->format('d-m-Y') }}</small>
+                                    <small>{{ $campaign->start }}</small>
                                 </td>
                                 <td>
                                     @if ($campaign->trashed())
