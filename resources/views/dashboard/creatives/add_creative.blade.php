@@ -29,7 +29,6 @@
                             <li class="list-group-item"><strong>Facebook Page: </strong>  {{$campaign->facebook_page}} </li>
                             <li class="list-group-item"><strong>Landing Page: </strong>  {{$campaign->link}} </li>
                             <li class="list-group-item"><strong>Start date : </strong>  {{$campaign->start}} </li>
-                            <li class="list-group-item"><strong>Businesss category: </strong>  {{$campaign->category->name}} </li>
                         </ul>
                     </div>
 

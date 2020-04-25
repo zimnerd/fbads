@@ -30,7 +30,6 @@
                         <strong>Facebook Email: </strong>{{$campaign->creative->facebook_email}}<br>
                         <strong>Landing Page: </strong> {{$campaign->creative->link}}<br>
                         <strong>Start date : </strong> {{$campaign->start}}<br>
-                        <strong>Businesss category: </strong> {{$campaign->category->name}}<br>
                     </td>
                     <td width="50%" colspan="2">
                         @foreach($campaign->creative->media as $adfile)

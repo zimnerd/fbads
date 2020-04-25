@@ -31,7 +31,7 @@ class CreateCampaignsTable extends Migration
             $table->unsignedBigInteger('media_type_id');
             $table->integer('radius');
             $table->unsignedBigInteger('status_id');
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->string('budget')->nullable();
         });

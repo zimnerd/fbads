@@ -31,18 +31,18 @@
                                        required autofocus>
                                 {!! $errors->first('name', '<p class="text-danger">:message</p>') !!}
                             </div>
-                            <div
-                                class="form-group col-md-6  {{ $errors->has('category_id') ? 'border-danger rounded' : ''}}">
-                                <label>Campaign Category</label>
-                                <select class="form-control categories select2" name="category_id" required>
-                                    <option value="">Select Category</option>
-                                    @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{(old(
-                                    'category_id') == $category->id ?'selected':'')}}>{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                                {!! $errors->first('category_id', '<p class="text-danger">:message</p>') !!}
-                            </div>
+{{--                            <div--}}
+{{--                                class="form-group col-md-6  {{ $errors->has('category_id') ? 'border-danger rounded' : ''}}">--}}
+{{--                                <label>Campaign Category</label>--}}
+{{--                                <select class="form-control categories select2" name="category_id" required>--}}
+{{--                                    <option value="">Select Category</option>--}}
+{{--                                    @foreach($categories as $category)--}}
+{{--                                    <option value="{{ $category->id }}" {{(old(--}}
+{{--                                    'category_id') == $category->id ?'selected':'')}}>{{ $category->name }}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                                {!! $errors->first('category_id', '<p class="text-danger">:message</p>') !!}--}}
+{{--                            </div>--}}
                             <div
                                 class="form-group col-md-6  {{ $errors->has('goal_id') ? 'border-danger rounded' : ''}}">
                                 <label>Marketing Goal</label>

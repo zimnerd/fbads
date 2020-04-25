@@ -107,7 +107,6 @@ class CampaignController extends Controller
             'gender' => 'required',
             'ad_period' => 'required',
             'goal_id' => 'required',
-            'category_id' => 'required',
             'objective_id' => 'required',
             'age_range' => 'required',
             'interest_id' => 'required',
@@ -121,7 +120,6 @@ class CampaignController extends Controller
             ->first()->id;
         $campaign = new Campaign();
         $campaign->name = $request->input('name');
-        $campaign->category_id = $request->input('category_id');
         $campaign->goal_id = $request->input('goal_id');
         $campaign->objective_id = $request->input('objective_id');
         $campaign->start = $request->input('start');
@@ -236,7 +234,6 @@ class CampaignController extends Controller
             'gender' => 'required',
             'ad_period' => 'required',
             'goal_id' => 'required',
-            'category_id' => 'required',
             'objective_id' => 'required',
             'age_range' => 'required',
             'interest_id' => 'required',
@@ -250,7 +247,6 @@ class CampaignController extends Controller
 
         $campaign = Campaign::withTrashed()->find($id);
         $campaign->name = $request->input('name');
-        $campaign->category_id = $request->input('category_id');
         $campaign->goal_id = $request->input('goal_id');
         $campaign->objective_id = $request->input('objective_id');
         $campaign->start = $request->input('start');
@@ -334,8 +330,7 @@ class CampaignController extends Controller
             }
         }
 
-
-        return redirect()->route('campaigns.index')->with('success', 'Successfully edited campaign');
+        return redirect()->back()->with('success', 'Successfully edited campaign status');
     }
 
 

@@ -21,17 +21,6 @@
                                 <input class="form-control" type="text" placeholder="{{ __('Name') }}"
                                        value="{{$campaign->name}}" name="name" required autofocus>
                             </div>
-
-                            <div class="form-group   col-md-6 {{ $errors->has('category_id') ? 'border-danger rounded' : ''}}">
-                                <label>Campaign Category</label>
-                                <select class="form-control categories select2" name="category_id" required>
-                                    @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" @if($category->id == $campaign->category->id)
-                                        selected="selected" @endif>{{ $category->name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
                             <div class="form-group col-md-6 {{ $errors->has('goal_id') ? 'border-danger rounded' : ''}}">
                                 <label>Marketing Goal</label>
                                 <select class="form-control goals" name="goal_id" required>

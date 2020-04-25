@@ -29,7 +29,6 @@
                         <li class="list-group-item"><strong>Facebook Page: </strong>  {{$campaign->facebook_page}} </li>
                         <li class="list-group-item"><strong>Landing Page: </strong>  {{$campaign->link}} </li>
                         <li class="list-group-item"><strong>Start date : </strong>  {{$campaign->start}} </li>
-                        <li class="list-group-item"><strong>Businesss category: </strong>  {{$campaign->category->name}} </li>
                     </ul>
                 </div>
 
@@ -232,7 +231,7 @@
 
     Dropzone.options.dropzone1 = {
         url: '{{ route('creatives.storeMedia') }}',
-        maxFiles: 1,
+        maxFiles: 5,
         maxFilesize: 30, // MB
         addRemoveLinks: true,
         headers: {
@@ -281,7 +280,7 @@
     },
     init: function () {
         this.on('addedfile', function(file) {
-            if (this.files.length > parameters.max) {
+            if (this.files.length > 5) {
                 this.removeFile(this.files[0]);
             }
         });

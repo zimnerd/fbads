@@ -41,9 +41,11 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/pace.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/basic.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/lightbox.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{url('css/dropzone.css')}}">
     <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ asset('js/dropzone.js') }}"></script>
+    <script src="{{ asset('js/lightbox.min.js') }}"></script>
 
     @yield('css')
 
@@ -72,7 +74,13 @@
 <script src="{{ asset('js/pace.min.js') }}"></script>
 <script src="{{ asset('js/coreui.bundle.min.js') }}"></script>
 <script src="{{ asset('js/scripts.js') }}"></script>
+<script>
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
 
+</script>
 @yield('javascript')
 
 
