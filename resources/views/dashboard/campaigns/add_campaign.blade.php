@@ -292,7 +292,6 @@
 
 
                                         <div class="col-md-12" id="linkSection">
-                                            <label>Preview</label>
                                             <div class="row">
 {{--                                                <div class="col-md-4">--}}
 {{--                                                    <video width="80%" controls id="linkVideo">--}}
@@ -313,7 +312,6 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12" id="carouselSection">
-                                            <label>Preview</label>
                                             <div class="row">
 {{--                                                <div class="col-md-4">--}}
 {{--                                                    <video width="80%" controls id="carouselVideo">--}}
@@ -336,7 +334,6 @@
 
 
                                         <div class="col-md-12" id="slideshowSection">
-                                            <label>Preview</label>
                                             <div class="row">
 {{--                                                <div class="col-md-4">--}}
 {{--                                                    <video width="80%" controls id="slideVideo">--}}
@@ -355,7 +352,6 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12" id="videoSection">
-                                            <label>Preview</label>
                                             <div class="row">
 {{--                                                <div class="col-md-4">--}}
 {{--                                                    <video width="80%" controls id="videoVideo">--}}
