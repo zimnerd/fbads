@@ -294,12 +294,12 @@
                                         <div class="col-md-12" id="linkSection">
                                             <label>Preview</label>
                                             <div class="row">
-                                                <div class="col-md-4">
-                                                    <video width="80%" controls id="linkVideo">
-                                                        <source src="../assets/video/link.mp4" type="video/mp4">
-                                                        Your browser does not support HTML5 video.
-                                                    </video>
-                                                </div>
+{{--                                                <div class="col-md-4">--}}
+{{--                                                    <video width="80%" controls id="linkVideo">--}}
+{{--                                                        <source src="../assets/video/link.mp4" type="video/mp4">--}}
+{{--                                                        Your browser does not support HTML5 video.--}}
+{{--                                                    </video>--}}
+{{--                                                </div>--}}
                                                 <div class="col-md-8">
                                                     <h5>Link</h5>
 
@@ -315,12 +315,12 @@
                                         <div class="col-md-12" id="carouselSection">
                                             <label>Preview</label>
                                             <div class="row">
-                                                <div class="col-md-4">
-                                                    <video width="80%" controls id="carouselVideo">
-                                                        <source src="../assets/video/carousel.mp4" type="video/mp4">
-                                                        Your browser does not support HTML5 video.
-                                                    </video>
-                                                </div>
+{{--                                                <div class="col-md-4">--}}
+{{--                                                    <video width="80%" controls id="carouselVideo">--}}
+{{--                                                        <source src="../assets/video/carousel.mp4" type="video/mp4">--}}
+{{--                                                        Your browser does not support HTML5 video.--}}
+{{--                                                    </video>--}}
+{{--                                                </div>--}}
                                                 <div class="col-md-8">
 
                                                     <h5>Carousel</h5>
@@ -338,12 +338,12 @@
                                         <div class="col-md-12" id="slideshowSection">
                                             <label>Preview</label>
                                             <div class="row">
-                                                <div class="col-md-4">
-                                                    <video width="80%" controls id="slideVideo">
-                                                        <source src="../assets/video/slideshow.mp4" type="video/mp4">
-                                                        Your browser does not support HTML5 video.
-                                                    </video>
-                                                </div>
+{{--                                                <div class="col-md-4">--}}
+{{--                                                    <video width="80%" controls id="slideVideo">--}}
+{{--                                                        <source src="../assets/video/slideshow.mp4" type="video/mp4">--}}
+{{--                                                        Your browser does not support HTML5 video.--}}
+{{--                                                    </video>--}}
+{{--                                                </div>--}}
                                                 <div class="col-md-8">
                                                     <h5>Slideshow</h5>
 
@@ -357,12 +357,12 @@
                                         <div class="col-md-12" id="videoSection">
                                             <label>Preview</label>
                                             <div class="row">
-                                                <div class="col-md-4">
-                                                    <video width="80%" controls id="videoVideo">
-                                                        <source src="../assets/video/video.mp4" type="video/mp4">
-                                                        Your browser does not support HTML5 video.
-                                                    </video>
-                                                </div>
+{{--                                                <div class="col-md-4">--}}
+{{--                                                    <video width="80%" controls id="videoVideo">--}}
+{{--                                                        <source src="../assets/video/video.mp4" type="video/mp4">--}}
+{{--                                                        Your browser does not support HTML5 video.--}}
+{{--                                                    </video>--}}
+{{--                                                </div>--}}
                                                 <div class="col-md-8">
 
                                                     <h5>Video</h5>
