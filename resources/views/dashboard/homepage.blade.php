@@ -4,7 +4,7 @@
 
     <div class="container-fluid">
         @if (Auth::check())
-            @if (strpos(Auth::user()->menuroles, 'admin'))
+
 
                 <div class="fade-in">
                     <div class="row">
@@ -56,7 +56,7 @@
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="/campaigns">View campaigns</a><a class="dropdown-item" href="campains/create">Add new campaign</a></div>
                                     </div>
-                                    <div class="text-value-lg">{{count($creatives)}}</div>
+                                    <div class="text-value-lg">{{count($campaigns)}}</div>
                                     <div>Creatives</div>
                                 </div>
                                 <div class="c-chart-wrapper mt-3" style="height:70px;">
@@ -65,6 +65,7 @@
                             </div>
                         </div>
                         <!-- /.col-->
+                        @if (strpos(Auth::user()->menuroles, 'admin'))
                         <div class="col-sm-6 col-lg-3">
                             <div class="card text-white bg-danger">
                                 <div class="card-body pb-0">
@@ -84,6 +85,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                         <!-- /.col-->
                     </div>
                     <!-- /.row-->
@@ -164,16 +166,6 @@
 
                     <!-- /.row-->
                 </div>
-            @else
-                <div class="fade-in">
-                    <div class="row">
-                        <div class="col-md-6 offset-md-3">
-                            <h1 class="text-center">Welcome to Facebook Ads Planner</h1>
-                            <h2  class="text-center">You are logged in as {{Auth::user()->name}}</h2>
-                        </div>
-                    </div>
-                </div>
-            @endif
         @else
             <div class="fade-in">
                 <div class="row">

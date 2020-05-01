@@ -161,7 +161,7 @@ var uploadedDocumentMap = {}
         },
         init: function () {
             this.on('addedfile', function(file) {
-                if (this.files.length > parameters.max) {
+                if (this.files.length > max) {
                     this.removeFile(this.files[0]);
                 }
             });

@@ -35,7 +35,7 @@
                             </thead>
                             <tbody>
                             @foreach($campaigns as $campaign)
-                            <tr>
+                            <tr @if($campaign->status->class=='live') class="bg-success" @endif>
                                 <td><strong><a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-md btn-outline-info btn-block">{{ $campaign->name }}</a></strong></td>
                                 <td>{{ $campaign->media_type->name }}</td>
                                 <td>
@@ -61,7 +61,12 @@
                                 <td><small>{{ $campaign->start }}</small></td>
                                 <td><small>{{ $campaign->updated_at }}</small></td>
                                 <td>
-                                    <a href="{{ url('/campaigns/' . $campaign->id . '/edit') }}" class="btn btn-block btn-primary btn-sm">Edit</a>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a href="{{ url('/campaigns/' . $campaign->id . '/edit') }}" class="btn btn-primary btn-sm">Edit Campaign</a>
+                                    @if($campaign->status->name=='pending review')
+                                    <a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-success btn-sm">Review Campaign</a>
+                                   @endif
+                                    </div>
                                 </td>
                                 <td>
                                     <form action="{{ route('campaigns.destroy', $campaign->id ) }}" method="POST">

@@ -17,11 +17,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $campaigns = Campaign::withTrashed()->get();
-        $active_campaigns = Campaign::all();
-        $creatives = Creative::all();
-        $users = Users::all();
-        $statuses = Status::all();
+
+        $user = auth()->user();
+        if (strpos($user->menuroles, 'admin')) {
+
+            $campaigns = Campaign::withTrashed()->get();
+            $active_campaigns = Campaign::all();
+            $creatives = Creative::all();
+            $users = Users::all();
+            $statuses = Status::all();
+        } else {
+            $campaigns = Campaign::withTrashed()->where("user_id",$user->id)->get();
+            $active_campaigns = Campaign::where("user_id",$user->id)->get();
+            $creatives = [];
+            $users = Users::all();
+            $statuses = Status::all();
+        }
+
+
 
         return view('dashboard.homepage', [
             'campaigns' => $campaigns,

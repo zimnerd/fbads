@@ -83,12 +83,12 @@
                                         </div>
                                         <div class="col-md-3 no-gutters">
                                             <form
-                                                action="{{ route('campaigns.edit_status', [$campaign->id,'ongoing']) }}"
+                                                action="{{ route('campaigns.edit_status', [$campaign->id,'live']) }}"
                                                 method="POST">
                                                 @method('PUT')
                                                 @csrf
                                                 <button class="btn-sm  btn-block btn-success" title="Start">
-                                                    Accept
+                                                    Go Live
                                                 </button>
                                             </form>
                                         </div>
@@ -127,7 +127,7 @@
                                            href="{{ url('/campaigns/' . $campaign->id.'/capture') }}">Capture Data</a>
                                         @if($campaign->status->name =="pending")
                                         <a href="{{ url('/campaigns/' . $campaign->id . '/edit') }}"
-                                           class="btn btn-outline-primary btn-sm">Edit Campaign</a>
+                                           class="btn btn-outline-primary btn-sm">Edit</a>
                                         @if ($campaign->creative)<a
                                             href="{{ url('/creatives/' . $campaign->creative->id . '/edit/submit_for_review') }}"
                                             class="btn btn-outline-primary btn-sm">Send for Review</a>

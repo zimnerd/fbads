@@ -36,6 +36,7 @@
                                             <th>Video Views</th>
                                         @endif
                                         <th>Engagement</th>
+                                        <th>CTR</th>
                                         <th>Setup</th>
                                         <th>Ready</th>
                                         <th>Active</th>
@@ -76,6 +77,10 @@
                                             <td @if ($isadmin) contenteditable class="column_name editable"
                                                 data-column_name="engagement_rate" data-id="{{$campaign->creative->id}}" @endif>
                                                 {{$campaign->creative->engagement_rate}}
+                                            </td>
+                                            <td @if ($isadmin) contenteditable class="column_name editable"
+                                                data-column_name="ctr" data-id="{{$campaign->creative->id}}" @endif>
+                                                {{$campaign->creative->ctr}}
                                             </td>
                                             <td @if ($isadmin) contenteditable class="column_name editable" data-column_name="setup"
                                                 data-id="{{$campaign->creative->id}}" @endif>{{$campaign->creative->setup}}
@@ -146,7 +151,7 @@
                                                 <a href="#" title="{{$campaign->creative->description}}" class="thumb">
                                                     <img src="{{$adfile->link}}" class="img-responsive img-rounded" width="100%" data-toggle="modal" data-target=".modal-profile-lg">
                                                 </a>
-                                            <small>click to zoom</small>
+                                                <small>click to zoom</small>
                                                 {{--                                <img class="card-img-top" src="{{$adfile->link}}" alt="{{$adfile->name}}">--}}
 
                                             @endif
@@ -201,7 +206,7 @@
                                             </div>
                                         </div>
                                     @endif
-                                    @if($campaign->status->name == "ready" || $campaign->status->name == "ongoing"  || $campaign->status->name == "completed")
+                                    @if($campaign->status->name == "ready" || $campaign->status->name == "live"  || $campaign->status->name == "completed")
                                         <div class="col-md-6">
                                             <h3 class="text-success">Campaign approved</h3>
                                             <hr>
@@ -229,7 +234,7 @@
                                     <p>The number of users who have seen your ads</p>
                                 </div>
                                 <div class="col-md-4">
-                                    <h2>{{$campaign->creative->reach}}</h2>
+                                    <h3>{{$campaign->creative->reach}}</h3>
                                 </div>
                             </div>
 
@@ -245,7 +250,7 @@
                                     <p>The total number of times user clicked anywhere on your ad</p>
                                 </div>
                                 <div class="col-md-4">
-                                    <h2>{{$campaign->creative->clicks}}</h2>
+                                    <h3>{{$campaign->creative->clicks}}</h3>
                                 </div>
                             </div>
 
@@ -255,13 +260,28 @@
 
                     <div class="card bg-dark text-white">
                         <div class="card-body">
-                            <h5 class="card-title">Engagement rate</h5>
+                            <h5 class="card-title">Engagement</h5>
                             <div class="row">
                                 <div class="col-md-8">
                                     <p>How many interactions your ad received out of people who saw it</p>
                                 </div>
                                 <div class="col-md-4">
-                                    <h2>{{$campaign->creative->engagement_rate}}</h2>
+                                    <h3>{{$campaign->creative->engagement_rate}}</h3>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card bg-dark text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">CTR</h5>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <p>Click through rate</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <h3>{{$campaign->creative->ctr}}</h3>
                                 </div>
                             </div>
 
@@ -278,7 +298,7 @@
                                         <p>The number of times your ad has been seen on average by each user</p>
                                     </div>
                                     <div class="col-md-4">
-                                        <h2>{{$campaign->creative->frequency}}</h2>
+                                        <h3>{{$campaign->creative->frequency}}</h3>
                                     </div>
                                 </div>
 
@@ -294,7 +314,7 @@
                                         <p>How many times the video featured in your ad was viewed</p>
                                     </div>
                                     <div class="col-md-4">
-                                        <h2>{{$campaign->creative->video_views}}</h2>
+                                        <h3>{{$campaign->creative->video_views}}</h3>
                                     </div>
                                 </div>
 
@@ -379,30 +399,46 @@
                         </div>
                     </div>
 
-                    @foreach($campaign->creative->media as $adfile)
-                        @if($adfile->image_path !== NULL && $adfile->screenshot_path == NULL)
-                            <div class="card">
-                                <div class="card-body text-black-50">
-                                    <label>Image : {{$campaign->creative->title}}</label>
-                                    <img class="card-img-top" src="{{$adfile->link}}" alt="{{$adfile->name}}">
-                                    <a class="card-text text-info" href="{{$campaign->creative->link}}" target="_blank">Landing page link</a>
-                                </div>
-                            </div>
-                        @elseif($adfile->video_path !== NULL && $adfile->screenshot_path == NULL)
-                            <div class="card">
-                                <div class="card-body">
-                                    <label class="text-black-50">Video : {{$campaign->creative->title}}</label>
-                                    <video width="100%" controls id="carouselVideo">
-                                        <source src="{{$adfile->link}}" type="video/mp4">
-                                        Your browser does not support HTML5 video.
-                                    </video>
-                                    <a class="card-text" href="{{$campaign->creative->link}}" target="_blank">Landing page link</a>
-                                </div>
-                            </div>
+                    @if($screenshot)
+                        @foreach($campaign->creative->media as $adfile)
+                            @if($adfile->screenshot_path !== NULL)
+                                <div class="card">
+                                    <div class="card-body">
+                                        <label class="text-black-50">Current Ad screenshot </label>
+                                        <a href="#" title="{{$campaign->creative->description}}" class="thumb">
+                                            <img src="{{$adfile->link}}" class="img-responsive img-rounded" width="100%" data-toggle="modal" data-target=".modal-profile-lg">
+                                        </a>
+                                        <small>click to zoom</small>
 
-                        @endif
-                    @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    @else
+                        @foreach($campaign->creative->media as $adfile)
+                            @if($adfile->image_path !== NULL && $adfile->screenshot_path == NULL)
+                                <div class="card">
+                                    <div class="card-body text-black-50">
+                                        <label>Image : {{$campaign->creative->title}}</label>
+                                        <img class="card-img-top" src="{{$adfile->link}}" alt="{{$adfile->name}}">
+                                        <a class="card-text text-info" href="{{$campaign->creative->link}}" target="_blank">Landing page link</a>
+                                    </div>
+                                </div>
+                            @elseif($adfile->video_path !== NULL && $adfile->screenshot_path == NULL)
+                                <div class="card">
+                                    <div class="card-body">
+                                        <label class="text-black-50">Video : {{$campaign->creative->title}}</label>
+                                        <video width="100%" controls id="carouselVideo">
+                                            <source src="{{$adfile->link}}" type="video/mp4">
+                                            Your browser does not support HTML5 video.
+                                        </video>
+                                        <a class="card-text" href="{{$campaign->creative->link}}" target="_blank">Landing page link</a>
+                                    </div>
+                                </div>
 
+                            @endif
+                        @endforeach
+                    @endif
 
                 </div>
             </div>
@@ -437,7 +473,7 @@
 
     <script>function hideSection(section)
         {
-            $("#"+section+"").toggle()
+            $('#' + section + '').toggle();
         }
 
         $('#comments').hide();

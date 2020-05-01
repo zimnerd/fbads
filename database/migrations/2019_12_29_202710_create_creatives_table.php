@@ -35,6 +35,7 @@ class CreateCreativesTable extends Migration
             $table->integer('active')->nullable();
             $table->integer('finished')->nullable();
             $table->string('frequency')->nullable();
+            $table->string('ctr')->nullable();
             $table->string('video_views')->nullable();
             $table->string('engagement_rate')->nullable();
             $table->timestamps();

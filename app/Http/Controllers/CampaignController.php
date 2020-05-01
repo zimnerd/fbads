@@ -9,6 +9,7 @@ use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Goal;
 use App\Models\Interest;
+use App\Models\Media;
 use App\Models\MediaType;
 use App\Models\Objective;
 use App\Models\Status;
@@ -42,11 +43,11 @@ class CampaignController extends Controller
     {
         $user = auth()->user();
         if (strpos($user->menuroles, 'admin')) {
-            $campaigns = Campaign::withTrashed()->with('user')->with('status')->paginate(10);
+            $campaigns = Campaign::withTrashed()->with('user')->with('status')->orderBy('id', 'DESC')->paginate(10);
 
             return view('dashboard.campaigns.admin_list', ['campaigns' => $campaigns]);
         } else {
-            $campaigns = Campaign::with('user')->with('status')->where('user_id', '=', $user->getAuthIdentifier())->paginate(10);
+            $campaigns = Campaign::with('user')->with('status')->where('user_id', '=', $user->getAuthIdentifier())->orderBy('id', 'DESC')->paginate(10);
 
         }
 
@@ -168,13 +169,20 @@ class CampaignController extends Controller
         $user = auth()->user();
         $isadmin = strpos($user->menuroles, 'admin');
         $campaign = Campaign::withTrashed()->with('user')->with('status')->find($id);
-
+        $hasScreenshot = Media::whereNotNull('screenshot_path')->where('creative_id', $campaign->creative->id)->first();
+        if($hasScreenshot){
+            $screenshot = true;
+        }else{
+            $screenshot = false;
+        }
         Log::info("Capture: ".$capture);
+        Log::info("hasScreenshot: ".$hasScreenshot);
         return view('dashboard.campaigns.view_campaign', [
             'campaign' => $campaign,
             'isadmin' => $isadmin,
             'users' => $users,
-            'capture' => $capture
+            'capture' => $capture,
+            'screenshot' => $screenshot
         ]);
     }
 
@@ -303,11 +311,11 @@ class CampaignController extends Controller
 
         if($campaign->creative){
             $creative = $campaign->creative;
-            if($status=="ongoing"){
+            if($status=="live"){
                 $creative->ready = 1;
                 $creative->active = 1;
                 $creative->save();
-                $campaign->action = "ongoing";
+                $campaign->action = "live";
                 Mail::to($campaign->user->email)->send(new UserMail($campaign));
             }
             if($status=="ready"){

@@ -38,7 +38,7 @@
 @endif
 
 
-@if($data->action == "ongoing")
+@if($data->action == "live")
 <h4>Your campaign has been published.</h4>
 <table class="table table-responsive table-striped">
     <tbody>

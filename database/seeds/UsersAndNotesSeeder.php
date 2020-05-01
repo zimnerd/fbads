@@ -35,7 +35,7 @@ class UsersAndNotesSeeder extends Seeder
         ]);
         /*  insert status  */
         DB::table('status')->insert([
-            'name' => 'ongoing',
+            'name' => 'live',
             'class' => 'badge badge-pill badge-primary',
         ]);
         array_push($statusIds, DB::getPdo()->lastInsertId());
@@ -65,7 +65,7 @@ class UsersAndNotesSeeder extends Seeder
 
         /*  insert status  */
         DB::table('statuses')->insert([
-            'name' => 'ongoing',
+            'name' => 'live',
             'class' => 'badge badge-pill badge-primary',
         ]);
         array_push($statusIds, DB::getPdo()->lastInsertId());
