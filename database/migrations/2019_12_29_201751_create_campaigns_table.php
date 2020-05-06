@@ -25,7 +25,7 @@ class CreateCampaignsTable extends Migration
             $table->string('gender');
             $table->string('age_range');
             $table->string('ad_period');
-            $table->string('other_interests');
+            $table->string('other_interests')->nullable();
             $table->unsignedBigInteger('goal_id');
             $table->unsignedBigInteger('interest_id');
             $table->unsignedBigInteger('objective_id');
