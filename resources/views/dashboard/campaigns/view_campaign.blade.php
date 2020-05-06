@@ -31,8 +31,8 @@
                                         <th>Landing page</th>
                                         <th>Reach</th>
                                         <th>Clicks</th>
+                                        <th>Frequency</th>
                                         @if ($campaign->media_type->name =="video")
-                                            <th>Frequency</th>
                                             <th>Video Views</th>
                                         @endif
                                         <th>Engagement</th>
@@ -64,11 +64,12 @@
                                                 data-column_name="clicks" data-id="{{$campaign->creative->id}}" @endif>
                                                 {{$campaign->creative->clicks}}
                                             </td>
+
+                                            <td @if ($isadmin) contenteditable class="column_name editable"
+                                                data-column_name="frequency" data-id="{{$campaign->creative->id}}" @endif>
+                                                {{$campaign->creative->frequency}}
+                                            </td>
                                             @if ($campaign->media_type->name =="video")
-                                                <td @if ($isadmin) contenteditable class="column_name editable"
-                                                    data-column_name="frequency" data-id="{{$campaign->creative->id}}" @endif>
-                                                    {{$campaign->creative->frequency}}
-                                                </td>
                                                 <td @if ($isadmin) contenteditable class="column_name editable"
                                                     data-column_name="video_views" data-id="{{$campaign->creative->id}}" @endif>
                                                     {{$campaign->creative->video_views}}
@@ -121,8 +122,8 @@
                             <li class="list-group-item"><strong>Radius: </strong> {{$campaign->radius}}</li>
                             <li class="list-group-item"><strong>Gender: </strong> {{$campaign->gender}}</li>
                             <li class="list-group-item"><strong>Age: </strong> {{$campaign->age_range}}</li>
-                            <li class="list-group-item"><strong>Interest: </strong> {{$campaign->interest->description}}
-                            </li>
+                            <li class="list-group-item"><strong>Interest: </strong> {{$campaign->interest->description}}</li>
+                            <li class="list-group-item"><strong>Other Interest: </strong> {{$campaign->other_interests}}</li>
                             <li class="list-group-item"><strong>Ad Format: </strong> {{$campaign->media_type->name}}</li>
                             <li class="list-group-item"><strong>Facebook Page: </strong>
                                 {{$campaign->creative->facebook_page}}
@@ -381,16 +382,16 @@
                                     @else Not complete @endif
                                 </div>
                             </div>
-
-                            <label class="text-black-50">Completed</label>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar bg-danger" role="progressbar" @if ($campaign->
-                                creative->completed == 1 ) style="width: 100%"
-                                     aria-valuenow="100" @else style="width: 0%" aria-valuenow="0" @endif
-                                     aria-valuemin="0" aria-valuemax="100">@if ($campaign->creative->completed == 1
+                            @if ($campaign->creative->finished == 1 )
+                                <label class="text-black-50">Completed</label>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar bg-danger" role="progressbar" @if ($campaign->creative->finished == 1 ) style="width: 100%"
+                                         aria-valuenow="100" @else style="width: 0%" aria-valuenow="0" @endif
+                                         aria-valuemin="0" aria-valuemax="100">@if ($campaign->creative->finished == 1
                                 )Completed @else Not complete @endif
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                     <div class="card bg-info text-white">

@@ -24,10 +24,10 @@ class CreateCreativesTable extends Migration
             $table->text('rejection_reason')->nullable();
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('campaign_id')->nullable();
-            $table->integer('reach')->nullable();
-            $table->integer('clicks')->nullable();
-            $table->integer('landing_clicks')->nullable();
-            $table->integer('other_clicks')->nullable();
+            $table->string('reach')->nullable();
+            $table->string('clicks')->nullable();
+            $table->string('landing_clicks')->nullable();
+            $table->string('other_clicks')->nullable();
             $table->string('facebook_email')->nullable();
             $table->string('facebook_page')->nullable();
             $table->integer('setup')->nullable();
