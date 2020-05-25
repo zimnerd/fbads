@@ -135,7 +135,9 @@ class CampaignController extends Controller
             "address_longitude" => $request->input('address_longitude'),
             "street_number" => $request->input('street_number')
         ]);
+
         $campaign->gender = $request->input('gender');
+        $campaign->other_interests = $request->input('other_interests');
         $campaign->age_range = $request->input('age_range');
         $campaign->media_type_id = $mediType;
         $campaign->budget = $request->input('budget');
@@ -169,14 +171,17 @@ class CampaignController extends Controller
         $user = auth()->user();
         $isadmin = strpos($user->menuroles, 'admin');
         $campaign = Campaign::withTrashed()->with('user')->with('status')->find($id);
-        $hasScreenshot = Media::whereNotNull('screenshot_path')->where('creative_id', $campaign->creative->id)->first();
-        if($hasScreenshot){
-            $screenshot = true;
+        $screenshot = false;
+        if(isset($campaign->creative->id)){
+            $hasScreenshot = Media::whereNotNull('screenshot_path')->where('creative_id', $campaign->creative->id)->first();
+            if($hasScreenshot){
+                $screenshot = true;
+            }else{
+                $screenshot = false;
+            }
         }else{
-            $screenshot = false;
+            return $this->edit($campaign->id);
         }
-        Log::info("Capture: ".$capture);
-        Log::info("hasScreenshot: ".$hasScreenshot);
         return view('dashboard.campaigns.view_campaign', [
             'campaign' => $campaign,
             'isadmin' => $isadmin,
@@ -270,6 +275,7 @@ class CampaignController extends Controller
             "street_number" => $request->input('street_number')
         ]);
         $campaign->gender = $request->input('gender');
+        $campaign->other_interests = $request->input('other_interests');
         $campaign->age_range = $request->input('age_range');
         $campaign->media_type_id = $mediType;
         $campaign->budget = $request->input('budget');
@@ -332,7 +338,7 @@ class CampaignController extends Controller
                 $creative->active = 0;
                 $creative->save();
             }
-            if($status=="stopped"){
+            if($status=="stopped" || $status=="completed"){
                 $creative->finished = 1;
                 $creative->save();
             }

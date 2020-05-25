@@ -213,6 +213,14 @@
                                 </select>
                                 {!! $errors->first('interest_id', '<p class="text-danger">:message</p>') !!}
                             </div>
+
+                            <div class="form-group  col-md-6  {{ $errors->has('name') ? 'border-danger rounded' : ''}}">
+                                <label>Other Interests <small>(Optional)</small></label>
+                                <input class="form-control" type="text" value="{{ old('other_interests') }}"
+                                       placeholder="{{ __('Other Interests') }}" name="other_interests">
+                                {!! $errors->first('other_interests', '<p class="text-danger">:message</p>') !!}
+                            </div>
+
                             <div class="row">
                                 <div
                                     class="form-group col-md-6   {{ $errors->has('media_type') ? 'border-danger rounded' : ''}}">
@@ -730,12 +738,12 @@
             $("#slideshowSection").show();
             myVideo = document.getElementById("slideshowlVideo");
         }
-
-
-        if (myVideo.paused)
-            myVideo.play();
-        else
-            myVideo.pause();
+        //
+        //
+        // if (myVideo.paused)
+        //     myVideo.play();
+        // else
+        //     myVideo.pause();
 
     }
 </script>

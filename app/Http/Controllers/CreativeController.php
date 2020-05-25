@@ -143,7 +143,7 @@ class CreativeController extends Controller
             {
                 $img_path = "files/uploads/" . $media_file;
             }
-            if (in_array(strtolower($fileExt), ["avi", "mpg", "mp4", "mkv"]))
+            else if (in_array(strtolower($fileExt), ["avi", "mpg","mov", "mp4", "mkv"]))
             {
                 $video_path = "files/uploads/" . $media_file;
             }
@@ -487,7 +487,11 @@ class CreativeController extends Controller
         $input = $request->all();
         Log::info($input);
         $filename = (isset($input['file_data']['name'])) ? $input['file_data']['name'] : json_decode($input['file_data'])->name;
-        $media = Media::where('name', $filename)->first()->delete();
+
+        $mediaToDelete = Media::where('name', $filename)->first();
+        if($mediaToDelete){
+            $media = Media::where('name', $filename)->first()->delete();
+        }
 //        $path = public_path() . '/files/uploads/' . $filename;
 //        if (file_exists($path)) {
 //            unlink($path);

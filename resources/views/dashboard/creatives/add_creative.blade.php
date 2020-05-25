@@ -84,7 +84,7 @@
                                 </div>
                                 <input class="form-control" value="{{$campaign->id}}" type="hidden" name="campaign_id">
                                 <div class="form-group row">
-                                    <div class="col-md-6">           <a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-lg btn-info float-left">{{ __('Return') }}</a></div>
+                                    <div class="col-md-6">           <a href="{{ url('/campaigns/' . $campaign->id.'/edit') }}" class="btn btn-lg btn-info float-left">{{ __('Return') }}</a></div>
                                     <div class="col-md-6"> <button class="btn btn-lg btn-success float-right" type="submit">{{ __('Save creative') }}</button></div>
 
 
@@ -111,7 +111,7 @@
 var uploadedDocumentMap = {}
         Dropzone.options.dropzone = {
             url: '{{ route('creatives.storeMedia') }}',
-            maxFiles: max,
+            maxFiles: parseInt(max),
             maxFilesize: 30, // MB
             addRemoveLinks: true,
             headers: {
@@ -161,7 +161,7 @@ var uploadedDocumentMap = {}
         },
         init: function () {
             this.on('addedfile', function(file) {
-                if (this.files.length > max) {
+                if (this.files.length > parseInt(max)) {
                     this.removeFile(this.files[0]);
                 }
             });
