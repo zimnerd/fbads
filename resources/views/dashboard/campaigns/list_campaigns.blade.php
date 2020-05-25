@@ -62,7 +62,9 @@
                                 <td><small>{{ $campaign->updated_at }}</small></td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
+                                        @if($campaign->status->name !=='live')
                                     <a href="{{ url('/campaigns/' . $campaign->id . '/edit') }}" class="btn btn-primary btn-sm">Edit Campaign</a>
+                                        @endif
                                     @if($campaign->status->name=='pending review')
                                     <a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-success btn-sm">Review Campaign</a>
                                    @endif
